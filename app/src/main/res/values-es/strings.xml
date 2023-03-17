@@ -1,4 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_icon">Ícono de la app</string>
+    <string name="login">Iniciar sesión</string>
+    <string name="password">Contraseña</string>
+    <string name="email">Correo electrónico</string>
+    <string name="not_have_account">¿No tienes cuenta?…</string>
+    <string name="sign_up_here">Registrate aquí</string>
+    <string name="sign_up">Registrarse</string>
+    <string name="select_an_image">Selecciona una imagen</string>
+    <string name="name">Nombre(s)</string>
+    <string name="lastname">Apellidos</string>
+    <string name="phone">Teléfono</string>
+    <string name="confirm_password">Confirmar contraseña</string>
+    <string name="complete_the_form">Completa el formulario…</string>
+    <string name="invalid_email">Correo electrónico inválido.</string>
+    <string name="invalid_password">La contraseña debe ser mayor o igual a 6 caracteres.</string>
+    <string name="invalid_name">El nombre deber ser mayor o igual a 5 caracteres.</string>
+    <string name="invalid_surname">El apellido deber ser mayor o igual a 5 caracteres.</string>
+    <string name="invalid_phone">El teléfono debe ser mayor o igual a 10 caracteres.</string>
+    <string name="invalid_password_matches">las contraseñas no coinciden.</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.edival.reciostore.ui.theme
+package com.edival.reciostore.presentation.ui.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle

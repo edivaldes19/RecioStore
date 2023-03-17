@@ -1,4 +1,22 @@
 <resources>
     <string name="app_name" translatable="false">RecioStore</string>
     <string name="app_icon">App icon</string>
+    <string name="login">Login</string>
+    <string name="password">Password</string>
+    <string name="email">Email</string>
+    <string name="not_have_account">You don\'t have an account?…</string>
+    <string name="sign_up_here">Sign up here</string>
+    <string name="sign_up">Sign up</string>
+    <string name="select_an_image">Select an image</string>
+    <string name="name">Name(s)</string>
+    <string name="lastname">Surnames</string>
+    <string name="phone">Phone</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="complete_the_form">Complete the form…</string>
+    <string name="invalid_email">Invalid email.</string>
+    <string name="invalid_password">The password must be greater than or equal to 6 characters.</string>
+    <string name="invalid_name">The name must be greater than or equal to 5 characters.</string>
+    <string name="invalid_surname">The last name must be greater than or equal to 5 characters.</string>
+    <string name="invalid_phone">The phone must be greater than or equal to 10 characters.</string>
+    <string name="invalid_password_matches">Passwords do not match.</string>
 </resources>
