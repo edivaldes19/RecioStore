@@ -6,6 +6,7 @@ import androidx.navigation.NavHostController
 import com.edival.reciostore.R
 import com.edival.reciostore.presentation.components.DefaultTopBar
 import com.edival.reciostore.presentation.screens.auth.register.components.RegisterContent
+import com.edival.reciostore.presentation.screens.auth.register.components.SignUp
 
 @Composable
 fun RegisterScreen(navHostController: NavHostController) {
@@ -15,7 +16,8 @@ fun RegisterScreen(navHostController: NavHostController) {
         )
     }) { padding ->
         RegisterContent(
-            paddingValues = padding, navHostController = navHostController
+            padding = padding, navHostController = navHostController
         )
     }
+    SignUp(navHostController = navHostController)
 }

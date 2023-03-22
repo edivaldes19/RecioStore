@@ -19,4 +19,5 @@
     <string name="invalid_surname">El apellido deber ser mayor o igual a 5 caracteres.</string>
     <string name="invalid_phone">El teléfono debe ser mayor o igual a 10 caracteres.</string>
     <string name="invalid_password_matches">las contraseñas no coinciden.</string>
+    <string name="unknown_error">Ocurrió un error desconocido.</string>
 </resources>

@@ -29,7 +29,6 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
 import com.edival.reciostore.R
 import com.edival.reciostore.presentation.components.DefaultButton
 import com.edival.reciostore.presentation.components.DefaultTextField
@@ -37,11 +36,7 @@ import com.edival.reciostore.presentation.screens.auth.register.RegisterViewMode
 import com.edival.reciostore.presentation.ui.theme.primaryColor
 
 @Composable
-fun RegisterContent(
-    paddingValues: PaddingValues,
-    navHostController: NavHostController,
-    vm: RegisterViewModel = hiltViewModel()
-) {
+fun RegisterContent(padding: PaddingValues, vm: RegisterViewModel = hiltViewModel()) {
     val ctx = LocalContext.current
     LaunchedEffect(key1 = vm.errorMessage) {
         if (vm.errorMessage.isNotBlank()) {
@@ -53,7 +48,7 @@ fun RegisterContent(
         modifier = Modifier
             .fillMaxSize()
             .background(primaryColor)
-            .padding(paddingValues)
+            .padding(padding)
     ) {
         val (iconUser, textImg, cardForm) = createRefs()
         Icon(
@@ -167,7 +162,7 @@ fun RegisterContent(
                     .fillMaxWidth()
                     .padding(top = dimensionResource(R.dimen.padding_min)),
                     text = R.string.sign_up,
-                    onClick = { vm.validateForm(ctx) })
+                    onClick = { vm.validateForm(ctx) { isValid -> if (isValid) vm.signUp() } })
             }
         }
     }

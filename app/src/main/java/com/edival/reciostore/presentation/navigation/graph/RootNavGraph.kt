@@ -8,6 +8,6 @@ import com.edival.reciostore.presentation.navigation.Graph
 @Composable
 fun RootNavGraph(navHostController: NavHostController) {
     NavHost(navController = navHostController, route = Graph.ROOT, startDestination = Graph.AUTH) {
-        AuthNavGraph(navHostController = navHostController)
+        authNavGraph(navHostController = navHostController)
     }
 }

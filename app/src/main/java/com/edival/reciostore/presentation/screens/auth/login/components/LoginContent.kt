@@ -126,7 +126,7 @@ fun LoginContent(
                     .fillMaxWidth()
                     .padding(top = dimensionResource(R.dimen.padding_min)),
                     text = R.string.login,
-                    onClick = { vm.validateForm(ctx) })
+                    onClick = { vm.validateForm(ctx) { isValid -> if (isValid) vm.logIn() } })
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()

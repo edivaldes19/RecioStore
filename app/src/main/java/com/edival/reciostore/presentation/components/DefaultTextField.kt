@@ -23,7 +23,8 @@ fun DefaultTextField(
     keyboardType: KeyboardType = KeyboardType.Text,
     hideText: Boolean = false
 ) {
-    OutlinedTextField(modifier = modifier,
+    OutlinedTextField(
+        modifier = modifier,
         value = value,
         onValueChange = { values -> onValueChange(values) },
         label = { Text(text = stringResource(label)) },
