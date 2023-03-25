@@ -20,4 +20,20 @@
     <string name="invalid_phone">The phone must be greater than or equal to 10 characters.</string>
     <string name="invalid_password_matches">Passwords do not match.</string>
     <string name="unknown_error">An unknown error occurred.</string>
+    <string name="admin">Administrator</string>
+    <string name="client">Client</string>
+    <string name="rol" translatable="false">Rol</string>
+    <string name="select_a_role">Select a role</string>
+    <string name="categories">Categories</string>
+    <string name="products">Products</string>
+    <string name="profile">Profile</string>
+    <string name="logout">Sign off</string>
+    <string name="profile_picture">Profile picture</string>
+    <string name="username">Username</string>
+    <string name="update_profile">Update profile</string>
+    <string name="select_an_option">Select an option</string>
+    <string name="gallery">Gallery</string>
+    <string name="camera">Camera</string>
+    <string name="unknown_id">Unknown id</string>
+    <string name="profile_updated_successfully">Profile updated successfully.</string>
 </resources>

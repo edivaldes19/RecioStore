@@ -8,7 +8,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
-import com.edival.reciostore.presentation.navigation.graph.RootNavGraph
+import com.edival.reciostore.presentation.navigation.graph.root.RootNavGraph
 import com.edival.reciostore.presentation.ui.theme.RecioStoreTheme
 import dagger.hilt.android.AndroidEntryPoint
 

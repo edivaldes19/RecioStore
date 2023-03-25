@@ -8,7 +8,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.edival.reciostore.domain.util.Resource
 import com.edival.reciostore.presentation.components.DefaultProgressBar
-import com.edival.reciostore.presentation.navigation.screen.AuthScreen
+import com.edival.reciostore.presentation.navigation.Graph
 import com.edival.reciostore.presentation.screens.auth.login.LoginViewModel
 
 @Composable
@@ -17,8 +17,20 @@ fun Login(navHostController: NavHostController, vm: LoginViewModel = hiltViewMod
         Resource.Loading -> DefaultProgressBar()
         is Resource.Success -> {
             LaunchedEffect(Unit) {
-                vm.saveSession(response.data)
-                navHostController.navigate(AuthScreen.Home.route)
+                response.data.apply {
+                    vm.saveSession(this)
+                    this.user?.let { user ->
+                        if (user.roles.size > 1) {
+                            navHostController.navigate(Graph.ROLES) {
+                                popUpTo(Graph.AUTH) { inclusive = true }
+                            }
+                        } else {
+                            navHostController.navigate(Graph.CLIENT) {
+                                popUpTo(Graph.AUTH) { inclusive = true }
+                            }
+                        }
+                    }
+                }
             }
         }
         is Resource.Failure -> Toast.makeText(

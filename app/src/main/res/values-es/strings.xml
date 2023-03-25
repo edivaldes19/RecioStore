@@ -20,4 +20,19 @@
     <string name="invalid_phone">El teléfono debe ser mayor o igual a 10 caracteres.</string>
     <string name="invalid_password_matches">las contraseñas no coinciden.</string>
     <string name="unknown_error">Ocurrió un error desconocido.</string>
+    <string name="admin">Administrador</string>
+    <string name="client">Cliente</string>
+    <string name="select_a_role">Selecciona un rol</string>
+    <string name="categories">Categorías</string>
+    <string name="products">Productos</string>
+    <string name="profile">Perfil</string>
+    <string name="logout">Cerrar sesión</string>
+    <string name="profile_picture">Foto de perfil</string>
+    <string name="username">Nombre de usuario</string>
+    <string name="update_profile">Actualizar perfil</string>
+    <string name="select_an_option">Seleccione una opción</string>
+    <string name="gallery">Galería</string>
+    <string name="camera">Cámara</string>
+    <string name="unknown_id">ID desconocido.</string>
+    <string name="profile_updated_successfully">Perfil actualizado exitosamente.</string>
 </resources>

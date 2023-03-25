@@ -31,7 +31,7 @@ import androidx.navigation.NavHostController
 import com.edival.reciostore.R
 import com.edival.reciostore.presentation.components.DefaultButton
 import com.edival.reciostore.presentation.components.DefaultTextField
-import com.edival.reciostore.presentation.navigation.screen.AuthScreen
+import com.edival.reciostore.presentation.navigation.screen.auth.AuthScreen
 import com.edival.reciostore.presentation.screens.auth.login.LoginViewModel
 import com.edival.reciostore.presentation.ui.theme.primaryColor
 import com.edival.reciostore.presentation.ui.theme.primaryLightColor

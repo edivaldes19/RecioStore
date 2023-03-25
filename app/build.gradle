@@ -58,6 +58,8 @@ dependencies {
     implementation 'com.google.dagger:hilt-android:2.45'
     implementation("com.squareup.moshi:moshi-kotlin:1.14.0")
     implementation("androidx.datastore:datastore-preferences:1.0.0")
+    implementation("io.coil-kt:coil-compose:2.2.2")
+    implementation 'commons-io:commons-io:2.11.0'
     implementation 'androidx.hilt:hilt-navigation-compose:1.0.0'
     kapt 'com.google.dagger:hilt-compiler:2.45'
     testImplementation 'junit:junit:4.13.2'
@@ -67,4 +69,6 @@ dependencies {
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_ui_version"
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_ui_version"
 }
-kapt { correctErrorTypes true }
+kapt {
+    correctErrorTypes true
+}

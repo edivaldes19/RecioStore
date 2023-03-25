@@ -17,6 +17,10 @@ class AuthDataStore constructor(private val dataStore: DataStore<Preferences>) {
         dataStore.edit { pref -> pref[dataStoreKey] = authResponse.toJson() }
     }
 
+    suspend fun clearData() {
+        dataStore.edit { pref -> pref.clear() }
+    }
+
     fun getUser(): Flow<AuthResponse> {
         val dataStoreKey = stringPreferencesKey(Config.AUTH_KEY)
         return dataStore.data.catch { emptyPreferences() }.map { pref ->
