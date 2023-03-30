@@ -36,4 +36,16 @@
     <string name="camera">Camera</string>
     <string name="unknown_id">Unknown id</string>
     <string name="profile_updated_successfully">Profile updated successfully.</string>
+    <string name="category_name">Category name</string>
+    <string name="description">Description</string>
+    <string name="create_category">Create category</string>
+    <string name="invalid_description">The description must be greater than or equal to 5 characters.</string>
+    <string name="category_created_successfully">Category created successfully.</string>
+    <string name="unknown">Unknown</string>
+    <string name="unknown_phone">Unknown phone</string>
+    <string name="update_category">Update category</string>
+    <string name="category_updated_successfully">Category updated successfully</string>
+    <string name="category_deleted_successfully">Category deleted successfully</string>
+    <string name="unknown_name">Unknown name</string>
+    <string name="unknown_description">Unknown description</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.edival.reciostore.data.service
+package com.edival.reciostore.data.dataSource.remote.service
 
 import com.edival.reciostore.domain.model.AuthResponse
 import com.edival.reciostore.domain.model.User
@@ -16,5 +16,5 @@ interface AuthService {
     ): Response<AuthResponse>
 
     @POST("auth/signup")
-    suspend fun signUp(@Body() user: User): Response<AuthResponse>
+    suspend fun signUp(@Body user: User): Response<AuthResponse>
 }

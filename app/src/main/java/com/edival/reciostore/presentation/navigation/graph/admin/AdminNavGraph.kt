@@ -19,8 +19,9 @@ fun AdminNavGraph(navHostController: NavHostController) {
         startDestination = AdminScreen.ProductList.route
     ) {
         composable(AdminScreen.ProductList.route) { AdminProductListScreen() }
-        composable(AdminScreen.CategoryList.route) { AdminCategoryListScreen() }
+        composable(AdminScreen.CategoryList.route) { AdminCategoryListScreen(navHostController) }
         composable(AdminScreen.Profile.route) { ProfileScreen(navHostController) }
         profileNavGraph(navHostController)
+        adminCategoryNavGraph(navHostController)
     }
 }

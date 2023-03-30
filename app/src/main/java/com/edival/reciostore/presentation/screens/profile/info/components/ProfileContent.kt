@@ -16,7 +16,6 @@ import androidx.compose.material.icons.outlined.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
@@ -24,12 +23,14 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import coil.compose.AsyncImage
 import com.edival.reciostore.R
 import com.edival.reciostore.presentation.MainActivity
 import com.edival.reciostore.presentation.navigation.Graph
 import com.edival.reciostore.presentation.screens.profile.info.ProfileViewModel
+import com.edival.reciostore.presentation.ui.theme.errorRed
 import com.edival.reciostore.presentation.ui.theme.primaryColor
+import com.edival.reciostore.presentation.ui.theme.secondaryColor
+import com.edival.reciostore.presentation.util.ShowImage
 
 @Composable
 fun ProfileContent(
@@ -47,38 +48,18 @@ fun ProfileContent(
         val (imgUser, cardInfo) = createRefs()
         val topCard = createGuidelineFromTop(0.5f)
         vm.user?.let { user ->
-            if (user.img.isNullOrBlank()) {
-                Icon(
-                    modifier = Modifier
-                        .height(dimensionResource(R.dimen.icon_big_size))
-                        .width(dimensionResource(R.dimen.icon_big_size))
-                        .clip(CircleShape)
-                        .constrainAs(imgUser) {
-                            start.linkTo(parent.start)
-                            end.linkTo(parent.end)
-                            top.linkTo(parent.top)
-                            bottom.linkTo(cardInfo.top)
-                        },
-                    imageVector = Icons.Outlined.Person,
-                    contentDescription = stringResource(R.string.profile_picture)
-                )
-            } else {
-                AsyncImage(
-                    modifier = Modifier
-                        .height(dimensionResource(R.dimen.icon_big_size))
-                        .width(dimensionResource(R.dimen.icon_big_size))
-                        .clip(CircleShape)
-                        .constrainAs(imgUser) {
-                            start.linkTo(parent.start)
-                            end.linkTo(parent.end)
-                            top.linkTo(parent.top)
-                            bottom.linkTo(cardInfo.top)
-                        },
-                    model = user.img,
-                    contentDescription = stringResource(R.string.profile_picture),
-                    contentScale = ContentScale.Crop
-                )
-            }
+            ShowImage(
+                modifier = Modifier
+                    .height(dimensionResource(R.dimen.icon_big_size))
+                    .width(dimensionResource(R.dimen.icon_big_size))
+                    .clip(CircleShape)
+                    .constrainAs(imgUser) {
+                        start.linkTo(parent.start)
+                        end.linkTo(parent.end)
+                        top.linkTo(parent.top)
+                        bottom.linkTo(cardInfo.top)
+                    }, url = user.img, icon = Icons.Outlined.Person
+            )
             Card(
                 modifier = Modifier.constrainAs(cardInfo) {
                     start.linkTo(parent.start)
@@ -108,17 +89,19 @@ fun ProfileContent(
                         subtitle = R.string.email
                     )
                     ProfileInfoItem(
-                        icon = Icons.Outlined.Phone, title = user.phone, subtitle = R.string.phone
+                        icon = Icons.Outlined.Phone,
+                        title = user.phone ?: stringResource(R.string.unknown_phone),
+                        subtitle = R.string.phone
                     )
                     ConstraintLayout(
                         modifier = Modifier
-                            .padding(vertical = dimensionResource(R.dimen.padding_min))
                             .fillMaxWidth()
+                            .padding(vertical = dimensionResource(R.dimen.padding_min))
                     ) {
-                        val (btnUpdateProfile, btnSignOff) = createRefs()
+                        val (btnUpdateProfile, btnGoToRoles, btnSignOff) = createRefs()
                         FloatingActionButton(modifier = Modifier.constrainAs(btnUpdateProfile) {
                             start.linkTo(parent.start)
-                            end.linkTo(btnSignOff.start)
+                            end.linkTo(btnGoToRoles.start)
                             top.linkTo(parent.top)
                             bottom.linkTo(parent.bottom)
                         },
@@ -126,12 +109,25 @@ fun ProfileContent(
                             onClick = { navHostController.navigate(route = "${Graph.PROFILE}/${user.toJson()}") }) {
                             Icon(Icons.Outlined.Edit, null)
                         }
-                        FloatingActionButton(modifier = Modifier.constrainAs(btnSignOff) {
+                        FloatingActionButton(modifier = Modifier.constrainAs(btnGoToRoles) {
                             start.linkTo(btnUpdateProfile.end)
+                            end.linkTo(btnSignOff.start)
+                            top.linkTo(parent.top)
+                            bottom.linkTo(parent.bottom)
+                        }, backgroundColor = secondaryColor, onClick = {
+                            activity?.let { act ->
+                                act.finish()
+                                act.startActivity(Intent(act, MainActivity::class.java))
+                            }
+                        }) {
+                            Icon(Icons.Outlined.Home, null)
+                        }
+                        FloatingActionButton(modifier = Modifier.constrainAs(btnSignOff) {
+                            start.linkTo(btnGoToRoles.end)
                             end.linkTo(parent.end)
                             top.linkTo(parent.top)
                             bottom.linkTo(parent.bottom)
-                        }, onClick = {
+                        }, backgroundColor = errorRed, onClick = {
                             activity?.let { act ->
                                 vm.logOut()
                                 act.finish()

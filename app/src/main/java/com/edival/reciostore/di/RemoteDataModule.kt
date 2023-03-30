@@ -1,11 +1,9 @@
 package com.edival.reciostore.di
 
-import com.edival.reciostore.data.repository.dataSource.AuthRemoteDataSource
-import com.edival.reciostore.data.repository.dataSource.UsersRemoteDataSource
-import com.edival.reciostore.data.repository.dataSourceImpl.AuthRemoteDataSourceImpl
-import com.edival.reciostore.data.repository.dataSourceImpl.UsersRemoteDataSourceImpl
-import com.edival.reciostore.data.service.AuthService
-import com.edival.reciostore.data.service.UsersService
+import com.edival.reciostore.data.dataSource.remote.*
+import com.edival.reciostore.data.dataSource.remote.service.AuthService
+import com.edival.reciostore.data.dataSource.remote.service.CategoriesService
+import com.edival.reciostore.data.dataSource.remote.service.UsersService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,5 +20,10 @@ object RemoteDataModule {
     @Provides
     fun provideUsersRemoteDataSource(usersService: UsersService): UsersRemoteDataSource {
         return UsersRemoteDataSourceImpl(usersService)
+    }
+
+    @Provides
+    fun provideCategoriesRemoteDataSource(categoriesService: CategoriesService): CategoriesRemoteDataSource {
+        return CategoriesRemoteDataSourceImpl(categoriesService)
     }
 }

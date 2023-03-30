@@ -1,4 +1,4 @@
-package com.edival.reciostore.data.repository.dataSource
+package com.edival.reciostore.data.dataSource.remote
 
 import com.edival.reciostore.domain.model.AuthResponse
 import com.edival.reciostore.domain.model.User

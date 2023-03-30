@@ -11,14 +11,17 @@ import com.edival.reciostore.presentation.components.DefaultProgressBar
 import com.edival.reciostore.presentation.screens.profile.update.ProfileUpdateViewModel
 
 @Composable
-fun UpdateUserData(vm: ProfileUpdateViewModel = hiltViewModel()) {
+fun UpdateUser(vm: ProfileUpdateViewModel = hiltViewModel()) {
     when (val response = vm.updateResponse) {
         Resource.Loading -> DefaultProgressBar()
-        is Resource.Success -> Toast.makeText(
-            LocalContext.current,
-            stringResource(R.string.profile_updated_successfully),
-            Toast.LENGTH_SHORT
-        ).show()
+        is Resource.Success -> {
+            vm.updateUserSession(response.data)
+            Toast.makeText(
+                LocalContext.current,
+                stringResource(R.string.profile_updated_successfully),
+                Toast.LENGTH_SHORT
+            ).show()
+        }
         is Resource.Failure -> Toast.makeText(
             LocalContext.current, response.message, Toast.LENGTH_SHORT
         ).show()

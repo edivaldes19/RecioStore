@@ -9,9 +9,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.edival.reciostore.R
 import com.edival.reciostore.domain.model.AuthResponse
-import com.edival.reciostore.domain.model.User
 import com.edival.reciostore.domain.useCase.auth.AuthUseCase
 import com.edival.reciostore.domain.util.Resource
+import com.edival.reciostore.presentation.screens.auth.register.mapper.toUser
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -30,15 +30,8 @@ class RegisterViewModel @Inject constructor(private val authUseCase: AuthUseCase
     }
 
     fun signUp(): Job = viewModelScope.launch {
-        val user = User(
-            name = state.name,
-            surname = state.surname,
-            phone = state.phone,
-            email = state.email,
-            password = state.password
-        )
         signUpResource = Resource.Loading
-        val result = authUseCase.signUpUseCase(user)
+        val result = authUseCase.signUpUseCase(state.toUser())
         signUpResource = result
     }
 

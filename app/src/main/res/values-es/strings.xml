@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_icon">Ícono de la app</string>
     <string name="login">Iniciar sesión</string>
@@ -15,8 +14,8 @@
     <string name="complete_the_form">Completa el formulario…</string>
     <string name="invalid_email">Correo electrónico inválido.</string>
     <string name="invalid_password">La contraseña debe ser mayor o igual a 6 caracteres.</string>
-    <string name="invalid_name">El nombre deber ser mayor o igual a 5 caracteres.</string>
-    <string name="invalid_surname">El apellido deber ser mayor o igual a 5 caracteres.</string>
+    <string name="invalid_name">El nombre debe ser mayor o igual a 5 caracteres.</string>
+    <string name="invalid_surname">El apellido debe ser mayor o igual a 5 caracteres.</string>
     <string name="invalid_phone">El teléfono debe ser mayor o igual a 10 caracteres.</string>
     <string name="invalid_password_matches">las contraseñas no coinciden.</string>
     <string name="unknown_error">Ocurrió un error desconocido.</string>
@@ -35,4 +34,16 @@
     <string name="camera">Cámara</string>
     <string name="unknown_id">ID desconocido.</string>
     <string name="profile_updated_successfully">Perfil actualizado exitosamente.</string>
+    <string name="category_name">Nombre de la categoría</string>
+    <string name="description">Descripción</string>
+    <string name="create_category">Crear categoría</string>
+    <string name="invalid_description">La descripción debe ser mayor o igual a 5 caracteres.</string>
+    <string name="category_created_successfully">Categoría creada exitosamente.</string>
+    <string name="unknown">Desconocido(a)</string>
+    <string name="unknown_phone">Teléfono desconocido.</string>
+    <string name="update_category">Actualizar categoría</string>
+    <string name="category_updated_successfully">Categoría actualizada exitosamente.</string>
+    <string name="category_deleted_successfully">Categoría eliminada exitosamente.</string>
+    <string name="unknown_name">Nombre desconocido.</string>
+    <string name="unknown_description">Descripción desconocida.</string>
 </resources>

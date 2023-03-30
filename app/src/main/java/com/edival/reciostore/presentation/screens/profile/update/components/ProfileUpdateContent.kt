@@ -8,11 +8,10 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Card
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.Phone
 import androidx.compose.runtime.Composable
@@ -56,7 +55,7 @@ fun ProfileUpdateContent(padding: PaddingValues, vm: ProfileUpdateViewModel = hi
             .background(primaryColor)
             .padding(padding)
     ) {
-        val (imgUser, cardInfo) = createRefs()
+        val (imgUser, btnUpdatePhoto, cardInfo) = createRefs()
         val topCard = createGuidelineFromTop(0.5f)
         ShowImage(modifier = Modifier
             .height(dimensionResource(R.dimen.icon_big_size))
@@ -65,11 +64,19 @@ fun ProfileUpdateContent(padding: PaddingValues, vm: ProfileUpdateViewModel = hi
             .clickable { stateDialog.value = true }
             .constrainAs(imgUser) {
                 start.linkTo(parent.start)
-                end.linkTo(parent.end)
+                end.linkTo(btnUpdatePhoto.start)
                 top.linkTo(parent.top)
                 bottom.linkTo(cardInfo.top)
             }, url = vm.state.img, icon = Icons.Outlined.Person
         )
+        FloatingActionButton(modifier = Modifier.constrainAs(btnUpdatePhoto) {
+            start.linkTo(imgUser.end)
+            end.linkTo(parent.end)
+            top.linkTo(imgUser.top)
+            bottom.linkTo(imgUser.bottom)
+        }, onClick = { vm.updateImage() }) {
+            Icon(Icons.Outlined.Edit, null)
+        }
         Card(
             modifier = Modifier.constrainAs(cardInfo) {
                 start.linkTo(parent.start)
@@ -124,7 +131,7 @@ fun ProfileUpdateContent(padding: PaddingValues, vm: ProfileUpdateViewModel = hi
                     .fillMaxWidth()
                     .padding(top = dimensionResource(R.dimen.padding_min)),
                     text = R.string.update_profile,
-                    onClick = { vm.validateForm(ctx) { isValid -> if (isValid) vm.updateProfile(ctx) } })
+                    onClick = { vm.validateForm(ctx) { isValid -> if (isValid) vm.updateData() } })
             }
         }
     }

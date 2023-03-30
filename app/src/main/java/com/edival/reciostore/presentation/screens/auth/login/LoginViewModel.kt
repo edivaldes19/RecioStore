@@ -38,8 +38,9 @@ class LoginViewModel @Inject constructor(private val authUseCase: AuthUseCase) :
 
     fun logIn(): Job = viewModelScope.launch {
         logInResponse = Resource.Loading
-        val result = authUseCase.loginUseCase(state.email, state.password)
-        logInResponse = result
+        authUseCase.loginUseCase(state.email, state.password).also { result ->
+            logInResponse = result
+        }
     }
 
     fun onEmailInput(email: String) {

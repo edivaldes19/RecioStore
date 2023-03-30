@@ -1,7 +1,7 @@
 package com.edival.reciostore.data.repository
 
-import com.edival.reciostore.data.repository.dataSource.AuthLocalDataSource
-import com.edival.reciostore.data.repository.dataSource.AuthRemoteDataSource
+import com.edival.reciostore.data.dataSource.local.AuthLocalDataSource
+import com.edival.reciostore.data.dataSource.remote.AuthRemoteDataSource
 import com.edival.reciostore.domain.model.AuthResponse
 import com.edival.reciostore.domain.model.User
 import com.edival.reciostore.domain.repository.AuthRepository
@@ -25,6 +25,7 @@ class AuthRepositoryImpl(
         authLocalDataSource.saveSession(authResponse)
     }
 
+    override suspend fun updateSession(user: User) = authLocalDataSource.updateSession(user)
     override suspend fun logOut() = authLocalDataSource.logOut()
 
     override fun getSessionData(): Flow<AuthResponse> = authLocalDataSource.getSessionData()

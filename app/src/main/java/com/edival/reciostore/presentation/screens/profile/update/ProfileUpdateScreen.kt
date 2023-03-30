@@ -6,7 +6,7 @@ import androidx.navigation.NavHostController
 import com.edival.reciostore.R
 import com.edival.reciostore.presentation.components.DefaultTopBar
 import com.edival.reciostore.presentation.screens.profile.update.components.ProfileUpdateContent
-import com.edival.reciostore.presentation.screens.profile.update.components.UpdateUserData
+import com.edival.reciostore.presentation.screens.profile.update.components.UpdateUser
 
 @Composable
 fun ProfileUpdateScreen(navHostController: NavHostController) {
@@ -17,5 +17,5 @@ fun ProfileUpdateScreen(navHostController: NavHostController) {
             navHostController = navHostController
         )
     }, content = { padding -> ProfileUpdateContent(padding) })
-    UpdateUserData()
+    UpdateUser()
 }

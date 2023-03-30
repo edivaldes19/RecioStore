@@ -1,7 +1,6 @@
-package com.edival.reciostore.data.repository.dataSourceImpl
+package com.edival.reciostore.data.dataSource.remote
 
-import com.edival.reciostore.data.repository.dataSource.AuthRemoteDataSource
-import com.edival.reciostore.data.service.AuthService
+import com.edival.reciostore.data.dataSource.remote.service.AuthService
 import com.edival.reciostore.domain.model.AuthResponse
 import com.edival.reciostore.domain.model.User
 import retrofit2.Response

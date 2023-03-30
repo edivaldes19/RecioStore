@@ -2,9 +2,12 @@ package com.edival.reciostore.presentation.screens.client.category.list
 
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
-import com.edival.reciostore.presentation.screens.client.category.list.components.ClientCategoryListContent
+import androidx.navigation.NavHostController
+import com.edival.reciostore.presentation.screens.client.category.list.components.GetCategories
 
 @Composable
-fun ClientCategoryListScreen() {
-    Scaffold(content = { padding -> ClientCategoryListContent(padding) })
+fun ClientCategoryListScreen(navHostController: NavHostController) {
+    Scaffold { padding ->
+        GetCategories(navHostController = navHostController, padding = padding)
+    }
 }

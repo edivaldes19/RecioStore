@@ -6,7 +6,7 @@ import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStoreFile
 import com.edival.reciostore.core.Config
-import com.edival.reciostore.data.dataStore.AuthDataStore
+import com.edival.reciostore.data.dataSource.local.dataStore.AuthDataStore
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

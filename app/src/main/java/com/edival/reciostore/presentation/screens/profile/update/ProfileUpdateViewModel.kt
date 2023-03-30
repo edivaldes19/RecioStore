@@ -10,8 +10,10 @@ import androidx.lifecycle.viewModelScope
 import com.edival.reciostore.R
 import com.edival.reciostore.core.Config
 import com.edival.reciostore.domain.model.User
+import com.edival.reciostore.domain.useCase.auth.AuthUseCase
 import com.edival.reciostore.domain.useCase.users.UsersUseCase
 import com.edival.reciostore.domain.util.Resource
+import com.edival.reciostore.presentation.screens.profile.update.mapper.toUser
 import com.edival.reciostore.presentation.util.ComposeFileProvider
 import com.edival.reciostore.presentation.util.ResultingActivityHandler
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,7 +24,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProfileUpdateViewModel @Inject constructor(
-    private val usersUseCase: UsersUseCase, savedStateHandle: SavedStateHandle
+    private val authUseCase: AuthUseCase,
+    private val usersUseCase: UsersUseCase,
+    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
     var state by mutableStateOf(ProfileUpdateState())
         private set
@@ -31,30 +35,42 @@ class ProfileUpdateViewModel @Inject constructor(
     var errorMessage by mutableStateOf("")
     val resultingActivityHandler = ResultingActivityHandler()
     private var file: File? = null
-    private var idUser: String = ""
+    private var idUser: String? = null
 
     init {
         savedStateHandle.get<String>("user")?.let { userStr ->
             User.fromJson(userStr).also { user ->
-                idUser = user.id.orEmpty()
+                idUser = user.id
                 state = state.copy(
-                    name = user.name,
-                    surname = user.surname,
-                    phone = user.phone,
+                    name = user.name.orEmpty(),
+                    surname = user.surname.orEmpty(),
+                    phone = user.phone.orEmpty(),
                     img = user.img.orEmpty()
                 )
             }
         }
     }
 
-    fun updateProfile(ctx: Context): Job = viewModelScope.launch {
-        if (idUser.isNotBlank()) {
-            val userData = User(name = state.name, surname = state.surname, phone = state.phone)
+    fun updateUserSession(userResponse: User): Job = viewModelScope.launch {
+        authUseCase.updateSessionUseCase(userResponse)
+    }
+
+    fun updateData(): Job = viewModelScope.launch {
+        idUser?.let { id ->
             updateResponse = Resource.Loading
-            usersUseCase.updateUserDataUseCase(idUser, userData).also { result ->
+            usersUseCase.updateUserDataUseCase(id, state.toUser()).also { result ->
                 updateResponse = result
             }
-        } else errorMessage = ctx.getString(R.string.unknown_id)
+        }
+    }
+
+    fun updateImage(): Job = viewModelScope.launch {
+        if (idUser != null && file != null) {
+            updateResponse = Resource.Loading
+            usersUseCase.updateUserImageUseCase(idUser!!, file!!).also { result ->
+                updateResponse = result
+            }
+        }
     }
 
     fun pickImage(ctx: Context): Job = viewModelScope.launch {
@@ -70,7 +86,7 @@ class ProfileUpdateViewModel @Inject constructor(
         resultingActivityHandler.takePicturePreview().also { result ->
             result?.let { bitmap ->
                 state = state.copy(img = ComposeFileProvider.getPathFromBitmap(ctx, bitmap))
-                file = File(state.img)
+                file = File(state.img!!)
             }
         }
     }
