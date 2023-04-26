@@ -7,6 +7,6 @@ import java.io.File
 
 class UpdateUserImageUseCase constructor(private val usersRepository: UsersRepository) {
     suspend operator fun invoke(id: String, file: File): Resource<User> {
-        return usersRepository.updateImage(id, file)
+        return usersRepository.updateUserImage(id, file)
     }
 }

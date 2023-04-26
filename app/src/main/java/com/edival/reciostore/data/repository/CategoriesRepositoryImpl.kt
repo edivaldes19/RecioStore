@@ -32,6 +32,7 @@ class CategoriesRepositoryImpl(
                                 }
                                 emit(Resource.Success(this.data))
                             }
+
                             is Resource.Failure -> emit(Resource.Success(categoriesLocalMap))
                             else -> emit(Resource.Success(categoriesLocalMap))
                         }
@@ -50,6 +51,7 @@ class CategoriesRepositoryImpl(
                     categoriesLocalDataSource.insertCategory(this.data.toCategoryEntity())
                     Resource.Success(this.data)
                 }
+
                 else -> Resource.Failure()
             }
         }
@@ -67,6 +69,7 @@ class CategoriesRepositoryImpl(
                     )
                     Resource.Success(this.data)
                 }
+
                 else -> Resource.Failure()
             }
         }
@@ -84,6 +87,7 @@ class CategoriesRepositoryImpl(
                     )
                     Resource.Success(this.data)
                 }
+
                 else -> Resource.Failure()
             }
         }
@@ -96,6 +100,7 @@ class CategoriesRepositoryImpl(
                     categoriesLocalDataSource.deleteCategory(id)
                     Resource.Success(Unit)
                 }
+
                 else -> Resource.Failure()
             }
         }

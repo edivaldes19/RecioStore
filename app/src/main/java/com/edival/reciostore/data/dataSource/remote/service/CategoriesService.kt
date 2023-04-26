@@ -11,14 +11,18 @@ interface CategoriesService {
     @GET(Config.CATEGORIES_URL)
     suspend fun getCategories(): Response<List<Category>>
 
+    @Multipart
     @POST("${Config.CATEGORIES_URL}/createCategory")
     suspend fun createCategory(
-        @Part file: MultipartBody.Part, @Part name: RequestBody, @Part description: RequestBody
+        @Part file: MultipartBody.Part,
+        @Part("name") name: RequestBody,
+        @Part("description") description: RequestBody,
     ): Response<Category>
 
     @PUT("${Config.CATEGORIES_URL}/updateCategory/{id}")
     suspend fun updateCategory(@Path("id") id: String, @Body category: Category): Response<Category>
 
+    @Multipart
     @PUT("${Config.CATEGORIES_URL}/updateCategoryImage/{id}")
     suspend fun updateCategoryImage(
         @Path("id") id: String, @Part file: MultipartBody.Part

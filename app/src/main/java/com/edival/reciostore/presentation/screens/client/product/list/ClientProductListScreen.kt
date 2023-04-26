@@ -2,9 +2,10 @@ package com.edival.reciostore.presentation.screens.client.product.list
 
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
-import com.edival.reciostore.presentation.screens.client.product.list.components.ClientProductListContent
+import androidx.navigation.NavHostController
+import com.edival.reciostore.presentation.screens.client.product.list.components.GetProducts
 
 @Composable
-fun ClientProductListScreen() {
-    Scaffold(content = { padding -> ClientProductListContent(padding) })
+fun ClientProductListScreen(navHostController: NavHostController) {
+    Scaffold { padding -> GetProducts(navHostController, padding) }
 }

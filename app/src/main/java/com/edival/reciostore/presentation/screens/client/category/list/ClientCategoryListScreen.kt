@@ -7,7 +7,5 @@ import com.edival.reciostore.presentation.screens.client.category.list.component
 
 @Composable
 fun ClientCategoryListScreen(navHostController: NavHostController) {
-    Scaffold { padding ->
-        GetCategories(navHostController = navHostController, padding = padding)
-    }
+    Scaffold { padding -> GetCategories(navHostController, padding) }
 }

@@ -45,7 +45,7 @@ class ProfileUpdateViewModel @Inject constructor(
                     name = user.name.orEmpty(),
                     surname = user.surname.orEmpty(),
                     phone = user.phone.orEmpty(),
-                    img = user.img.orEmpty()
+                    img = user.img
                 )
             }
         }
@@ -55,16 +55,16 @@ class ProfileUpdateViewModel @Inject constructor(
         authUseCase.updateSessionUseCase(userResponse)
     }
 
-    fun updateData(): Job = viewModelScope.launch {
+    fun updateUser(): Job = viewModelScope.launch {
         idUser?.let { id ->
             updateResponse = Resource.Loading
-            usersUseCase.updateUserDataUseCase(id, state.toUser()).also { result ->
+            usersUseCase.updateUserUseCase(id, state.toUser()).also { result ->
                 updateResponse = result
             }
         }
     }
 
-    fun updateImage(): Job = viewModelScope.launch {
+    fun updateUserImage(): Job = viewModelScope.launch {
         if (idUser != null && file != null) {
             updateResponse = Resource.Loading
             usersUseCase.updateUserImageUseCase(idUser!!, file!!).also { result ->
@@ -109,10 +109,12 @@ class ProfileUpdateViewModel @Inject constructor(
                 errorMessage = ctx.getString(R.string.invalid_name)
                 isValid(false)
             }
+
             state.surname.length < 5 || state.surname.isBlank() -> {
                 errorMessage = ctx.getString(R.string.invalid_surname)
                 isValid(false)
             }
+
             state.phone.length < 10 || state.phone.isBlank() -> {
                 errorMessage = ctx.getString(R.string.invalid_phone)
                 isValid(false)

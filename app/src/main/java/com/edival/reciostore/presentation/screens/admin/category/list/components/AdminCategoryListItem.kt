@@ -6,7 +6,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.Card
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Edit
@@ -38,7 +42,7 @@ fun AdminCategoryListItem(
         modifier = Modifier
             .padding(all = dimensionResource(R.dimen.padding_default))
             .clickable {
-                navHostController.navigate(AdminCategoryScreen.CategoryUpdate.passCategory(category.toJson()))
+                navHostController.navigate(AdminCategoryScreen.ProductList.passCategory(category.toJson()))
             }, shape = RoundedCornerShape(
             topStart = dimensionResource(R.dimen.padding_default),
             topEnd = dimensionResource(R.dimen.padding_default)

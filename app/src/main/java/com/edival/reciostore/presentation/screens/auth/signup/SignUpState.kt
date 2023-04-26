@@ -1,6 +1,6 @@
-package com.edival.reciostore.presentation.screens.auth.register
+package com.edival.reciostore.presentation.screens.auth.signup
 
-data class RegisterState(
+data class SignUpState(
     val name: String = "",
     val surname: String = "",
     val phone: String = "",

@@ -57,6 +57,7 @@ class LoginViewModel @Inject constructor(private val authUseCase: AuthUseCase) :
                 errorMessage = ctx.getString(R.string.invalid_email)
                 isValid(false)
             }
+
             state.password.length < 6 || state.password.isBlank() -> {
                 errorMessage = ctx.getString(R.string.invalid_password)
                 isValid(false)

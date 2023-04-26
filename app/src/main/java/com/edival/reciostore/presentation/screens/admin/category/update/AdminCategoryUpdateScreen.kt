@@ -12,7 +12,7 @@ import com.edival.reciostore.presentation.screens.admin.category.update.componen
 fun AdminCategoryUpdateScreen(navHostController: NavHostController) {
     Scaffold(topBar = {
         DefaultTopBar(
-            title = R.string.update_category,
+            titleRes = R.string.update_category,
             upAvailable = true,
             navHostController = navHostController
         )

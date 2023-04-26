@@ -1,4 +1,4 @@
-package com.edival.reciostore.presentation.screens.auth.register
+package com.edival.reciostore.presentation.screens.auth.signup
 
 import android.content.Context
 import android.util.Patterns
@@ -11,15 +11,15 @@ import com.edival.reciostore.R
 import com.edival.reciostore.domain.model.AuthResponse
 import com.edival.reciostore.domain.useCase.auth.AuthUseCase
 import com.edival.reciostore.domain.util.Resource
-import com.edival.reciostore.presentation.screens.auth.register.mapper.toUser
+import com.edival.reciostore.presentation.screens.auth.signup.mapper.toUser
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class RegisterViewModel @Inject constructor(private val authUseCase: AuthUseCase) : ViewModel() {
-    var state by mutableStateOf(RegisterState())
+class SignUpViewModel @Inject constructor(private val authUseCase: AuthUseCase) : ViewModel() {
+    var state by mutableStateOf(SignUpState())
         private set
     var errorMessage by mutableStateOf("")
     var signUpResource by mutableStateOf<Resource<AuthResponse>?>(null)
@@ -65,22 +65,27 @@ class RegisterViewModel @Inject constructor(private val authUseCase: AuthUseCase
                 errorMessage = ctx.getString(R.string.invalid_name)
                 isValid(false)
             }
+
             state.surname.length < 5 || state.surname.isBlank() -> {
                 errorMessage = ctx.getString(R.string.invalid_surname)
                 isValid(false)
             }
+
             state.phone.length < 10 || state.phone.isBlank() -> {
                 errorMessage = ctx.getString(R.string.invalid_phone)
                 isValid(false)
             }
+
             !Patterns.EMAIL_ADDRESS.matcher(state.email).matches() -> {
                 errorMessage = ctx.getString(R.string.invalid_email)
                 isValid(false)
             }
+
             state.password.length < 6 || state.password.isBlank() -> {
                 errorMessage = ctx.getString(R.string.invalid_password)
                 isValid(false)
             }
+
             state.password != state.confirmPassword -> {
                 errorMessage = ctx.getString(R.string.invalid_password_matches)
                 isValid(false)

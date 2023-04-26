@@ -18,14 +18,11 @@ fun GetCategories(
 ) {
     when (val response = vm.categoriesResponse) {
         Resource.Loading -> DefaultProgressBar()
-        is Resource.Success -> {
-            ClientCategoryListContent(
-                navHostController = navHostController, padding = padding, categories = response.data
-            )
-        }
+        is Resource.Success -> ClientCategoryListContent(navHostController, padding, response.data)
         is Resource.Failure -> Toast.makeText(
             LocalContext.current, response.message, Toast.LENGTH_SHORT
         ).show()
+
         else -> {}
     }
 }

@@ -9,11 +9,11 @@ import java.io.File
 
 class UsersRepositoryImpl(private val usersRemoteDataSource: UsersRemoteDataSource) :
     UsersRepository {
-    override suspend fun updateData(id: String, user: User): Resource<User> {
-        return ResponseToRequest.send(usersRemoteDataSource.updateData(id, user))
+    override suspend fun updateUser(id: String, user: User): Resource<User> {
+        return ResponseToRequest.send(usersRemoteDataSource.updateUser(id, user))
     }
 
-    override suspend fun updateImage(id: String, file: File): Resource<User> {
-        return ResponseToRequest.send(usersRemoteDataSource.updateImage(id, file))
+    override suspend fun updateUserImage(id: String, file: File): Resource<User> {
+        return ResponseToRequest.send(usersRemoteDataSource.updateUserImage(id, file))
     }
 }

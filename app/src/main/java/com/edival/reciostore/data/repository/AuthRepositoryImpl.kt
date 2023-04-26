@@ -13,12 +13,12 @@ class AuthRepositoryImpl(
     private val authRemoteDataSource: AuthRemoteDataSource,
     private val authLocalDataSource: AuthLocalDataSource
 ) : AuthRepository {
-    override suspend fun logIn(email: String, password: String): Resource<AuthResponse> {
-        return ResponseToRequest.send(authRemoteDataSource.logIn(email, password))
-    }
-
     override suspend fun signUp(user: User): Resource<AuthResponse> {
         return ResponseToRequest.send(authRemoteDataSource.signUp(user))
+    }
+
+    override suspend fun logIn(email: String, password: String): Resource<AuthResponse> {
+        return ResponseToRequest.send(authRemoteDataSource.logIn(email, password))
     }
 
     override suspend fun saveSession(authResponse: AuthResponse) {
@@ -27,6 +27,5 @@ class AuthRepositoryImpl(
 
     override suspend fun updateSession(user: User) = authLocalDataSource.updateSession(user)
     override suspend fun logOut() = authLocalDataSource.logOut()
-
-    override fun getSessionData(): Flow<AuthResponse> = authLocalDataSource.getSessionData()
+    override fun getSession(): Flow<AuthResponse> = authLocalDataSource.getSessionData()
 }

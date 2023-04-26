@@ -3,7 +3,13 @@ package com.edival.reciostore.presentation.screens.profile.info.components
 import android.app.Activity
 import android.content.Intent
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -12,7 +18,10 @@ import androidx.compose.material.Card
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.*
+import androidx.compose.material.icons.outlined.Edit
+import androidx.compose.material.icons.outlined.ExitToApp
+import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.Person
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -29,7 +38,6 @@ import com.edival.reciostore.presentation.navigation.Graph
 import com.edival.reciostore.presentation.screens.profile.info.ProfileViewModel
 import com.edival.reciostore.presentation.ui.theme.errorRed
 import com.edival.reciostore.presentation.ui.theme.primaryColor
-import com.edival.reciostore.presentation.ui.theme.secondaryColor
 import com.edival.reciostore.presentation.util.ShowImage
 
 @Composable
@@ -79,17 +87,10 @@ fun ProfileContent(
                         .padding(all = dimensionResource(R.dimen.padding_default))
                 ) {
                     ProfileInfoItem(
-                        icon = Icons.Outlined.Person,
-                        title = "${user.name} ${user.surname}",
-                        subtitle = R.string.username
+                        title = "${user.name} ${user.surname}", subtitle = R.string.username
                     )
+                    ProfileInfoItem(title = user.email.orEmpty(), subtitle = R.string.email)
                     ProfileInfoItem(
-                        icon = Icons.Outlined.Email,
-                        title = user.email.orEmpty(),
-                        subtitle = R.string.email
-                    )
-                    ProfileInfoItem(
-                        icon = Icons.Outlined.Phone,
                         title = user.phone ?: stringResource(R.string.unknown_phone),
                         subtitle = R.string.phone
                     )
@@ -114,7 +115,7 @@ fun ProfileContent(
                             end.linkTo(btnSignOff.start)
                             top.linkTo(parent.top)
                             bottom.linkTo(parent.bottom)
-                        }, backgroundColor = secondaryColor, onClick = {
+                        }, onClick = {
                             activity?.let { act ->
                                 act.finish()
                                 act.startActivity(Intent(act, MainActivity::class.java))

@@ -58,12 +58,10 @@ class AdminCategoryUpdateViewModel @Inject constructor(
     }
 
     fun updateCategoryImage(): Job = viewModelScope.launch {
-        idCategory?.let { id ->
-            file?.let { photo ->
-                categoryResponse = Resource.Loading
-                categoriesUseCase.updateCategoryImageUseCase(id, photo).also { result ->
-                    categoryResponse = result
-                }
+        if (idCategory != null && file != null) {
+            categoryResponse = Resource.Loading
+            categoriesUseCase.updateCategoryImageUseCase(idCategory!!, file!!).also { result ->
+                categoryResponse = result
             }
         }
     }
@@ -100,6 +98,7 @@ class AdminCategoryUpdateViewModel @Inject constructor(
                 errorMessage = ctx.getString(R.string.invalid_name)
                 isValid(false)
             }
+
             state.description.length < 5 || state.description.isBlank() -> {
                 errorMessage = ctx.getString(R.string.invalid_description)
                 isValid(false)

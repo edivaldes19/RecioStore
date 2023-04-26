@@ -18,14 +18,16 @@ import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.edival.reciostore.R
 import com.edival.reciostore.domain.model.Category
+import com.edival.reciostore.presentation.navigation.screen.client.ClientCategoryScreen
 
 @Composable
 fun ClientCategoryListItem(navHostController: NavHostController, category: Category) {
     Card(
         modifier = Modifier
             .padding(all = dimensionResource(R.dimen.padding_default))
-            .clickable { },
-        shape = RoundedCornerShape(
+            .clickable {
+                navHostController.navigate(ClientCategoryScreen.ProductList.passCategory(category.toJson()))
+            }, shape = RoundedCornerShape(
             topStart = dimensionResource(R.dimen.padding_default),
             topEnd = dimensionResource(R.dimen.padding_default)
         )

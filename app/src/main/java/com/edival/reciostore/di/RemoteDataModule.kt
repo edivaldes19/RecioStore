@@ -3,6 +3,7 @@ package com.edival.reciostore.di
 import com.edival.reciostore.data.dataSource.remote.*
 import com.edival.reciostore.data.dataSource.remote.service.AuthService
 import com.edival.reciostore.data.dataSource.remote.service.CategoriesService
+import com.edival.reciostore.data.dataSource.remote.service.ProductsService
 import com.edival.reciostore.data.dataSource.remote.service.UsersService
 import dagger.Module
 import dagger.Provides
@@ -25,5 +26,10 @@ object RemoteDataModule {
     @Provides
     fun provideCategoriesRemoteDataSource(categoriesService: CategoriesService): CategoriesRemoteDataSource {
         return CategoriesRemoteDataSourceImpl(categoriesService)
+    }
+
+    @Provides
+    fun provideProductsRemoteDataSource(productsService: ProductsService): ProductsRemoteDataSource {
+        return ProductsRemoteDataSourceImpl(productsService)
     }
 }

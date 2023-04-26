@@ -15,7 +15,7 @@ fun ClientCategoryListContent(
 ) {
     LazyColumn(modifier = Modifier.padding(padding)) {
         items(items = categories) { category ->
-            ClientCategoryListItem(navHostController = navHostController, category = category)
+            ClientCategoryListItem(navHostController, category)
         }
     }
 }

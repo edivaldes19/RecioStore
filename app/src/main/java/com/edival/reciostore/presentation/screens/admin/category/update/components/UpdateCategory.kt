@@ -25,9 +25,11 @@ fun UpdateCategory(
                 Toast.LENGTH_SHORT
             ).show()
         }
+
         is Resource.Failure -> Toast.makeText(
             LocalContext.current, response.message, Toast.LENGTH_SHORT
         ).show()
+
         else -> {}
     }
 }

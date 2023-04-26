@@ -11,7 +11,7 @@ import org.apache.commons.io.FileUtils
 import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStream
-import java.util.*
+import java.util.UUID
 
 class ComposeFileProvider : FileProvider(R.xml.file_paths) {
     companion object {

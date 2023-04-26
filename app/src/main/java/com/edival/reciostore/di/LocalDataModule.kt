@@ -4,7 +4,10 @@ import com.edival.reciostore.data.dataSource.local.AuthLocalDataSource
 import com.edival.reciostore.data.dataSource.local.AuthLocalDataSourceImpl
 import com.edival.reciostore.data.dataSource.local.CategoriesLocalDataSource
 import com.edival.reciostore.data.dataSource.local.CategoriesLocalDataSourceImpl
+import com.edival.reciostore.data.dataSource.local.ProductsLocalDataSource
+import com.edival.reciostore.data.dataSource.local.ProductsLocalDataSourceImpl
 import com.edival.reciostore.data.dataSource.local.dao.CategoriesDAO
+import com.edival.reciostore.data.dataSource.local.dao.ProductsDAO
 import com.edival.reciostore.data.dataSource.local.dataStore.AuthDataStore
 import dagger.Module
 import dagger.Provides
@@ -22,5 +25,10 @@ object LocalDataModule {
     @Provides
     fun provideCategoriesLocalDataSource(categoriesDAO: CategoriesDAO): CategoriesLocalDataSource {
         return CategoriesLocalDataSourceImpl(categoriesDAO)
+    }
+
+    @Provides
+    fun provideProductsLocalDataSource(productsDAO: ProductsDAO): ProductsLocalDataSource {
+        return ProductsLocalDataSourceImpl(productsDAO)
     }
 }

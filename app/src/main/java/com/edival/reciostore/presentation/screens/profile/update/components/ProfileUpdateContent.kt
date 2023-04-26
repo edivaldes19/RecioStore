@@ -3,12 +3,22 @@ package com.edival.reciostore.presentation.screens.profile.update.components
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.*
+import androidx.compose.material.Card
+import androidx.compose.material.FloatingActionButton
+import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.outlined.Edit
@@ -74,9 +84,7 @@ fun ProfileUpdateContent(padding: PaddingValues, vm: ProfileUpdateViewModel = hi
             end.linkTo(parent.end)
             top.linkTo(imgUser.top)
             bottom.linkTo(imgUser.bottom)
-        }, onClick = { vm.updateImage() }) {
-            Icon(Icons.Outlined.Edit, null)
-        }
+        }, onClick = { vm.updateUserImage() }) { Icon(Icons.Outlined.Edit, null) }
         Card(
             modifier = Modifier.constrainAs(cardInfo) {
                 start.linkTo(parent.start)
@@ -131,7 +139,7 @@ fun ProfileUpdateContent(padding: PaddingValues, vm: ProfileUpdateViewModel = hi
                     .fillMaxWidth()
                     .padding(top = dimensionResource(R.dimen.padding_min)),
                     text = R.string.update_profile,
-                    onClick = { vm.validateForm(ctx) { isValid -> if (isValid) vm.updateData() } })
+                    onClick = { vm.validateForm(ctx) { isValid -> if (isValid) vm.updateUser() } })
             }
         }
     }

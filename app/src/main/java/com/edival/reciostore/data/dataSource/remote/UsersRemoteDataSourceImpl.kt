@@ -11,17 +11,15 @@ import retrofit2.Response
 import java.io.File
 
 class UsersRemoteDataSourceImpl(private val usersService: UsersService) : UsersRemoteDataSource {
-    override suspend fun updateData(id: String, user: User): Response<User> {
-        return usersService.updateData(id, user)
+    override suspend fun updateUser(id: String, user: User): Response<User> {
+        return usersService.updateUser(id, user)
     }
 
-    override suspend fun updateImage(id: String, file: File): Response<User> {
-        val connection = withContext(Dispatchers.IO) {
-            file.toURI().toURL().openConnection()
-        }
+    override suspend fun updateUserImage(id: String, file: File): Response<User> {
+        val connection = withContext(Dispatchers.IO) { file.toURI().toURL().openConnection() }
         val mimeType = connection.contentType
         val requestFile = file.asRequestBody(mimeType.toMediaTypeOrNull())
         val fileFormData = MultipartBody.Part.createFormData("file", file.name, requestFile)
-        return usersService.updateImage(id, fileFormData)
+        return usersService.updateUserImage(id, fileFormData)
     }
 }

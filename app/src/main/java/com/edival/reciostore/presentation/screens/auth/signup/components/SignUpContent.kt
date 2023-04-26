@@ -1,8 +1,14 @@
-package com.edival.reciostore.presentation.screens.auth.register.components
+package com.edival.reciostore.presentation.screens.auth.signup.components
 
 import android.widget.Toast
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -32,11 +38,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.edival.reciostore.R
 import com.edival.reciostore.presentation.components.DefaultButton
 import com.edival.reciostore.presentation.components.DefaultTextField
-import com.edival.reciostore.presentation.screens.auth.register.RegisterViewModel
+import com.edival.reciostore.presentation.screens.auth.signup.SignUpViewModel
 import com.edival.reciostore.presentation.ui.theme.primaryColor
 
 @Composable
-fun RegisterContent(padding: PaddingValues, vm: RegisterViewModel = hiltViewModel()) {
+fun SignUpContent(padding: PaddingValues, vm: SignUpViewModel = hiltViewModel()) {
     val ctx = LocalContext.current
     LaunchedEffect(key1 = vm.errorMessage) {
         if (vm.errorMessage.isNotBlank()) {

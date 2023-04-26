@@ -1,4 +1,4 @@
-package com.edival.reciostore.presentation.screens.auth.register.components
+package com.edival.reciostore.presentation.screens.auth.signup.components
 
 import android.widget.Toast
 import androidx.compose.runtime.Composable
@@ -9,10 +9,10 @@ import androidx.navigation.NavHostController
 import com.edival.reciostore.domain.util.Resource
 import com.edival.reciostore.presentation.components.DefaultProgressBar
 import com.edival.reciostore.presentation.navigation.Graph
-import com.edival.reciostore.presentation.screens.auth.register.RegisterViewModel
+import com.edival.reciostore.presentation.screens.auth.signup.SignUpViewModel
 
 @Composable
-fun SignUp(navHostController: NavHostController, vm: RegisterViewModel = hiltViewModel()) {
+fun SignUp(navHostController: NavHostController, vm: SignUpViewModel = hiltViewModel()) {
     when (val response = vm.signUpResource) {
         Resource.Loading -> DefaultProgressBar()
         is Resource.Success -> {
@@ -23,9 +23,11 @@ fun SignUp(navHostController: NavHostController, vm: RegisterViewModel = hiltVie
                 }
             }
         }
+
         is Resource.Failure -> Toast.makeText(
             LocalContext.current, response.message, Toast.LENGTH_SHORT
         ).show()
+
         else -> {}
     }
 }

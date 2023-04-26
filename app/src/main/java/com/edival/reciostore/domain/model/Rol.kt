@@ -13,7 +13,7 @@ data class Rol(
     fun toJson(): String {
         return Gson().toJson(
             Rol(
-                id = id, name = name, if (!img.isNullOrBlank()) URLEncoder.encode(
+                id = id, name = name, img = if (!img.isNullOrBlank()) URLEncoder.encode(
                     img, StandardCharsets.UTF_8.toString()
                 ) else "", route = route
             )

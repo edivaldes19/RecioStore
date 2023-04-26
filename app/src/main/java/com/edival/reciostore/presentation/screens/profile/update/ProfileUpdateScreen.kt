@@ -12,7 +12,7 @@ import com.edival.reciostore.presentation.screens.profile.update.components.Upda
 fun ProfileUpdateScreen(navHostController: NavHostController) {
     Scaffold(topBar = {
         DefaultTopBar(
-            title = R.string.update_profile,
+            titleRes = R.string.update_profile,
             upAvailable = true,
             navHostController = navHostController
         )

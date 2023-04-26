@@ -9,6 +9,6 @@ import com.edival.reciostore.presentation.screens.roles.components.RolesContent
 
 @Composable
 fun RolesScreen(navHostController: NavHostController) {
-    Scaffold(topBar = { DefaultTopBar(title = R.string.select_a_role) },
+    Scaffold(topBar = { DefaultTopBar(titleRes = R.string.select_a_role) },
         content = { paddingValues -> RolesContent(navHostController, paddingValues) })
 }

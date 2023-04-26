@@ -72,6 +72,7 @@ class AdminCategoryCreateViewModel @Inject constructor(private val categoriesUse
                 errorMessage = ctx.getString(R.string.invalid_name)
                 isValid(false)
             }
+
             state.description.length < 5 || state.description.isBlank() -> {
                 errorMessage = ctx.getString(R.string.invalid_description)
                 isValid(false)

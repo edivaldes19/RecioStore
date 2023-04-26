@@ -1,7 +1,11 @@
 package com.edival.reciostore.presentation.navigation.graph.profile
 
-import androidx.navigation.*
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
+import androidx.navigation.navigation
 import com.edival.reciostore.presentation.navigation.Graph
 import com.edival.reciostore.presentation.navigation.screen.profile.ProfileScreen
 import com.edival.reciostore.presentation.screens.profile.update.ProfileUpdateScreen
@@ -15,9 +19,7 @@ fun NavGraphBuilder.profileNavGraph(navHostController: NavHostController) {
                 type = NavType.StringType
             })
         ) { entry ->
-            entry.arguments?.getString("user")?.let { userArg ->
-                ProfileUpdateScreen(navHostController)
-            }
+            entry.arguments?.getString("user")?.let { ProfileUpdateScreen(navHostController) }
         }
     }
 }

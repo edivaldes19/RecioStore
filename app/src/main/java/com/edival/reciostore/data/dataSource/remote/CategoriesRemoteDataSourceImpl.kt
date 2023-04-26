@@ -23,9 +23,9 @@ class CategoriesRemoteDataSourceImpl(private val categoriesService: CategoriesSe
         val mimeType = connection.contentType
         val requestFile = file.asRequestBody(mimeType.toMediaTypeOrNull())
         val fileFormData = MultipartBody.Part.createFormData("file", file.name, requestFile)
-        val nameData = category.name.orEmpty().toRequestBody(Config.TEXT_MT.toMediaTypeOrNull())
+        val nameData = category.name!!.toRequestBody(Config.TEXT_MT.toMediaTypeOrNull())
         val descriptionData =
-            category.description.orEmpty().toRequestBody(Config.TEXT_MT.toMediaTypeOrNull())
+            category.description!!.toRequestBody(Config.TEXT_MT.toMediaTypeOrNull())
         return categoriesService.createCategory(fileFormData, nameData, descriptionData)
     }
 

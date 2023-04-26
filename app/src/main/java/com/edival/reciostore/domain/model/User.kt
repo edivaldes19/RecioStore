@@ -23,7 +23,7 @@ data class User(
                 phone = phone,
                 email = email,
                 password = password,
-                if (!img.isNullOrBlank()) URLEncoder.encode(
+                img = if (!img.isNullOrBlank()) URLEncoder.encode(
                     img, StandardCharsets.UTF_8.toString()
                 ) else "",
                 notification_token = notification_token,

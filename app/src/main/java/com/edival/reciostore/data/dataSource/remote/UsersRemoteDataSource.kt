@@ -5,6 +5,6 @@ import retrofit2.Response
 import java.io.File
 
 interface UsersRemoteDataSource {
-    suspend fun updateData(id: String, user: User): Response<User>
-    suspend fun updateImage(id: String, file: File): Response<User>
+    suspend fun updateUser(id: String, user: User): Response<User>
+    suspend fun updateUserImage(id: String, file: File): Response<User>
 }

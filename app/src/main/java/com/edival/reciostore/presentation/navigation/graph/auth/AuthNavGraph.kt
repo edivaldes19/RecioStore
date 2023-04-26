@@ -7,7 +7,7 @@ import androidx.navigation.navigation
 import com.edival.reciostore.presentation.navigation.Graph
 import com.edival.reciostore.presentation.navigation.screen.auth.AuthScreen
 import com.edival.reciostore.presentation.screens.auth.login.LoginScreen
-import com.edival.reciostore.presentation.screens.auth.register.RegisterScreen
+import com.edival.reciostore.presentation.screens.auth.signup.RegisterScreen
 
 fun NavGraphBuilder.authNavGraph(navHostController: NavHostController) {
     navigation(route = Graph.AUTH, startDestination = AuthScreen.Login.route) {

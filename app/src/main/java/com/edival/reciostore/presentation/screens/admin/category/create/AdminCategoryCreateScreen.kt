@@ -12,7 +12,7 @@ import com.edival.reciostore.presentation.screens.admin.category.create.componen
 fun AdminCategoryCreateScreen(navHostController: NavHostController) {
     Scaffold(topBar = {
         DefaultTopBar(
-            title = R.string.create_category,
+            titleRes = R.string.create_category,
             upAvailable = true,
             navHostController = navHostController
         )

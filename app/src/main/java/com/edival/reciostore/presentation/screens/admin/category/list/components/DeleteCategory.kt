@@ -19,9 +19,11 @@ fun DeleteCategory(vm: AdminCategoryListViewModel = hiltViewModel()) {
             stringResource(R.string.category_deleted_successfully),
             Toast.LENGTH_SHORT
         ).show()
+
         is Resource.Failure -> Toast.makeText(
             LocalContext.current, response.message, Toast.LENGTH_SHORT
         ).show()
+
         else -> {}
     }
 }
