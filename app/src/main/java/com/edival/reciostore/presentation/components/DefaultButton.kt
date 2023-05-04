@@ -19,11 +19,13 @@ fun DefaultButton(
     @StringRes text: Int,
     onClick: () -> Unit,
     color: Color = primaryColor,
-    @DrawableRes icon: Int? = null
+    @DrawableRes icon: Int? = null,
+    enabled: Boolean = true
 ) {
     Button(
         modifier = modifier,
         onClick = onClick,
+        enabled = enabled,
         colors = ButtonDefaults.buttonColors(backgroundColor = color)
     ) {
         icon?.let { Icon(painter = painterResource(it), contentDescription = null) }

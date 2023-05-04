@@ -1,6 +1,7 @@
 package com.edival.reciostore.di
 
 import com.edival.reciostore.data.dataSource.remote.*
+import com.edival.reciostore.data.dataSource.remote.service.AddressService
 import com.edival.reciostore.data.dataSource.remote.service.AuthService
 import com.edival.reciostore.data.dataSource.remote.service.CategoriesService
 import com.edival.reciostore.data.dataSource.remote.service.ProductsService
@@ -31,5 +32,10 @@ object RemoteDataModule {
     @Provides
     fun provideProductsRemoteDataSource(productsService: ProductsService): ProductsRemoteDataSource {
         return ProductsRemoteDataSourceImpl(productsService)
+    }
+
+    @Provides
+    fun provideAddressRemoteDataSource(addressService: AddressService): AddressRemoteDataSource {
+        return AddressRemoteDataSourceImpl(addressService)
     }
 }

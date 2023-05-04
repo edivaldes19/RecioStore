@@ -10,15 +10,13 @@ data class Rol(
     val img: String? = null,
     val route: String? = null
 ) {
-    fun toJson(): String {
-        return Gson().toJson(
-            Rol(
-                id = id, name = name, img = if (!img.isNullOrBlank()) URLEncoder.encode(
-                    img, StandardCharsets.UTF_8.toString()
-                ) else "", route = route
-            )
+    fun toJson(): String = Gson().toJson(
+        Rol(
+            id = id, name = name, img = if (!img.isNullOrBlank()) URLEncoder.encode(
+                img, StandardCharsets.UTF_8.toString()
+            ) else "", route = route
         )
-    }
+    )
 
     companion object {
         fun fromJson(data: String): Rol = Gson().fromJson(data, Rol::class.java)

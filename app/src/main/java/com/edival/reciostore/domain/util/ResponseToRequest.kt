@@ -14,10 +14,13 @@ object ResponseToRequest {
                 Resource.Failure(errorResponse?.message ?: "Error desconocido.")
             }
         } catch (e: HttpException) {
+            e.printStackTrace()
             Resource.Failure(e.message ?: "Error en la petición.")
         } catch (e: IOException) {
-            Resource.Failure(e.message ?: "Verífica tu conexión a internet.")
+            e.printStackTrace()
+            Resource.Failure("Verífica tu conexión a internet.")
         } catch (e: Exception) {
+            e.printStackTrace()
             Resource.Failure(e.message ?: "Error desconocido.")
         }
     }

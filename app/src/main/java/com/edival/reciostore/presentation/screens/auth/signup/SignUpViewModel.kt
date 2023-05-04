@@ -21,18 +21,18 @@ import javax.inject.Inject
 class SignUpViewModel @Inject constructor(private val authUseCase: AuthUseCase) : ViewModel() {
     var state by mutableStateOf(SignUpState())
         private set
-    var errorMessage by mutableStateOf("")
     var signUpResource by mutableStateOf<Resource<AuthResponse>?>(null)
         private set
-
+    var errorMessage by mutableStateOf("")
     fun saveSession(authResponse: AuthResponse): Job = viewModelScope.launch {
         authUseCase.saveSessionUseCase(authResponse)
     }
 
     fun signUp(): Job = viewModelScope.launch {
         signUpResource = Resource.Loading
-        val result = authUseCase.signUpUseCase(state.toUser())
-        signUpResource = result
+        authUseCase.signUpUseCase(state.toUser()).also { result ->
+            signUpResource = result
+        }
     }
 
     fun onNameInput(name: String) {
@@ -90,7 +90,8 @@ class SignUpViewModel @Inject constructor(private val authUseCase: AuthUseCase) 
                 errorMessage = ctx.getString(R.string.invalid_password_matches)
                 isValid(false)
             }
+
+            else -> isValid(true)
         }
-        isValid(true)
     }
 }

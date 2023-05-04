@@ -8,5 +8,5 @@ data class AdminProductState(
     val id_category: String = "",
     val img1: String? = null,
     val img2: String? = null,
-    var images_to_update: List<Int> = listOf()
+    val images_to_update: MutableList<Int> = mutableListOf()
 )

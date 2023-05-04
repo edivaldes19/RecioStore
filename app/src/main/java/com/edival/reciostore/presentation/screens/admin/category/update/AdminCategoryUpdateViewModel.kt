@@ -30,6 +30,7 @@ class AdminCategoryUpdateViewModel @Inject constructor(
         private set
     var categoryResponse by mutableStateOf<Resource<Category>?>(null)
         private set
+    var enabledBtn by mutableStateOf(true)
     var errorMessage by mutableStateOf("")
     val resultingActivityHandler = ResultingActivityHandler()
     private var file: File? = null
@@ -50,6 +51,7 @@ class AdminCategoryUpdateViewModel @Inject constructor(
 
     fun updateCategory(): Job = viewModelScope.launch {
         idCategory?.let { id ->
+            enabledBtn = false
             categoryResponse = Resource.Loading
             categoriesUseCase.updateCategoryUseCase(id, state.toCategory()).also { result ->
                 categoryResponse = result
@@ -59,6 +61,7 @@ class AdminCategoryUpdateViewModel @Inject constructor(
 
     fun updateCategoryImage(): Job = viewModelScope.launch {
         if (idCategory != null && file != null) {
+            enabledBtn = false
             categoryResponse = Resource.Loading
             categoriesUseCase.updateCategoryImageUseCase(idCategory!!, file!!).also { result ->
                 categoryResponse = result
@@ -103,7 +106,8 @@ class AdminCategoryUpdateViewModel @Inject constructor(
                 errorMessage = ctx.getString(R.string.invalid_description)
                 isValid(false)
             }
+
+            else -> isValid(true)
         }
-        isValid(true)
     }
 }

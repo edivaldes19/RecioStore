@@ -7,13 +7,12 @@ import com.edival.reciostore.domain.util.Resource
 import com.edival.reciostore.domain.util.ResponseToRequest
 import java.io.File
 
-class UsersRepositoryImpl(private val usersRemoteDataSource: UsersRemoteDataSource) :
-    UsersRepository {
+class UsersRepositoryImpl(private val remoteDS: UsersRemoteDataSource) : UsersRepository {
     override suspend fun updateUser(id: String, user: User): Resource<User> {
-        return ResponseToRequest.send(usersRemoteDataSource.updateUser(id, user))
+        return ResponseToRequest.send(remoteDS.updateUser(id, user))
     }
 
     override suspend fun updateUserImage(id: String, file: File): Resource<User> {
-        return ResponseToRequest.send(usersRemoteDataSource.updateUserImage(id, file))
+        return ResponseToRequest.send(remoteDS.updateUserImage(id, file))
     }
 }

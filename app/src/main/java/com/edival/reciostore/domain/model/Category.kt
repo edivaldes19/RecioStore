@@ -10,20 +10,19 @@ data class Category(
     val description: String? = null,
     val img: String? = null
 ) {
-    fun toJson(): String {
-        return Gson().toJson(
-            Category(
-                id = id,
-                name = name,
-                description = description,
-                img = if (!img.isNullOrBlank()) URLEncoder.encode(
-                    img, StandardCharsets.UTF_8.toString()
-                ) else ""
-            )
+    fun toJson(): String = Gson().toJson(
+        Category(
+            id = id,
+            name = name,
+            description = description,
+            img = if (!img.isNullOrBlank()) URLEncoder.encode(
+                img, StandardCharsets.UTF_8.toString()
+            ) else ""
         )
-    }
+    )
 
     companion object {
         fun fromJson(data: String): Category = Gson().fromJson(data, Category::class.java)
     }
+
 }

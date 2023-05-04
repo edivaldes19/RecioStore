@@ -16,6 +16,6 @@ fun ProfileUpdateScreen(navHostController: NavHostController) {
             upAvailable = true,
             navHostController = navHostController
         )
-    }, content = { padding -> ProfileUpdateContent(padding) })
+    }) { padding -> ProfileUpdateContent(padding) }
     UpdateUser()
 }

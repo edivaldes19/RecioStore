@@ -32,6 +32,7 @@ class ProfileUpdateViewModel @Inject constructor(
         private set
     var updateResponse by mutableStateOf<Resource<User>?>(null)
         private set
+    var enabledBtn by mutableStateOf(true)
     var errorMessage by mutableStateOf("")
     val resultingActivityHandler = ResultingActivityHandler()
     private var file: File? = null
@@ -57,6 +58,7 @@ class ProfileUpdateViewModel @Inject constructor(
 
     fun updateUser(): Job = viewModelScope.launch {
         idUser?.let { id ->
+            enabledBtn = false
             updateResponse = Resource.Loading
             usersUseCase.updateUserUseCase(id, state.toUser()).also { result ->
                 updateResponse = result
@@ -66,6 +68,7 @@ class ProfileUpdateViewModel @Inject constructor(
 
     fun updateUserImage(): Job = viewModelScope.launch {
         if (idUser != null && file != null) {
+            enabledBtn = false
             updateResponse = Resource.Loading
             usersUseCase.updateUserImageUseCase(idUser!!, file!!).also { result ->
                 updateResponse = result
@@ -91,16 +94,16 @@ class ProfileUpdateViewModel @Inject constructor(
         }
     }
 
-    fun onNameInput(name: String) {
-        state = state.copy(name = name)
+    fun onNameInput(input: String) {
+        state = state.copy(name = input)
     }
 
-    fun onSurnameInput(surname: String) {
-        state = state.copy(surname = surname)
+    fun onSurnameInput(input: String) {
+        state = state.copy(surname = input)
     }
 
-    fun onPhoneInput(phone: String) {
-        state = state.copy(phone = phone)
+    fun onPhoneInput(input: String) {
+        state = state.copy(phone = input)
     }
 
     fun validateForm(ctx: Context, isValid: (Boolean) -> Unit) {
@@ -119,7 +122,8 @@ class ProfileUpdateViewModel @Inject constructor(
                 errorMessage = ctx.getString(R.string.invalid_phone)
                 isValid(false)
             }
+
+            else -> isValid(true)
         }
-        isValid(true)
     }
 }

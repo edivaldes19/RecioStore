@@ -20,9 +20,9 @@ import javax.inject.Inject
 class LoginViewModel @Inject constructor(private val authUseCase: AuthUseCase) : ViewModel() {
     var state by mutableStateOf(LoginState())
         private set
-    var errorMessage by mutableStateOf("")
     var logInResponse by mutableStateOf<Resource<AuthResponse>?>(null)
         private set
+    var errorMessage by mutableStateOf("")
 
     init {
         viewModelScope.launch {
@@ -62,7 +62,8 @@ class LoginViewModel @Inject constructor(private val authUseCase: AuthUseCase) :
                 errorMessage = ctx.getString(R.string.invalid_password)
                 isValid(false)
             }
+
+            else -> isValid(true)
         }
-        isValid(true)
     }
 }

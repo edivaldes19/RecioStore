@@ -15,6 +15,7 @@ fun UpdateUser(vm: ProfileUpdateViewModel = hiltViewModel()) {
     when (val response = vm.updateResponse) {
         Resource.Loading -> DefaultProgressBar()
         is Resource.Success -> {
+            vm.enabledBtn = true
             vm.updateUserSession(response.data)
             Toast.makeText(
                 LocalContext.current,
@@ -23,10 +24,18 @@ fun UpdateUser(vm: ProfileUpdateViewModel = hiltViewModel()) {
             ).show()
         }
 
-        is Resource.Failure -> Toast.makeText(
-            LocalContext.current, response.message, Toast.LENGTH_SHORT
-        ).show()
+        is Resource.Failure -> {
+            vm.enabledBtn = true
+            Toast.makeText(LocalContext.current, response.message, Toast.LENGTH_SHORT).show()
+        }
 
-        else -> {}
+        else -> {
+            response?.let {
+                vm.enabledBtn = true
+                Toast.makeText(
+                    LocalContext.current, stringResource(R.string.unknown_error), Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
     }
 }

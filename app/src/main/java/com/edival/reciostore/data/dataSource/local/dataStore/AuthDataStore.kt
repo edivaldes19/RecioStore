@@ -27,6 +27,7 @@ class AuthDataStore constructor(private val dataStore: DataStore<Preferences>) {
             oldUser.name = newUser.name
             oldUser.surname = newUser.surname
             oldUser.phone = newUser.phone
+            oldUser.address = newUser.address
             if (!newUser.img.isNullOrBlank()) oldUser.img = newUser.img
         }
         dataStore.edit { pref -> pref[dataStoreKey] = authResponse.toJson() }

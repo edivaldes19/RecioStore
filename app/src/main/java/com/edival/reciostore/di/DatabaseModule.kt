@@ -3,8 +3,10 @@ package com.edival.reciostore.di
 import android.app.Application
 import androidx.room.Room
 import com.edival.reciostore.core.Config
+import com.edival.reciostore.data.dataSource.local.dao.AddressDAO
 import com.edival.reciostore.data.dataSource.local.dao.CategoriesDAO
 import com.edival.reciostore.data.dataSource.local.dao.ProductsDAO
+import com.edival.reciostore.data.dataSource.local.dao.ShoppingBagDAO
 import com.edival.reciostore.data.dataSource.local.db.AppDB
 import dagger.Module
 import dagger.Provides
@@ -29,4 +31,12 @@ object DatabaseModule {
     @Provides
     @Singleton
     fun provideProductsDAO(db: AppDB): ProductsDAO = db.productsDao()
+
+    @Provides
+    @Singleton
+    fun provideShoppingBagDAO(db: AppDB): ShoppingBagDAO = db.shoppingBagDAO()
+
+    @Provides
+    @Singleton
+    fun provideAddressDAO(db: AppDB): AddressDAO = db.addressDAO()
 }

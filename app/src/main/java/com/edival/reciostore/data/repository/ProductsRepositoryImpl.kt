@@ -1,5 +1,6 @@
 package com.edival.reciostore.data.repository
 
+import android.util.Log
 import com.edival.reciostore.data.dataSource.local.ProductsLocalDataSource
 import com.edival.reciostore.data.dataSource.remote.ProductsRemoteDataSource
 import com.edival.reciostore.data.mapper.toProduct
@@ -26,12 +27,16 @@ class ProductsRepositoryImpl(
                     ResponseToRequest.send(remoteDS.getProducts()).run {
                         when (this) {
                             is Resource.Success -> {
-                                if (!isListEqual(this.data, productsLocalMap)) {
-                                    localDS.insertAllProducts(this.data.map { product -> product.toProductEntity() })
+                                val productsRemote = this.data
+                                if (!isListEqual(productsRemote, productsLocalMap)) {
+                                    localDS.insertAllProducts(productsRemote.map { product -> product.toProductEntity() })
                                 }
-                                emit(Resource.Success(this.data))
+                                emit(Resource.Success(productsRemote))
+                                Log.d("getProducts", "LOCAL: $productsLocalMap")
+                                Log.d("getProducts", "REMOTE: $productsRemote")
                             }
 
+                            is Resource.Failure -> emit(Resource.Success(productsLocalMap))
                             else -> emit(Resource.Success(productsLocalMap))
                         }
                     }
@@ -50,12 +55,16 @@ class ProductsRepositoryImpl(
                     ResponseToRequest.send(remoteDS.getProductsByCategory(id)).run {
                         when (this) {
                             is Resource.Success -> {
-                                if (!isListEqual(this.data, productsLocalMap)) {
-                                    localDS.insertAllProducts(this.data.map { product -> product.toProductEntity() })
+                                val productsRemote = this.data
+                                if (!isListEqual(productsRemote, productsLocalMap)) {
+                                    localDS.insertAllProducts(productsRemote.map { product -> product.toProductEntity() })
                                 }
-                                emit(Resource.Success(this.data))
+                                emit(Resource.Success(productsRemote))
+                                Log.d("getProductsByCategory", "LOCAL: $productsLocalMap")
+                                Log.d("getProductsByCategory", "REMOTE: $productsRemote")
                             }
 
+                            is Resource.Failure -> emit(Resource.Success(productsLocalMap))
                             else -> emit(Resource.Success(productsLocalMap))
                         }
                     }
@@ -65,6 +74,10 @@ class ProductsRepositoryImpl(
             }
         }
     }.flowOn(Dispatchers.IO)
+
+//    override fun findByName(name: String): Flow<Resource<List<Product>>> = flow {
+//        emit(ResponseToRequest.send(remoteDS.findByName(name)))
+//    }
 
     override suspend fun createProduct(files: List<File>, product: Product): Resource<Product> {
         ResponseToRequest.send(remoteDS.createProduct(files, product)).run {
@@ -89,7 +102,7 @@ class ProductsRepositoryImpl(
                         description = this.data.description.orEmpty(),
                         img1 = this.data.img1.orEmpty(),
                         img2 = this.data.img2.orEmpty(),
-                        price = this.data.price,
+                        price = this.data.price
                     )
                     Resource.Success(this.data)
                 }
@@ -111,7 +124,7 @@ class ProductsRepositoryImpl(
                         description = this.data.description.orEmpty(),
                         img1 = this.data.img1.orEmpty(),
                         img2 = this.data.img2.orEmpty(),
-                        price = this.data.price,
+                        price = this.data.price
                     )
                     Resource.Success(this.data)
                 }

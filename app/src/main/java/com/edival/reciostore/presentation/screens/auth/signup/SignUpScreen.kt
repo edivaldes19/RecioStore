@@ -14,6 +14,6 @@ fun RegisterScreen(navHostController: NavHostController) {
         DefaultTopBar(
             titleRes = R.string.sign_up, upAvailable = true, navHostController = navHostController
         )
-    }) { padding -> SignUpContent(padding = padding) }
-    SignUp(navHostController = navHostController)
+    }) { padding -> SignUpContent(padding) }
+    SignUp(navHostController)
 }

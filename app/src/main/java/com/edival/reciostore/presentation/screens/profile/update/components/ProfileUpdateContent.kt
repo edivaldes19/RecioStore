@@ -139,6 +139,7 @@ fun ProfileUpdateContent(padding: PaddingValues, vm: ProfileUpdateViewModel = hi
                     .fillMaxWidth()
                     .padding(top = dimensionResource(R.dimen.padding_min)),
                     text = R.string.update_profile,
+                    enabled = vm.enabledBtn,
                     onClick = { vm.validateForm(ctx) { isValid -> if (isValid) vm.updateUser() } })
             }
         }

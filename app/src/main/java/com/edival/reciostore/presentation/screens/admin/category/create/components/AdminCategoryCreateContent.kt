@@ -16,9 +16,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.AddCircle
 import androidx.compose.material.icons.outlined.Create
 import androidx.compose.material.icons.outlined.Info
-import androidx.compose.material.icons.outlined.Person
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
@@ -72,7 +72,7 @@ fun AdminCategoryCreateContent(
                 end.linkTo(parent.end)
                 top.linkTo(parent.top)
                 bottom.linkTo(cardInfo.top)
-            }, url = vm.state.img, icon = Icons.Outlined.Person
+            }, url = vm.state.img, icon = Icons.Outlined.AddCircle
         )
         Card(
             modifier = Modifier.constrainAs(cardInfo) {
@@ -114,6 +114,7 @@ fun AdminCategoryCreateContent(
                     .fillMaxWidth()
                     .padding(top = dimensionResource(R.dimen.padding_min)),
                     text = R.string.create_category,
+                    enabled = vm.enabledBtn,
                     onClick = { vm.validateForm(ctx) { isValid -> if (isValid) vm.createCategory() } })
             }
         }

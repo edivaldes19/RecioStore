@@ -17,5 +17,5 @@ fun AdminCategoryUpdateScreen(navHostController: NavHostController) {
             navHostController = navHostController
         )
     }, content = { padding -> AdminCategoryUpdateContent(padding) })
-    UpdateCategory(navHostController)
+    UpdateCategory()
 }

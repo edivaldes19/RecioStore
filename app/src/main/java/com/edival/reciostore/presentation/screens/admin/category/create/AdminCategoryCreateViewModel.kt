@@ -28,11 +28,14 @@ class AdminCategoryCreateViewModel @Inject constructor(private val categoriesUse
         private set
     var categoryResponse by mutableStateOf<Resource<Category>?>(null)
         private set
+    var enabledBtn by mutableStateOf(true)
+        private set
     var errorMessage by mutableStateOf("")
     val resultingActivityHandler = ResultingActivityHandler()
     private var file: File? = null
     fun createCategory(): Job = viewModelScope.launch {
         file?.let { photo ->
+            enabledBtn = false
             categoryResponse = Resource.Loading
             categoriesUseCase.createCategoryUseCase(photo, state.toCategory()).also { result ->
                 categoryResponse = result
@@ -77,7 +80,16 @@ class AdminCategoryCreateViewModel @Inject constructor(private val categoriesUse
                 errorMessage = ctx.getString(R.string.invalid_description)
                 isValid(false)
             }
+
+            else -> isValid(true)
         }
-        isValid(true)
+    }
+
+    fun clearForm(isOnlyForm: Boolean) {
+        if (isOnlyForm) {
+            state = state.copy(name = "", description = "", img = null)
+            categoryResponse = null
+        }
+        enabledBtn = true
     }
 }

@@ -19,6 +19,6 @@ fun AdminProductListContent(
             .fillMaxSize()
             .padding(padding)
     ) {
-        items(items = products) { prod -> AdminProductListItem(navHostController, prod) }
+        items(items = products) { product -> AdminProductListItem(navHostController, product) }
     }
 }

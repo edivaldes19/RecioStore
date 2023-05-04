@@ -19,6 +19,6 @@ fun ClientProductListContent(
             .fillMaxSize()
             .padding(padding)
     ) {
-        items(items = products) { prod -> ClientProductListItem(navHostController, prod) }
+        items(items = products) { product -> ClientProductListItem(navHostController, product) }
     }
 }

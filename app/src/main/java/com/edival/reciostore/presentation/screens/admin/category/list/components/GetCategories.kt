@@ -4,8 +4,10 @@ import android.widget.Toast
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import com.edival.reciostore.R
 import com.edival.reciostore.domain.util.Resource
 import com.edival.reciostore.presentation.components.DefaultProgressBar
 import com.edival.reciostore.presentation.screens.admin.category.list.AdminCategoryListViewModel
@@ -28,6 +30,12 @@ fun GetCategories(
             LocalContext.current, response.message, Toast.LENGTH_SHORT
         ).show()
 
-        else -> {}
+        else -> {
+            response?.let {
+                Toast.makeText(
+                    LocalContext.current, stringResource(R.string.unknown_error), Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
     }
 }

@@ -30,8 +30,10 @@ class AdminProductUpdateViewModel @Inject constructor(
         private set
     var productResponse by mutableStateOf<Resource<Product>?>(null)
         private set
+    var enabledBtn by mutableStateOf(true)
     var errorMessage by mutableStateOf("")
     val resultingActivityHandler = ResultingActivityHandler()
+    private var files: MutableList<File> = mutableListOf()
     private var file1: File? = null
     private var file2: File? = null
     private var idProduct: String? = null
@@ -54,6 +56,7 @@ class AdminProductUpdateViewModel @Inject constructor(
 
     fun updateProduct(): Job = viewModelScope.launch {
         idProduct?.let { id ->
+            enabledBtn = false
             productResponse = Resource.Loading
             productsUseCase.updateProductUseCase(id, state.toProduct()).also { result ->
                 productResponse = result
@@ -63,38 +66,28 @@ class AdminProductUpdateViewModel @Inject constructor(
 
     fun updateProductImages(): Job = viewModelScope.launch {
         idProduct?.let { id ->
-            when {
-                file1 != null && file2 != null -> {
-                    productsUseCase.updateProductImagesUseCase(
-                        listOf(file1!!, file2!!), id, state.toProduct()
-                    ).also { result -> productResponse = result }
-                    state.images_to_update = listOf(0, 1)
-                    file1 = null
-                    file2 = null
+            enabledBtn = false
+            productResponse = Resource.Loading
+            if (file1 == null && file2 == null) {
+                productsUseCase.updateProductUseCase(id, state.toProduct()).also { result ->
+                    productResponse = result
                 }
-
-                file1 != null && file2 == null -> {
-                    productsUseCase.updateProductImagesUseCase(
-                        listOf(file1!!), id, state.toProduct()
-                    ).also { result -> productResponse = result }
-                    state.images_to_update = listOf(0)
-                    file1 = null
+            } else {
+                file1?.let { f1 ->
+                    files.add(f1)
+                    state.images_to_update.add(0)
                 }
-
-                file1 == null && file2 != null -> {
-                    productsUseCase.updateProductImagesUseCase(
-                        listOf(file2!!), id, state.toProduct()
-                    ).also { result -> productResponse = result }
-                    state.images_to_update = listOf(1)
-                    file2 = null
+                file2?.let { f2 ->
+                    files.add(f2)
+                    state.images_to_update.add(1)
                 }
-
-                else -> {
-                    file1 = null
-                    file2 = null
-                    state.images_to_update.toMutableList().clear()
-                }
+                productsUseCase.updateProductImagesUseCase(files.toList(), id, state.toProduct())
+                    .also { result -> productResponse = result }
             }
+            files.clear()
+            file1 = null
+            file2 = null
+            state.images_to_update.clear()
         }
     }
 
@@ -121,20 +114,14 @@ class AdminProductUpdateViewModel @Inject constructor(
             result?.let { bitmap ->
                 when (imageNumber) {
                     1 -> {
-                        state = state.copy(
-                            img1 = ComposeFileProvider.getPathFromBitmap(
-                                ctx, bitmap
-                            )
-                        )
+                        state =
+                            state.copy(img1 = ComposeFileProvider.getPathFromBitmap(ctx, bitmap))
                         file1 = File(state.img1!!)
                     }
 
                     2 -> {
-                        state = state.copy(
-                            img2 = ComposeFileProvider.getPathFromBitmap(
-                                ctx, bitmap
-                            )
-                        )
+                        state =
+                            state.copy(img2 = ComposeFileProvider.getPathFromBitmap(ctx, bitmap))
                         file2 = File(state.img2!!)
                     }
                 }
@@ -151,7 +138,7 @@ class AdminProductUpdateViewModel @Inject constructor(
     }
 
     fun onPriceInput(price: String) {
-        state = state.copy(price = price.toDouble())
+        state = state.copy(price = price.toDoubleOrNull() ?: 0.0)
     }
 
     fun validateForm(ctx: Context, isValid: (Boolean) -> Unit) {
@@ -170,7 +157,8 @@ class AdminProductUpdateViewModel @Inject constructor(
                 errorMessage = ctx.getString(R.string.invalid_price)
                 isValid(false)
             }
+
+            else -> isValid(true)
         }
-        isValid(true)
     }
 }

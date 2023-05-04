@@ -156,6 +156,7 @@ fun AdminProductUpdateContent(
                     .fillMaxWidth()
                     .padding(top = dimensionResource(R.dimen.padding_min)),
                     text = R.string.update_product,
+                    enabled = vm.enabledBtn,
                     onClick = { vm.validateForm(ctx) { isValid -> if (isValid) vm.updateProduct() } })
             }
         }

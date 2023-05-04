@@ -12,7 +12,7 @@ import com.edival.reciostore.domain.model.Category
 import com.edival.reciostore.presentation.components.DefaultTopBar
 import com.edival.reciostore.presentation.navigation.screen.admin.AdminCategoryScreen
 import com.edival.reciostore.presentation.screens.admin.product.list.components.DeleteProduct
-import com.edival.reciostore.presentation.screens.admin.product.list.components.GetProductsByCategory
+import com.edival.reciostore.presentation.screens.admin.product.list.components.GetProductsByCategoryAdmin
 
 @Composable
 fun AdminProductListScreen(navHostController: NavHostController, ctgParam: String) {
@@ -33,6 +33,6 @@ fun AdminProductListScreen(navHostController: NavHostController, ctgParam: Strin
             Icon(imageVector = Icons.Outlined.Add, contentDescription = null)
         }
     }, isFloatingActionButtonDocked = true, floatingActionButtonPosition = FabPosition.Center
-    ) { padding -> GetProductsByCategory(navHostController, padding) }
+    ) { padding -> GetProductsByCategoryAdmin(navHostController, padding) }
     DeleteProduct()
 }

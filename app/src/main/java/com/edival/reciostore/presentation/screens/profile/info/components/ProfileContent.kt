@@ -89,7 +89,10 @@ fun ProfileContent(
                     ProfileInfoItem(
                         title = "${user.name} ${user.surname}", subtitle = R.string.username
                     )
-                    ProfileInfoItem(title = user.email.orEmpty(), subtitle = R.string.email)
+                    ProfileInfoItem(
+                        title = user.email ?: stringResource(R.string.unknown_email),
+                        subtitle = R.string.email
+                    )
                     ProfileInfoItem(
                         title = user.phone ?: stringResource(R.string.unknown_phone),
                         subtitle = R.string.phone

@@ -24,6 +24,12 @@ fun DeleteCategory(vm: AdminCategoryListViewModel = hiltViewModel()) {
             LocalContext.current, response.message, Toast.LENGTH_SHORT
         ).show()
 
-        else -> {}
+        else -> {
+            response?.let {
+                Toast.makeText(
+                    LocalContext.current, stringResource(R.string.unknown_error), Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
     }
 }

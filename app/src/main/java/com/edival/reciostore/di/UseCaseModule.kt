@@ -1,9 +1,16 @@
 package com.edival.reciostore.di
 
+import com.edival.reciostore.domain.repository.AddressRepository
 import com.edival.reciostore.domain.repository.AuthRepository
 import com.edival.reciostore.domain.repository.CategoriesRepository
 import com.edival.reciostore.domain.repository.ProductsRepository
+import com.edival.reciostore.domain.repository.ShoppingBagRepository
 import com.edival.reciostore.domain.repository.UsersRepository
+import com.edival.reciostore.domain.useCase.address.AddressUseCase
+import com.edival.reciostore.domain.useCase.address.CreateAddressUseCase
+import com.edival.reciostore.domain.useCase.address.DeleteAddressUseCase
+import com.edival.reciostore.domain.useCase.address.GetAddressByUserUseCase
+import com.edival.reciostore.domain.useCase.address.UpdateAddressUseCase
 import com.edival.reciostore.domain.useCase.auth.*
 import com.edival.reciostore.domain.useCase.categories.*
 import com.edival.reciostore.domain.useCase.products.CreateProductUseCase
@@ -13,6 +20,11 @@ import com.edival.reciostore.domain.useCase.products.GetProductsUseCase
 import com.edival.reciostore.domain.useCase.products.ProductsUseCase
 import com.edival.reciostore.domain.useCase.products.UpdateProductImagesUseCase
 import com.edival.reciostore.domain.useCase.products.UpdateProductUseCase
+import com.edival.reciostore.domain.useCase.shopping_bag.AddProductBagUseCase
+import com.edival.reciostore.domain.useCase.shopping_bag.DeleteProductBagUseCase
+import com.edival.reciostore.domain.useCase.shopping_bag.GetProductBagByIdUseCase
+import com.edival.reciostore.domain.useCase.shopping_bag.GetProductBagUseCase
+import com.edival.reciostore.domain.useCase.shopping_bag.ShoppingBagUseCase
 import com.edival.reciostore.domain.useCase.users.UpdateUserImageUseCase
 import com.edival.reciostore.domain.useCase.users.UpdateUserUseCase
 import com.edival.reciostore.domain.useCase.users.UsersUseCase
@@ -64,6 +76,26 @@ object UseCaseModule {
             updateProductUseCase = UpdateProductUseCase(productsRepository),
             updateProductImagesUseCase = UpdateProductImagesUseCase(productsRepository),
             deleteProductUseCase = DeleteProductUseCase(productsRepository)
+        )
+    }
+
+    @Provides
+    fun provideShoppingBagUseCase(shoppingBagRepository: ShoppingBagRepository): ShoppingBagUseCase {
+        return ShoppingBagUseCase(
+            getProductsBagUseCase = GetProductBagUseCase(shoppingBagRepository),
+            getProductBagByIdUseCase = GetProductBagByIdUseCase(shoppingBagRepository),
+            addProductBagUseCase = AddProductBagUseCase(shoppingBagRepository),
+            deleteProductBagUseCase = DeleteProductBagUseCase(shoppingBagRepository)
+        )
+    }
+
+    @Provides
+    fun provideAddressUseCase(addressRepository: AddressRepository): AddressUseCase {
+        return AddressUseCase(
+            getAddressByUserUseCase = GetAddressByUserUseCase(addressRepository),
+            createAddressUseCase = CreateAddressUseCase(addressRepository),
+            updateAddressUseCase = UpdateAddressUseCase(addressRepository),
+            deleteAddressUseCase = DeleteAddressUseCase(addressRepository)
         )
     }
 }

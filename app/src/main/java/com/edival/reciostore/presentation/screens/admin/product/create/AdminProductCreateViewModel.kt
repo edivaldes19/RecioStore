@@ -31,6 +31,8 @@ class AdminProductCreateViewModel @Inject constructor(
         private set
     var productResponse by mutableStateOf<Resource<Product>?>(null)
         private set
+    var enabledBtn by mutableStateOf(true)
+        private set
     var errorMessage by mutableStateOf("")
     val resultingActivityHandler = ResultingActivityHandler()
     var categoryName: String? = null
@@ -48,6 +50,7 @@ class AdminProductCreateViewModel @Inject constructor(
 
     fun createProduct(): Job = viewModelScope.launch {
         if (file1 != null && file2 != null) {
+            enabledBtn = false
             productResponse = Resource.Loading
             productsUseCase.createProductUseCase(listOf(file1!!, file2!!), state.toProduct())
                 .also { result -> productResponse = result }
@@ -101,7 +104,7 @@ class AdminProductCreateViewModel @Inject constructor(
     }
 
     fun onPriceInput(price: String) {
-        state = state.copy(price = price.toDouble())
+        state = state.copy(price = price.toDoubleOrNull() ?: 0.0)
     }
 
     fun validateForm(ctx: Context, isValid: (Boolean) -> Unit) {
@@ -120,7 +123,16 @@ class AdminProductCreateViewModel @Inject constructor(
                 errorMessage = ctx.getString(R.string.invalid_price)
                 isValid(false)
             }
+
+            else -> isValid(true)
         }
-        isValid(true)
+    }
+
+    fun clearForm(isOnlyForm: Boolean) {
+        if (isOnlyForm) {
+            state = state.copy(name = "", description = "", price = 0.0, img1 = null, img2 = null)
+            productResponse = null
+        }
+        enabledBtn = true
     }
 }

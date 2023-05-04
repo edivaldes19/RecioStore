@@ -17,5 +17,5 @@ fun AdminProductUpdateScreen(navHostController: NavHostController) {
             navHostController = navHostController
         )
     }) { padding -> AdminProductUpdateContent(padding) }
-    UpdateProduct(navHostController)
+    UpdateProduct()
 }

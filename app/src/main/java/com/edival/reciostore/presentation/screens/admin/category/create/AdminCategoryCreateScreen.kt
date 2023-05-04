@@ -17,5 +17,5 @@ fun AdminCategoryCreateScreen(navHostController: NavHostController) {
             navHostController = navHostController
         )
     }, content = { padding -> AdminCategoryCreateContent(padding) })
-    CreateCategory(navHostController)
+    CreateCategory()
 }

@@ -10,22 +10,18 @@ import com.edival.reciostore.domain.util.ResponseToRequest
 import kotlinx.coroutines.flow.Flow
 
 class AuthRepositoryImpl(
-    private val authRemoteDataSource: AuthRemoteDataSource,
-    private val authLocalDataSource: AuthLocalDataSource
+    private val localDS: AuthLocalDataSource, private val remoteDS: AuthRemoteDataSource
 ) : AuthRepository {
-    override suspend fun signUp(user: User): Resource<AuthResponse> {
-        return ResponseToRequest.send(authRemoteDataSource.signUp(user))
-    }
-
     override suspend fun logIn(email: String, password: String): Resource<AuthResponse> {
-        return ResponseToRequest.send(authRemoteDataSource.logIn(email, password))
+        return ResponseToRequest.send(remoteDS.logIn(email, password))
     }
 
-    override suspend fun saveSession(authResponse: AuthResponse) {
-        authLocalDataSource.saveSession(authResponse)
+    override suspend fun signUp(user: User): Resource<AuthResponse> {
+        return ResponseToRequest.send(remoteDS.signUp(user))
     }
 
-    override suspend fun updateSession(user: User) = authLocalDataSource.updateSession(user)
-    override suspend fun logOut() = authLocalDataSource.logOut()
-    override fun getSession(): Flow<AuthResponse> = authLocalDataSource.getSessionData()
+    override suspend fun saveSession(authResponse: AuthResponse) = localDS.saveSession(authResponse)
+    override suspend fun updateSession(user: User) = localDS.updateSession(user)
+    override suspend fun logOut() = localDS.logOut()
+    override fun getSession(): Flow<AuthResponse> = localDS.getSessionData()
 }

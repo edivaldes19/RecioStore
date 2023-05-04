@@ -23,5 +23,7 @@ fun ClientNavGraph(navHostController: NavHostController) {
         composable(ClientScreen.Profile.route) { ProfileScreen(navHostController) }
         profileNavGraph(navHostController)
         clientCategoryNavGraph(navHostController)
+        clientProductNavGraph(navHostController)
+        shoppingBagNavGraph(navHostController)
     }
 }

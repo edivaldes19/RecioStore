@@ -12,26 +12,24 @@ data class Product(
     val id_category: String? = null,
     val img1: String? = null,
     val img2: String? = null,
-    val images_to_update: List<Int>? = listOf()
+    val images_to_update: List<Int>? = null
 ) {
-    fun toJson(): String {
-        return Gson().toJson(
-            Product(
-                id = id,
-                name = name,
-                description = description,
-                price = price,
-                id_category = id_category,
-                img1 = if (!img1.isNullOrBlank()) URLEncoder.encode(
-                    img1, StandardCharsets.UTF_8.toString()
-                ) else "",
-                img2 = if (!img2.isNullOrBlank()) URLEncoder.encode(
-                    img2, StandardCharsets.UTF_8.toString()
-                ) else "",
-                images_to_update = images_to_update
-            )
+    fun toJson(): String = Gson().toJson(
+        Product(
+            id = id,
+            name = name,
+            description = description,
+            id_category = id_category,
+            img1 = if (!img1.isNullOrBlank()) URLEncoder.encode(
+                img1, StandardCharsets.UTF_8.toString()
+            ) else "",
+            img2 = if (!img2.isNullOrBlank()) URLEncoder.encode(
+                img2, StandardCharsets.UTF_8.toString()
+            ) else "",
+            price = price,
+            images_to_update = images_to_update
         )
-    }
+    )
 
     companion object {
         fun fromJson(data: String): Product = Gson().fromJson(data, Product::class.java)

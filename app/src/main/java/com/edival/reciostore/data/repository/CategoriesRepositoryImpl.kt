@@ -1,5 +1,6 @@
 package com.edival.reciostore.data.repository
 
+import android.util.Log
 import com.edival.reciostore.data.dataSource.local.CategoriesLocalDataSource
 import com.edival.reciostore.data.dataSource.remote.CategoriesRemoteDataSource
 import com.edival.reciostore.data.mapper.toCategory
@@ -16,21 +17,23 @@ import kotlinx.coroutines.flow.flowOn
 import java.io.File
 
 class CategoriesRepositoryImpl(
-    private val categoriesLocalDataSource: CategoriesLocalDataSource,
-    private val categoriesRemoteDataSource: CategoriesRemoteDataSource
+    private val localDS: CategoriesLocalDataSource, private val remoteDS: CategoriesRemoteDataSource
 ) : CategoriesRepository {
     override fun getCategories(): Flow<Resource<List<Category>>> = flow {
-        categoriesLocalDataSource.getCategories().collect { data ->
-            data.run {
+        localDS.getCategories().collect { categoryEntities ->
+            categoryEntities.run {
                 val categoriesLocalMap = this.map { categoryEntity -> categoryEntity.toCategory() }
                 try {
-                    ResponseToRequest.send(categoriesRemoteDataSource.getCategories()).run {
+                    ResponseToRequest.send(remoteDS.getCategories()).run {
                         when (this) {
                             is Resource.Success -> {
-                                if (!isListEqual(this.data, categoriesLocalMap)) {
-                                    categoriesLocalDataSource.insertAllCategories(this.data.map { category -> category.toCategoryEntity() })
+                                val categoriesRemote = this.data
+                                if (!isListEqual(categoriesRemote, categoriesLocalMap)) {
+                                    localDS.insertAllCategories(categoriesRemote.map { category -> category.toCategoryEntity() })
                                 }
-                                emit(Resource.Success(this.data))
+                                emit(Resource.Success(categoriesRemote))
+                                Log.d("getCategories", "LOCAL: $categoriesLocalMap")
+                                Log.d("getCategories", "REMOTE: $categoriesRemote")
                             }
 
                             is Resource.Failure -> emit(Resource.Success(categoriesLocalMap))
@@ -45,10 +48,10 @@ class CategoriesRepositoryImpl(
     }.flowOn(Dispatchers.IO)
 
     override suspend fun createCategory(file: File, category: Category): Resource<Category> {
-        ResponseToRequest.send(categoriesRemoteDataSource.createCategory(file, category)).run {
+        ResponseToRequest.send(remoteDS.createCategory(file, category)).run {
             return when (this) {
                 is Resource.Success -> {
-                    categoriesLocalDataSource.insertCategory(this.data.toCategoryEntity())
+                    localDS.insertCategory(this.data.toCategoryEntity())
                     Resource.Success(this.data)
                 }
 
@@ -58,11 +61,11 @@ class CategoriesRepositoryImpl(
     }
 
     override suspend fun updateCategory(id: String, category: Category): Resource<Category> {
-        ResponseToRequest.send(categoriesRemoteDataSource.updateCategory(id, category)).run {
+        ResponseToRequest.send(remoteDS.updateCategory(id, category)).run {
             return when (this) {
                 is Resource.Success -> {
-                    categoriesLocalDataSource.updateCategory(
-                        id = this.data.id.orEmpty(),
+                    localDS.updateCategory(
+                        id = this.data.id ?: "",
                         name = this.data.name.orEmpty(),
                         description = this.data.description.orEmpty(),
                         img = this.data.img.orEmpty()
@@ -76,11 +79,11 @@ class CategoriesRepositoryImpl(
     }
 
     override suspend fun updateCategoryImage(id: String, file: File): Resource<Category> {
-        ResponseToRequest.send(categoriesRemoteDataSource.updateCategoryImage(id, file)).run {
+        ResponseToRequest.send(remoteDS.updateCategoryImage(id, file)).run {
             return when (this) {
                 is Resource.Success -> {
-                    categoriesLocalDataSource.updateCategory(
-                        id = this.data.id.orEmpty(),
+                    localDS.updateCategory(
+                        id = this.data.id ?: "",
                         name = this.data.name.orEmpty(),
                         description = this.data.description.orEmpty(),
                         img = this.data.img.orEmpty()
@@ -94,10 +97,10 @@ class CategoriesRepositoryImpl(
     }
 
     override suspend fun deleteCategory(id: String): Resource<Unit> {
-        ResponseToRequest.send(categoriesRemoteDataSource.deleteCategory(id)).run {
+        ResponseToRequest.send(remoteDS.deleteCategory(id)).run {
             return when (this) {
                 is Resource.Success -> {
-                    categoriesLocalDataSource.deleteCategory(id)
+                    localDS.deleteCategory(id)
                     Resource.Success(Unit)
                 }
 

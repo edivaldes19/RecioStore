@@ -21,7 +21,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Create
 import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.Info
-import androidx.compose.material.icons.outlined.Person
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
@@ -75,7 +74,7 @@ fun AdminCategoryUpdateContent(
                 end.linkTo(btnUpdatePhoto.start)
                 top.linkTo(parent.top)
                 bottom.linkTo(cardInfo.top)
-            }, url = vm.state.img, icon = Icons.Outlined.Person
+            }, url = vm.state.img, icon = Icons.Outlined.Info
         )
         FloatingActionButton(modifier = Modifier.constrainAs(btnUpdatePhoto) {
             start.linkTo(imgCategory.end)
@@ -125,6 +124,7 @@ fun AdminCategoryUpdateContent(
                     .fillMaxWidth()
                     .padding(top = dimensionResource(R.dimen.padding_min)),
                     text = R.string.update_category,
+                    enabled = vm.enabledBtn,
                     onClick = { vm.validateForm(ctx) { isValid -> if (isValid) vm.updateCategory() } })
             }
         }

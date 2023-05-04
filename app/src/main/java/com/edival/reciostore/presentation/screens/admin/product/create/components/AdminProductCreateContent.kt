@@ -153,6 +153,7 @@ fun AdminProductCreateContent(
                     .fillMaxWidth()
                     .padding(top = dimensionResource(R.dimen.padding_min)),
                     text = R.string.create_product,
+                    enabled = vm.enabledBtn,
                     onClick = { vm.validateForm(ctx) { isValid -> if (isValid) vm.createProduct() } })
             }
         }

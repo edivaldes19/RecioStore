@@ -17,5 +17,5 @@ fun AdminProductCreateScreen(navHostController: NavHostController) {
             navHostController = navHostController
         )
     }) { padding -> AdminProductCreateContent(padding) }
-    CreateProduct(navHostController)
+    CreateProduct()
 }

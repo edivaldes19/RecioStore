@@ -54,4 +54,24 @@
     <string name="update_product">Actualizar producto</string>
     <string name="product_updated_successfully">Producto actualizado exitosamente.</string>
     <string name="product_deleted_successfully">Producto eliminado exitosamente.</string>
+    <string name="your_order">Tu orden</string>
+    <string name="quantity_value">Cantidad: %1$d</string>
+    <string name="price_cu_value">Precio c/u: %1$.2f</string>
+    <string name="add">Agregar</string>
+    <string name="my_order">Mi orden</string>
+    <string name="confirm_order">Confirmar orden</string>
+    <string name="unknown_email">Correo electrónico desconocido</string>
+    <string name="my_addresses">Mis direcciones</string>
+    <string name="continue_src">Continuar</string>
+    <string name="address_created_successfully">Dirección creada exitosamente.</string>
+    <string name="new_address">Crear dirección</string>
+    <string name="invalid_neighborhood">El barrio debe ser mayor o igual a 5 caracteres.</string>
+    <string name="invalid_address">La dirección debe ser mayor o igual a 5 caracteres.</string>
+    <string name="address">Dirección</string>
+    <string name="neighborhood">Barrio / Colonia</string>
+    <string name="unknown_address">Dirección desconocida</string>
+    <string name="unknown_neighborhood">Barrio / Colonia desconocido(a)</string>
+    <string name="address_deleted_successfully">Dirección eliminada exitosamente.</string>
+    <string name="address_updated_successfully">Dirección actualizada exitosamente.</string>
+    <string name="update_address">Actualizar dirección</string>
 </resources>

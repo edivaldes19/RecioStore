@@ -13,23 +13,25 @@ data class User(
     val password: String? = null,
     var img: String? = null,
     val notification_token: String? = null,
-    val roles: List<Rol> = listOf()
+    val roles: List<Rol>? = null,
+    var address: Address? = null
 ) {
-    fun toJson(): String {
-        return Gson().toJson(
-            User(id = id,
-                name = name,
-                surname = surname,
-                phone = phone,
-                email = email,
-                password = password,
-                img = if (!img.isNullOrBlank()) URLEncoder.encode(
-                    img, StandardCharsets.UTF_8.toString()
-                ) else "",
-                notification_token = notification_token,
-                roles.map { rol -> Rol.fromJson(rol.toJson()) })
+    fun toJson(): String = Gson().toJson(
+        User(
+            id = id,
+            name = name,
+            surname = surname,
+            phone = phone,
+            email = email,
+            password = password,
+            img = if (!img.isNullOrBlank()) URLEncoder.encode(
+                img, StandardCharsets.UTF_8.toString()
+            ) else "",
+            notification_token = notification_token,
+            roles = roles?.map { rol -> Rol.fromJson(rol.toJson()) },
+            address = address
         )
-    }
+    )
 
     companion object {
         fun fromJson(data: String): User = Gson().fromJson(data, User::class.java)

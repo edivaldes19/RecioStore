@@ -27,10 +27,7 @@ fun ClientCategoryListItem(navHostController: NavHostController, category: Categ
             .padding(all = dimensionResource(R.dimen.padding_default))
             .clickable {
                 navHostController.navigate(ClientCategoryScreen.ProductList.passCategory(category.toJson()))
-            }, shape = RoundedCornerShape(
-            topStart = dimensionResource(R.dimen.padding_default),
-            topEnd = dimensionResource(R.dimen.padding_default)
-        )
+            }, shape = RoundedCornerShape(dimensionResource(R.dimen.padding_default))
     ) {
         Column {
             category.img?.let { url ->

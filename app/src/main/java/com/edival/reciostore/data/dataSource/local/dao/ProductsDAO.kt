@@ -12,7 +12,7 @@ interface ProductsDAO {
     @Query("SELECT * FROM products")
     fun getProducts(): Flow<List<ProductEntity>>
 
-    @Query("SELECT * FROM products WHERE id_category = :id_category ")
+    @Query("SELECT * FROM products WHERE id_category = :id_category")
     fun getProductsByCategory(id_category: String): Flow<List<ProductEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

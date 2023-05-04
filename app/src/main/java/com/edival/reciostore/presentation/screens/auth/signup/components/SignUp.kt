@@ -6,6 +6,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import com.edival.reciostore.R
 import com.edival.reciostore.domain.util.Resource
 import com.edival.reciostore.presentation.components.DefaultProgressBar
 import com.edival.reciostore.presentation.navigation.Graph
@@ -18,7 +19,7 @@ fun SignUp(navHostController: NavHostController, vm: SignUpViewModel = hiltViewM
         is Resource.Success -> {
             LaunchedEffect(Unit) {
                 vm.saveSession(response.data)
-                navHostController.navigate(Graph.CLIENT) {
+                navHostController.navigate(route = Graph.CLIENT) {
                     popUpTo(Graph.AUTH) { inclusive = true }
                 }
             }
@@ -28,6 +29,11 @@ fun SignUp(navHostController: NavHostController, vm: SignUpViewModel = hiltViewM
             LocalContext.current, response.message, Toast.LENGTH_SHORT
         ).show()
 
-        else -> {}
+        else -> {
+            response?.let {
+                Toast.makeText(LocalContext.current, R.string.unknown_error, Toast.LENGTH_SHORT)
+                    .show()
+            }
+        }
     }
 }

@@ -8,10 +8,10 @@ fun ProductEntity.toProduct(): Product {
         id = id,
         name = name,
         description = description,
-        price = price,
-        id_category = id_category,
         img1 = img1,
         img2 = img2,
+        price = price,
+        id_category = id_category,
         images_to_update = null
     )
 }
@@ -21,9 +21,9 @@ fun Product.toProductEntity(): ProductEntity {
         id = id.orEmpty(),
         name = name.orEmpty(),
         description = description.orEmpty(),
-        price = price,
-        id_category = id_category.orEmpty(),
         img1 = img1.orEmpty(),
-        img2 = img2.orEmpty()
+        img2 = img2.orEmpty(),
+        price = price,
+        id_category = id_category.orEmpty()
     )
 }
