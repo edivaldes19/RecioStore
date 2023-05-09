@@ -29,9 +29,7 @@ fun NavGraphBuilder.clientCategoryNavGraph(navHostController: NavHostController)
             route = ClientCategoryScreen.ProductDetail.route,
             arguments = listOf(navArgument("product") { type = NavType.StringType })
         ) { entry ->
-            entry.arguments?.getString("product")?.let {
-                ClientProductDetailScreen(navHostController)
-            }
+            entry.arguments?.getString("product")?.let { ClientProductDetailScreen() }
         }
     }
 }

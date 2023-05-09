@@ -7,5 +7,5 @@ import com.edival.reciostore.presentation.screens.profile.info.components.Profil
 
 @Composable
 fun ProfileScreen(navHostController: NavHostController) {
-    Scaffold(content = { padding -> ProfileContent(padding, navHostController) })
+    Scaffold { padding -> ProfileContent(padding, navHostController) }
 }

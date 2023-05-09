@@ -19,7 +19,7 @@ fun SignUp(navHostController: NavHostController, vm: SignUpViewModel = hiltViewM
         is Resource.Success -> {
             LaunchedEffect(Unit) {
                 vm.saveSession(response.data)
-                navHostController.navigate(route = Graph.CLIENT) {
+                navHostController.navigate(Graph.CLIENT) {
                     popUpTo(Graph.AUTH) { inclusive = true }
                 }
             }

@@ -13,7 +13,7 @@ data class User(
     val password: String? = null,
     var img: String? = null,
     val notification_token: String? = null,
-    val roles: List<Rol>? = null,
+    val roles: List<Role>? = null,
     var address: Address? = null
 ) {
     fun toJson(): String = Gson().toJson(
@@ -28,7 +28,7 @@ data class User(
                 img, StandardCharsets.UTF_8.toString()
             ) else "",
             notification_token = notification_token,
-            roles = roles?.map { rol -> Rol.fromJson(rol.toJson()) },
+            roles = roles?.map { rol -> Role.fromJson(rol.toJson()) },
             address = address
         )
     )

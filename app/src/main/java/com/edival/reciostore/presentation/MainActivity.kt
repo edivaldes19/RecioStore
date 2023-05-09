@@ -20,7 +20,7 @@ class MainActivity : ComponentActivity() {
             RecioStoreTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.background
-                ) { RootNavGraph(navHostController = rememberNavController()) }
+                ) { RootNavGraph(rememberNavController()) }
             }
         }
     }

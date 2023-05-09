@@ -14,6 +14,9 @@ interface ProductsService {
     @GET("${Config.PRODUCTS_URL}/getProductsByCategory/{id_category}")
     suspend fun getProductsByCategory(@Path("id_category") id: String): Response<List<Product>>
 
+    @GET("${Config.PRODUCTS_URL}/getProductsByName/{name}")
+    suspend fun getProductsByName(@Path("name") name: String): Response<List<Product>>
+
     @Multipart
     @POST("${Config.PRODUCTS_URL}/createProduct")
     suspend fun createProduct(

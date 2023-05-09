@@ -21,7 +21,7 @@
     <string name="unknown_error">Ocurrió un error desconocido.</string>
     <string name="admin">Administrador</string>
     <string name="client">Cliente</string>
-    <string name="select_a_role">Selecciona un rol</string>
+    <string name="select_a_role">Selecciona un role</string>
     <string name="categories">Categorías</string>
     <string name="products">Productos</string>
     <string name="profile">Perfil</string>
@@ -74,4 +74,22 @@
     <string name="address_deleted_successfully">Dirección eliminada exitosamente.</string>
     <string name="address_updated_successfully">Dirección actualizada exitosamente.</string>
     <string name="update_address">Actualizar dirección</string>
+    <string name="orders_src">Pedidos</string>
+    <string name="order_value">Pedido #%1$s</string>
+    <string name="date_value">Fecha: %1$s</string>
+    <string name="client_value">Cliente: %1$s</string>
+    <string name="deliver_to_value">Entregar en: %1$s</string>
+    <string name="status_value">Estado: %1$s</string>
+    <string name="order_detail">Detalle de la orden</string>
+    <string name="order_updated_successfully">Orden actualizada exitosamente.</string>
+    <string name="order_number_src">Número de pedido</string>
+    <string name="order_date_src">Fecha del pedido</string>
+    <string name="customer_and_phone_number">Cliente y número de teléfono</string>
+    <string name="delivery_address_src">Dirección de entrega</string>
+    <string name="deliver_order">Entregar pedido</string>
+    <string name="look_for">Buscar…</string>
+    <string name="no_products">Sin productos…</string>
+    <string name="product_to_sb">Producto agregado/actualizado en la bolsa de compras.</string>
+    <string name="current_role">Rol actual</string>
+    <string name="order_created_successfully">Orden creada exitosamente.</string>
 </resources>

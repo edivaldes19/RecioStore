@@ -13,27 +13,30 @@ import com.edival.reciostore.presentation.navigation.Graph
 import com.edival.reciostore.presentation.screens.auth.login.LoginViewModel
 
 @Composable
-fun Login(navHostController: NavHostController, vm: LoginViewModel = hiltViewModel()) {
+fun Login(navController: NavHostController, vm: LoginViewModel = hiltViewModel()) {
     when (val response = vm.logInResponse) {
         Resource.Loading -> DefaultProgressBar()
         is Resource.Success -> {
             LaunchedEffect(Unit) {
                 vm.saveSession(response.data)
-                if (response.data.user?.roles!!.size > 1) {
-                    navHostController.navigate(route = Graph.ROLES) {
-                        popUpTo(Graph.AUTH) { inclusive = true }
-                    }
-                } else {
-                    navHostController.navigate(route = Graph.CLIENT) {
-                        popUpTo(Graph.AUTH) { inclusive = true }
+                response.data.user?.roles?.let { roles ->
+                    if (roles.size > 1) {
+                        navController.navigate(Graph.ROLES) {
+                            popUpTo(Graph.AUTH) { inclusive = true }
+                        }
+                    } else {
+                        roles.first().name?.let { roleName -> vm.saveRoleName(roleName) }
+                        navController.navigate(Graph.CLIENT) {
+                            popUpTo(Graph.AUTH) { inclusive = true }
+                        }
                     }
                 }
             }
         }
 
-        is Resource.Failure -> {
-            Toast.makeText(LocalContext.current, response.message, Toast.LENGTH_SHORT).show()
-        }
+        is Resource.Failure -> Toast.makeText(
+            LocalContext.current, response.message, Toast.LENGTH_SHORT
+        ).show()
 
         else -> {
             response?.let {

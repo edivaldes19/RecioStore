@@ -22,7 +22,7 @@
     <string name="unknown_error">An unknown error occurred.</string>
     <string name="admin">Administrator</string>
     <string name="client">Client</string>
-    <string name="rol" translatable="false">Rol</string>
+    <string name="role" translatable="false">Rol</string>
     <string name="select_a_role">Select a role</string>
     <string name="categories">Categories</string>
     <string name="products">Products</string>
@@ -77,4 +77,23 @@
     <string name="address_deleted_successfully">Address deleted successfully.</string>
     <string name="address_updated_successfully">Address updated successfully</string>
     <string name="update_address">Update address</string>
+    <string name="orders_src">Orders</string>
+    <string name="order_value">Order #%1$s</string>
+    <string name="date_value">Date: %1$s</string>
+    <string name="client_value">Client: %1$s</string>
+    <string name="deliver_to_value">Deliver to: %1$s</string>
+    <string name="status_value">Status: %1$s</string>
+    <string name="order_detail">Order detail</string>
+    <string name="order_updated_successfully">Order updated successfully.</string>
+    <string name="order_number_src">Order number</string>
+    <string name="order_date_src">Order date</string>
+    <string name="customer_and_phone_number">Customer and phone number</string>
+    <string name="delivery_address_src">Delivery address</string>
+    <string name="total_value" translatable="false">Total: $%1$.2f</string>
+    <string name="deliver_order">Deliver order</string>
+    <string name="look_for">Look for…</string>
+    <string name="no_products">No products…</string>
+    <string name="product_to_sb">Product added/updated in the shopping bag.</string>
+    <string name="current_role">Current role</string>
+    <string name="order_created_successfully">Order created successfully</string>
 </resources>

@@ -11,7 +11,7 @@ import com.edival.reciostore.presentation.screens.admin.home.components.AdminBot
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun AdminHomeScreen(navHostController: NavHostController = rememberNavController()) {
-    Scaffold(bottomBar = { AdminBottomBar(navHostController = navHostController) }) {
-        AdminNavGraph(navHostController = navHostController)
+    Scaffold(bottomBar = { AdminBottomBar(navHostController) }) {
+        AdminNavGraph(navHostController)
     }
 }

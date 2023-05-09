@@ -7,6 +7,7 @@ import java.io.File
 interface ProductsRemoteDataSource {
     suspend fun getProducts(): Response<List<Product>>
     suspend fun getProductsByCategory(id: String): Response<List<Product>>
+    suspend fun getProductsByName(name: String): Response<List<Product>>
     suspend fun createProduct(files: List<File>, product: Product): Response<Product>
     suspend fun updateProduct(id: String, product: Product): Response<Product>
     suspend fun updateProductImages(

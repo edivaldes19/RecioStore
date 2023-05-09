@@ -11,42 +11,48 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.edival.reciostore.R
-import com.edival.reciostore.domain.model.Rol
+import com.edival.reciostore.domain.model.Role
 import com.edival.reciostore.presentation.navigation.Graph
+import com.edival.reciostore.presentation.screens.roles.RolesViewModel
 import com.edival.reciostore.presentation.util.ShowImage
 
 @Composable
-fun RolesItem(navHostController: NavHostController, rol: Rol) {
+fun RolesItem(
+    navHostController: NavHostController, role: Role, vm: RolesViewModel = hiltViewModel()
+) {
     ConstraintLayout(modifier = Modifier.clickable {
-        rol.route?.let { route ->
+        role.route?.let { route ->
+            role.name?.let { roleName -> vm.saveRoleName(roleName) }
             navHostController.navigate(route) {
-                popUpTo(route = Graph.ROLES) { inclusive = true }
+                popUpTo(Graph.ROLES) { inclusive = true }
             }
         }
     }) {
-        val (imgRol, textRol) = createRefs()
+        val (imgRole, textRole) = createRefs()
         ShowImage(
             modifier = Modifier
                 .height(dimensionResource(R.dimen.icon_big_size))
                 .width(dimensionResource(R.dimen.icon_big_size))
-                .constrainAs(imgRol) {
+                .constrainAs(imgRole) {
                     start.linkTo(parent.start)
                     end.linkTo(parent.end)
                     top.linkTo(parent.top)
-                    bottom.linkTo(textRol.top)
-                }, url = rol.img, icon = Icons.Outlined.Info
+                    bottom.linkTo(textRole.top, margin = 8.dp)
+                }, url = role.img, icon = Icons.Outlined.Info
         )
         Text(
-            modifier = Modifier.constrainAs(textRol) {
+            modifier = Modifier.constrainAs(textRole) {
                 start.linkTo(parent.start)
                 end.linkTo(parent.end)
-                top.linkTo(imgRol.bottom)
+                top.linkTo(imgRole.bottom, margin = 8.dp)
                 bottom.linkTo(parent.bottom)
             },
-            text = rol.name?.uppercase() ?: stringResource(R.string.unknown_name),
+            text = role.name?.uppercase() ?: stringResource(R.string.unknown),
             style = MaterialTheme.typography.h4
         )
     }

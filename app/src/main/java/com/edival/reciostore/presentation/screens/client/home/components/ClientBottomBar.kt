@@ -9,7 +9,12 @@ import com.edival.reciostore.presentation.navigation.screen.client.ClientScreen
 
 @Composable
 fun ClientBottomBar(navHostController: NavHostController) {
-    val screens = listOf(ClientScreen.ProductList, ClientScreen.CategoryList, ClientScreen.Profile)
+    val screens = listOf(
+        ClientScreen.ProductList,
+        ClientScreen.CategoryList,
+        ClientScreen.OrderList,
+        ClientScreen.Profile
+    )
     val navBackEntry by navHostController.currentBackStackEntryAsState()
     val currentDestination = navBackEntry?.destination
     val bottomBarDestination = screens.any { screen -> screen.route == currentDestination?.route }

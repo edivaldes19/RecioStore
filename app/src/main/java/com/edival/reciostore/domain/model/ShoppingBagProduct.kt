@@ -12,18 +12,20 @@ data class ShoppingBagProduct(
     val price: Double = 0.0,
     var quantity: Int = 1
 ) {
-    fun toJson(): String = Gson().toJson(
-        ShoppingBagProduct(
-            id = id,
-            name = name,
-            id_category = id_category,
-            img = if (img.isNotBlank()) URLEncoder.encode(
-                img, StandardCharsets.UTF_8.toString()
-            ) else "",
-            price = price,
-            quantity = quantity
+    fun toJson(): String {
+        return Gson().toJson(
+            ShoppingBagProduct(
+                id = id,
+                name = name,
+                id_category = id_category,
+                img = if (img.isNotBlank()) URLEncoder.encode(
+                    img, StandardCharsets.UTF_8.toString()
+                ) else "",
+                price = price,
+                quantity = quantity
+            )
         )
-    )
+    }
 
     companion object {
         fun fromJson(data: String): ShoppingBagProduct =

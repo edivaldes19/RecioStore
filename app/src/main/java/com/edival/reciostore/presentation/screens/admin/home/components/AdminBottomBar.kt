@@ -9,7 +9,7 @@ import com.edival.reciostore.presentation.navigation.screen.admin.AdminScreen
 
 @Composable
 fun AdminBottomBar(navHostController: NavHostController) {
-    val screens = listOf(AdminScreen.CategoryList, AdminScreen.Profile)
+    val screens = listOf(AdminScreen.CategoryList, AdminScreen.OrderList, AdminScreen.Profile)
     val navBackEntry by navHostController.currentBackStackEntryAsState()
     val currentDestination = navBackEntry?.destination
     val bottomBarDestination = screens.any { screen -> screen.route == currentDestination?.route }

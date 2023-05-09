@@ -75,9 +75,9 @@ class ProductsRepositoryImpl(
         }
     }.flowOn(Dispatchers.IO)
 
-//    override fun findByName(name: String): Flow<Resource<List<Product>>> = flow {
-//        emit(ResponseToRequest.send(remoteDS.findByName(name)))
-//    }
+    override fun getProductsByName(name: String): Flow<Resource<List<Product>>> = flow {
+        emit(ResponseToRequest.send(remoteDS.getProductsByName(name)))
+    }
 
     override suspend fun createProduct(files: List<File>, product: Product): Resource<Product> {
         ResponseToRequest.send(remoteDS.createProduct(files, product)).run {

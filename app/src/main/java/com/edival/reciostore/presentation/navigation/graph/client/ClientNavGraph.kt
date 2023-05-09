@@ -8,6 +8,7 @@ import com.edival.reciostore.presentation.navigation.Graph
 import com.edival.reciostore.presentation.navigation.graph.profile.profileNavGraph
 import com.edival.reciostore.presentation.navigation.screen.client.ClientScreen
 import com.edival.reciostore.presentation.screens.client.category.list.ClientCategoryListScreen
+import com.edival.reciostore.presentation.screens.client.order.list.ClientOrderListScreen
 import com.edival.reciostore.presentation.screens.client.product.list.ClientProductListScreen
 import com.edival.reciostore.presentation.screens.profile.info.ProfileScreen
 
@@ -20,10 +21,12 @@ fun ClientNavGraph(navHostController: NavHostController) {
     ) {
         composable(ClientScreen.ProductList.route) { ClientProductListScreen(navHostController) }
         composable(ClientScreen.CategoryList.route) { ClientCategoryListScreen(navHostController) }
+        composable(ClientScreen.OrderList.route) { ClientOrderListScreen(navHostController) }
         composable(ClientScreen.Profile.route) { ProfileScreen(navHostController) }
         profileNavGraph(navHostController)
         clientCategoryNavGraph(navHostController)
-        clientProductNavGraph(navHostController)
+        clientProductNavGraph()
         shoppingBagNavGraph(navHostController)
+        clientOrderNavGraph(navHostController)
     }
 }

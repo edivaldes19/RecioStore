@@ -5,6 +5,7 @@ import com.edival.reciostore.data.dataSource.local.dataStore.AuthDataStore
 import com.edival.reciostore.data.dataSource.remote.service.AddressService
 import com.edival.reciostore.data.dataSource.remote.service.AuthService
 import com.edival.reciostore.data.dataSource.remote.service.CategoriesService
+import com.edival.reciostore.data.dataSource.remote.service.OrdersService
 import com.edival.reciostore.data.dataSource.remote.service.ProductsService
 import com.edival.reciostore.data.dataSource.remote.service.UsersService
 import dagger.Module
@@ -67,5 +68,11 @@ object NetworkModule {
     @Singleton
     fun provideAddressService(retrofit: Retrofit): AddressService {
         return retrofit.create(AddressService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideOrdersService(retrofit: Retrofit): OrdersService {
+        return retrofit.create(OrdersService::class.java)
     }
 }

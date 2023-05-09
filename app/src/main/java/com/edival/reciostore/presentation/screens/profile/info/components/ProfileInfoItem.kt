@@ -4,12 +4,12 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Divider
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.edival.reciostore.R
 
@@ -26,7 +26,7 @@ fun ProfileInfoItem(title: String, @StringRes subtitle: Int) {
                     end.linkTo(parent.end)
                     top.linkTo(parent.top)
                     bottom.linkTo(subtitleRef.top)
-                }, text = title, style = MaterialTheme.typography.subtitle1
+                }, text = title, fontWeight = FontWeight.Bold
         )
         Text(
             modifier = Modifier
@@ -37,7 +37,7 @@ fun ProfileInfoItem(title: String, @StringRes subtitle: Int) {
                     end.linkTo(parent.end)
                     top.linkTo(titleRef.bottom)
                     bottom.linkTo(parent.bottom)
-                }, text = stringResource(subtitle), style = MaterialTheme.typography.subtitle2
+                }, text = stringResource(subtitle)
         )
         Divider(modifier = Modifier.constrainAs(dividerRef) {
             start.linkTo(parent.start)

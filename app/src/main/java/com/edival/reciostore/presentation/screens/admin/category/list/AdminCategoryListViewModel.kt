@@ -22,13 +22,11 @@ class AdminCategoryListViewModel @Inject constructor(private val categoriesUseCa
         private set
 
     init {
-        getCategories()
-    }
-
-    fun getCategories(): Job = viewModelScope.launch {
-        categoriesResponse = Resource.Loading
-        categoriesUseCase.getCategoriesUseCase().collect { data ->
-            categoriesResponse = data
+        viewModelScope.launch {
+            categoriesResponse = Resource.Loading
+            categoriesUseCase.getCategoriesUseCase().collect { data ->
+                categoriesResponse = data
+            }
         }
     }
 

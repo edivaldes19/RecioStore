@@ -20,8 +20,10 @@ class AuthRepositoryImpl(
         return ResponseToRequest.send(remoteDS.signUp(user))
     }
 
-    override suspend fun saveSession(authResponse: AuthResponse) = localDS.saveSession(authResponse)
-    override suspend fun updateSession(user: User) = localDS.updateSession(user)
+    override suspend fun saveUser(authResponse: AuthResponse) = localDS.saveUser(authResponse)
+    override suspend fun saveRoleName(name: String) = localDS.saveRoleName(name)
+    override suspend fun updateUser(user: User) = localDS.updateUser(user)
     override suspend fun logOut() = localDS.logOut()
-    override fun getSession(): Flow<AuthResponse> = localDS.getSessionData()
+    override fun getUser(): Flow<AuthResponse> = localDS.getUser()
+    override fun getRoleName(): Flow<String?> = localDS.getRoleName()
 }

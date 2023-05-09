@@ -6,9 +6,12 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.edival.reciostore.domain.model.Address
+import com.edival.reciostore.domain.model.Order
 import com.edival.reciostore.domain.model.User
 import com.edival.reciostore.domain.useCase.address.AddressUseCase
 import com.edival.reciostore.domain.useCase.auth.AuthUseCase
+import com.edival.reciostore.domain.useCase.orders.OrdersUseCase
+import com.edival.reciostore.domain.useCase.shopping_bag.ShoppingBagUseCase
 import com.edival.reciostore.domain.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
@@ -18,24 +21,48 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ClientAddressListViewModel @Inject constructor(
-    private val addressUseCase: AddressUseCase, private val authUseCase: AuthUseCase
+    private val addressUseCase: AddressUseCase,
+    private val authUseCase: AuthUseCase,
+    private val ordersUseCase: OrdersUseCase,
+    private val shoppingBagUseCase: ShoppingBagUseCase
 ) : ViewModel() {
     var addressResponse by mutableStateOf<Resource<List<Address>>?>(null)
         private set
     var deleteAddressResponse by mutableStateOf<Resource<Unit>?>(null)
         private set
+    var orderResponse by mutableStateOf<Resource<Order>?>(null)
+        private set
     var selectedAddress by mutableStateOf("")
         private set
-    private var user: User? = null
-    fun getSessionData(): Job = viewModelScope.launch {
-        user = authUseCase.getSessionDataUseCase().first().user
-        user?.let { u ->
-            if (!u.id.isNullOrBlank() && u.address != null) {
-                addressResponse = Resource.Loading
-                addressUseCase.getAddressByUserUseCase(u.id).collect { result ->
-                    addressResponse = result
-                    selectedAddress = u.address!!.id.orEmpty()
+    var user by mutableStateOf<User?>(null)
+        private set
+
+    init {
+        viewModelScope.launch {
+            authUseCase.getSessionDataUseCase().first().also { data ->
+                if (!data.token.isNullOrBlank()) {
+                    user = data.user
+                    if (user != null && !user!!.id.isNullOrBlank()) {
+                        addressResponse = Resource.Loading
+                        addressUseCase.getAddressByUserUseCase(user!!.id!!).collect { result ->
+                            addressResponse = result
+                            selectedAddress = user!!.address?.id.orEmpty()
+                        }
+                    }
                 }
+            }
+        }
+    }
+
+    fun createOrder(): Job = viewModelScope.launch {
+        if (user != null && !user!!.id.isNullOrBlank()) {
+            shoppingBagUseCase.getProductsBagUseCase().first().also { sbProducts ->
+                val order = Order(
+                    id_client = user!!.id,
+                    id_address = user!!.address?.id.orEmpty(),
+                    products = sbProducts
+                )
+                ordersUseCase.createOrderUseCase(order).also { result -> orderResponse = result }
             }
         }
     }
@@ -55,5 +82,9 @@ class ClientAddressListViewModel @Inject constructor(
                 deleteAddressResponse = result
             }
         }
+    }
+
+    fun emptyShoppingBag(): Job = viewModelScope.launch {
+        shoppingBagUseCase.emptyShoppingBagUseCase()
     }
 }

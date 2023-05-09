@@ -4,6 +4,7 @@ import com.edival.reciostore.data.dataSource.remote.*
 import com.edival.reciostore.data.dataSource.remote.service.AddressService
 import com.edival.reciostore.data.dataSource.remote.service.AuthService
 import com.edival.reciostore.data.dataSource.remote.service.CategoriesService
+import com.edival.reciostore.data.dataSource.remote.service.OrdersService
 import com.edival.reciostore.data.dataSource.remote.service.ProductsService
 import com.edival.reciostore.data.dataSource.remote.service.UsersService
 import dagger.Module
@@ -37,5 +38,10 @@ object RemoteDataModule {
     @Provides
     fun provideAddressRemoteDataSource(addressService: AddressService): AddressRemoteDataSource {
         return AddressRemoteDataSourceImpl(addressService)
+    }
+
+    @Provides
+    fun provideOrdersRemoteDataSource(ordersService: OrdersService): OrdersRemoteDataSource {
+        return OrdersRemoteDataSourceImpl(ordersService)
     }
 }

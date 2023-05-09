@@ -3,7 +3,6 @@ package com.edival.reciostore.presentation.screens.admin.product.create.componen
 import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.edival.reciostore.R
 import com.edival.reciostore.domain.util.Resource
@@ -17,9 +16,7 @@ fun CreateProduct(vm: AdminProductCreateViewModel = hiltViewModel()) {
         is Resource.Success -> {
             vm.clearForm(true)
             Toast.makeText(
-                LocalContext.current,
-                stringResource(R.string.product_created_successfully),
-                Toast.LENGTH_SHORT
+                LocalContext.current, R.string.product_created_successfully, Toast.LENGTH_SHORT
             ).show()
         }
 
@@ -31,9 +28,8 @@ fun CreateProduct(vm: AdminProductCreateViewModel = hiltViewModel()) {
         else -> {
             response?.let {
                 vm.clearForm(false)
-                Toast.makeText(
-                    LocalContext.current, stringResource(R.string.unknown_error), Toast.LENGTH_SHORT
-                ).show()
+                Toast.makeText(LocalContext.current, R.string.unknown_error, Toast.LENGTH_SHORT)
+                    .show()
             }
         }
     }

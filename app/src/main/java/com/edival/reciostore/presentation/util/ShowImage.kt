@@ -20,8 +20,8 @@ fun ShowImage(modifier: Modifier, url: String?, icon: ImageVector) {
             model = url,
             placeholder = painterResource(R.drawable.outline_downloading),
             error = painterResource(R.drawable.outline_hide_image),
-            contentDescription = null,
-            contentScale = ContentScale.Crop
+            contentScale = ContentScale.Crop,
+            contentDescription = null
         )
     }
 }

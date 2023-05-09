@@ -11,12 +11,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.edival.reciostore.R
 import com.edival.reciostore.presentation.components.DefaultButton
 import com.edival.reciostore.presentation.components.DefaultTopBar
 import com.edival.reciostore.presentation.navigation.screen.client.ShoppingBagScreen
+import com.edival.reciostore.presentation.screens.client.address.list.components.CreateOrder
 import com.edival.reciostore.presentation.screens.client.address.list.components.DeleteAddress
 import com.edival.reciostore.presentation.screens.client.address.list.components.GetAddress
 
@@ -24,7 +26,6 @@ import com.edival.reciostore.presentation.screens.client.address.list.components
 fun ClientAddressListScreen(
     navHostController: NavHostController, vm: ClientAddressListViewModel = hiltViewModel()
 ) {
-    vm.getSessionData()
     Scaffold(topBar = {
         DefaultTopBar(
             titleRes = R.string.my_addresses,
@@ -32,17 +33,19 @@ fun ClientAddressListScreen(
             upAvailable = true
         )
     }, floatingActionButton = {
-        FloatingActionButton(onClick = { navHostController.navigate(ShoppingBagScreen.AddressCreate.route) }) {
+        FloatingActionButton(modifier = Modifier.padding(bottom = 55.dp),
+            onClick = { navHostController.navigate(ShoppingBagScreen.AddressCreate.route) }) {
             Icon(
                 imageVector = Icons.Default.Add, contentDescription = null, tint = Color.White
             )
         }
-    }, bottomBar = {
+    }, isFloatingActionButtonDocked = true, bottomBar = {
         DefaultButton(modifier = Modifier
             .fillMaxWidth()
-            .padding(all = dimensionResource(R.dimen.padding_min)),
-            text = R.string.continue_src,
-            onClick = {})
+            .padding(all = dimensionResource(R.dimen.padding_default)),
+            text = R.string.confirm_order,
+            onClick = { vm.createOrder() })
     }) { padding -> GetAddress(navHostController, padding) }
     DeleteAddress()
+    CreateOrder()
 }

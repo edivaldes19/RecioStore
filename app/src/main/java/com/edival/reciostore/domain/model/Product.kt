@@ -19,6 +19,7 @@ data class Product(
             id = id,
             name = name,
             description = description,
+            price = price,
             id_category = id_category,
             img1 = if (!img1.isNullOrBlank()) URLEncoder.encode(
                 img1, StandardCharsets.UTF_8.toString()
@@ -26,7 +27,6 @@ data class Product(
             img2 = if (!img2.isNullOrBlank()) URLEncoder.encode(
                 img2, StandardCharsets.UTF_8.toString()
             ) else "",
-            price = price,
             images_to_update = images_to_update
         )
     )

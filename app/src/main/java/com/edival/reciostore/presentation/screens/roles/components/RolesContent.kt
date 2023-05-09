@@ -26,8 +26,8 @@ fun RolesContent(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        vm.authResponse.user?.let { user ->
-            items(items = user.roles ?: listOf()) { rol -> RolesItem(navHostController, rol) }
+        vm.user?.let { user ->
+            items(items = user.roles ?: listOf()) { role -> RolesItem(navHostController, role) }
         }
     }
 }

@@ -8,8 +8,10 @@ import kotlinx.coroutines.flow.Flow
 interface AuthRepository {
     suspend fun signUp(user: User): Resource<AuthResponse>
     suspend fun logIn(email: String, password: String): Resource<AuthResponse>
-    suspend fun saveSession(authResponse: AuthResponse)
-    suspend fun updateSession(user: User)
+    suspend fun saveUser(authResponse: AuthResponse)
+    suspend fun saveRoleName(name: String)
+    suspend fun updateUser(user: User)
     suspend fun logOut()
-    fun getSession(): Flow<AuthResponse>
+    fun getUser(): Flow<AuthResponse>
+    fun getRoleName(): Flow<String?>
 }

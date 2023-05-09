@@ -28,10 +28,13 @@ class ClientAddressCreateViewModel @Inject constructor(
     var addressResponse by mutableStateOf<Resource<Address>?>(null)
         private set
     var errorMessage by mutableStateOf("")
-    fun getSessionData(): Job = viewModelScope.launch {
-        authUseCase.getSessionDataUseCase().first().user.also { userNull ->
-            userNull?.let { user ->
-                state = state.copy(id_user = user.id.orEmpty())
+
+    init {
+        viewModelScope.launch {
+            authUseCase.getSessionDataUseCase().first().also { data ->
+                if (!data.token.isNullOrBlank()) {
+                    data.user?.let { user -> state = state.copy(id_user = user.id.orEmpty()) }
+                }
             }
         }
     }

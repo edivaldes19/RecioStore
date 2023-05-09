@@ -20,6 +20,10 @@ class ProductsRemoteDataSourceImpl(private val productsService: ProductsService)
         return productsService.getProductsByCategory(id)
     }
 
+    override suspend fun getProductsByName(name: String): Response<List<Product>> {
+        return productsService.getProductsByName(name)
+    }
+
     override suspend fun createProduct(files: List<File>, product: Product): Response<Product> {
         val images = arrayOfNulls<MultipartBody.Part>(files.size)
         files.forEachIndexed { index, file ->

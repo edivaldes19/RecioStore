@@ -20,13 +20,14 @@ import androidx.compose.material.Icon
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.ExitToApp
-import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
@@ -54,7 +55,6 @@ fun ProfileContent(
             .padding(padding)
     ) {
         val (imgUser, cardInfo) = createRefs()
-        val topCard = createGuidelineFromTop(0.5f)
         vm.user?.let { user ->
             ShowImage(
                 modifier = Modifier
@@ -72,7 +72,7 @@ fun ProfileContent(
                 modifier = Modifier.constrainAs(cardInfo) {
                     start.linkTo(parent.start)
                     end.linkTo(parent.end)
-                    top.linkTo(topCard)
+                    top.linkTo(imgUser.bottom)
                     bottom.linkTo(parent.bottom)
                     height = Dimension.fillToConstraints
                     width = Dimension.fillToConstraints
@@ -97,6 +97,10 @@ fun ProfileContent(
                         title = user.phone ?: stringResource(R.string.unknown_phone),
                         subtitle = R.string.phone
                     )
+                    ProfileInfoItem(
+                        title = vm.roleName ?: stringResource(R.string.unknown),
+                        subtitle = R.string.current_role
+                    )
                     ConstraintLayout(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -110,8 +114,12 @@ fun ProfileContent(
                             bottom.linkTo(parent.bottom)
                         },
                             backgroundColor = primaryColor,
-                            onClick = { navHostController.navigate(route = "${Graph.PROFILE}/${user.toJson()}") }) {
-                            Icon(Icons.Outlined.Edit, null)
+                            onClick = { navHostController.navigate("${Graph.PROFILE}/${user.toJson()}") }) {
+                            Icon(
+                                imageVector = Icons.Outlined.Edit,
+                                tint = Color.White,
+                                contentDescription = null
+                            )
                         }
                         FloatingActionButton(modifier = Modifier.constrainAs(btnGoToRoles) {
                             start.linkTo(btnUpdateProfile.end)
@@ -124,7 +132,11 @@ fun ProfileContent(
                                 act.startActivity(Intent(act, MainActivity::class.java))
                             }
                         }) {
-                            Icon(Icons.Outlined.Home, null)
+                            Icon(
+                                painter = painterResource(R.drawable.outline_groups),
+                                tint = Color.White,
+                                contentDescription = null
+                            )
                         }
                         FloatingActionButton(modifier = Modifier.constrainAs(btnSignOff) {
                             start.linkTo(btnGoToRoles.end)
@@ -137,7 +149,13 @@ fun ProfileContent(
                                 act.finish()
                                 act.startActivity(Intent(act, MainActivity::class.java))
                             }
-                        }) { Icon(Icons.Outlined.ExitToApp, null) }
+                        }) {
+                            Icon(
+                                imageVector = Icons.Outlined.ExitToApp,
+                                tint = Color.White,
+                                contentDescription = null
+                            )
+                        }
                     }
                 }
             }

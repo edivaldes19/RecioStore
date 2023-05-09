@@ -6,5 +6,6 @@ data class ProductsUseCase(
     val createProductUseCase: CreateProductUseCase,
     val updateProductUseCase: UpdateProductUseCase,
     val updateProductImagesUseCase: UpdateProductImagesUseCase,
-    val deleteProductUseCase: DeleteProductUseCase
+    val deleteProductUseCase: DeleteProductUseCase,
+    val getProductsByNameUseCase: GetProductsByNameUseCase
 )

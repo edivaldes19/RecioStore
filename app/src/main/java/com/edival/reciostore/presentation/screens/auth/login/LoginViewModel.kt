@@ -43,6 +43,10 @@ class LoginViewModel @Inject constructor(private val authUseCase: AuthUseCase) :
         }
     }
 
+    fun saveRoleName(name: String): Job = viewModelScope.launch {
+        authUseCase.saveRoleNameUseCase(name)
+    }
+
     fun onEmailInput(email: String) {
         state = state.copy(email = email)
     }

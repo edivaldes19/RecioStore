@@ -11,18 +11,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.edival.reciostore.R
+import com.edival.reciostore.presentation.components.DefaultTopBar
 import com.edival.reciostore.presentation.navigation.Graph
 import com.edival.reciostore.presentation.screens.admin.category.list.components.DeleteCategory
 import com.edival.reciostore.presentation.screens.admin.category.list.components.GetCategories
 
 @Composable
 fun AdminCategoryListScreen(navHostController: NavHostController) {
-    Scaffold(
-        modifier = Modifier.padding(bottom = 55.dp), floatingActionButton = {
-            FloatingActionButton(onClick = { navHostController.navigate(Graph.ADMIN_CATEGORY) }) {
-                Icon(imageVector = Icons.Outlined.Add, contentDescription = null)
-            }
-        }, isFloatingActionButtonDocked = true, floatingActionButtonPosition = FabPosition.Center
+    Scaffold(modifier = Modifier.padding(bottom = 55.dp), topBar = {
+        DefaultTopBar(titleRes = R.string.categories)
+    }, floatingActionButton = {
+        FloatingActionButton(onClick = { navHostController.navigate(Graph.ADMIN_CATEGORY) }) {
+            Icon(imageVector = Icons.Outlined.Add, contentDescription = null)
+        }
+    }, isFloatingActionButtonDocked = true, floatingActionButtonPosition = FabPosition.Center
     ) { padding -> GetCategories(navHostController, padding) }
     DeleteCategory()
 }

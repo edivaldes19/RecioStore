@@ -20,6 +20,11 @@ class AuthDataStore constructor(private val dataStore: DataStore<Preferences>) {
         dataStore.edit { pref -> pref[dataStoreKey] = authResponse.toJson() }
     }
 
+    suspend fun saveRoleName(name: String) {
+        val dataStoreKey = stringPreferencesKey(Config.ROLE_KEY)
+        dataStore.edit { pref -> pref[dataStoreKey] = name }
+    }
+
     suspend fun updateUser(newUser: User) {
         val dataStoreKey = stringPreferencesKey(Config.AUTH_KEY)
         val authResponse = runBlocking { getUser().first() }
@@ -33,7 +38,7 @@ class AuthDataStore constructor(private val dataStore: DataStore<Preferences>) {
         dataStore.edit { pref -> pref[dataStoreKey] = authResponse.toJson() }
     }
 
-    suspend fun clearData() {
+    suspend fun logOut() {
         dataStore.edit { pref -> pref.clear() }
     }
 
@@ -43,5 +48,10 @@ class AuthDataStore constructor(private val dataStore: DataStore<Preferences>) {
             if (pref[dataStoreKey] != null) AuthResponse.fromJson(pref[dataStoreKey]!!)
             else AuthResponse()
         }
+    }
+
+    fun getRoleName(): Flow<String?> {
+        val dataStoreKey = stringPreferencesKey(Config.ROLE_KEY)
+        return dataStore.data.catch { emptyPreferences() }.map { pref -> pref[dataStoreKey] }
     }
 }

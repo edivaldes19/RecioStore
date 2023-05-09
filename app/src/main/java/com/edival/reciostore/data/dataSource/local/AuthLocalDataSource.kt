@@ -5,8 +5,10 @@ import com.edival.reciostore.domain.model.User
 import kotlinx.coroutines.flow.Flow
 
 interface AuthLocalDataSource {
-    suspend fun saveSession(authResponse: AuthResponse)
-    suspend fun updateSession(user: User)
+    suspend fun saveUser(authResponse: AuthResponse)
+    suspend fun saveRoleName(name: String)
+    suspend fun updateUser(user: User)
     suspend fun logOut()
-    fun getSessionData(): Flow<AuthResponse>
+    fun getUser(): Flow<AuthResponse>
+    fun getRoleName(): Flow<String?>
 }

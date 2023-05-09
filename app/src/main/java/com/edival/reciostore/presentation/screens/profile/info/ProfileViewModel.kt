@@ -9,6 +9,7 @@ import com.edival.reciostore.domain.model.User
 import com.edival.reciostore.domain.useCase.auth.AuthUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -16,11 +17,16 @@ import javax.inject.Inject
 class ProfileViewModel @Inject constructor(private val authUseCase: AuthUseCase) : ViewModel() {
     var user by mutableStateOf<User?>(null)
         private set
+    var roleName by mutableStateOf<String?>(null)
+        private set
 
     init {
         viewModelScope.launch {
             authUseCase.getSessionDataUseCase().collect { data ->
-                if (!data.token.isNullOrBlank()) user = data.user
+                if (!data.token.isNullOrBlank()) {
+                    user = data.user
+                    authUseCase.getRoleNameUseCase().first().also { name -> roleName = name }
+                }
             }
         }
     }

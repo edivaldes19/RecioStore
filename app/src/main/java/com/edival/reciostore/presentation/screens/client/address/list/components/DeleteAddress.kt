@@ -3,7 +3,6 @@ package com.edival.reciostore.presentation.screens.client.address.list.component
 import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.edival.reciostore.R
 import com.edival.reciostore.domain.util.Resource
@@ -15,9 +14,7 @@ fun DeleteAddress(vm: ClientAddressListViewModel = hiltViewModel()) {
     when (val response = vm.deleteAddressResponse) {
         Resource.Loading -> DefaultProgressBar()
         is Resource.Success -> Toast.makeText(
-            LocalContext.current,
-            stringResource(R.string.address_deleted_successfully),
-            Toast.LENGTH_SHORT
+            LocalContext.current, R.string.address_deleted_successfully, Toast.LENGTH_SHORT
         ).show()
 
         is Resource.Failure -> Toast.makeText(
@@ -26,9 +23,8 @@ fun DeleteAddress(vm: ClientAddressListViewModel = hiltViewModel()) {
 
         else -> {
             response?.let {
-                Toast.makeText(
-                    LocalContext.current, stringResource(R.string.unknown_error), Toast.LENGTH_SHORT
-                ).show()
+                Toast.makeText(LocalContext.current, R.string.unknown_error, Toast.LENGTH_SHORT)
+                    .show()
             }
         }
     }

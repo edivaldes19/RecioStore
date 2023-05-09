@@ -7,9 +7,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.constraintlayout.compose.Dimension
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.edival.reciostore.R
@@ -26,26 +26,18 @@ fun ClientShoppingBagBottomBar(
             .fillMaxWidth()
             .padding(all = dimensionResource(R.dimen.padding_min))
     ) {
-        val (txtTotalSrc, txtTotalValue, btnConfirm) = createRefs()
-        Text(
-            modifier = Modifier.constrainAs(txtTotalSrc) {
-                start.linkTo(parent.start)
-                end.linkTo(btnConfirm.start)
-                top.linkTo(parent.top)
-                bottom.linkTo(txtTotalValue.top)
-                height = Dimension.fillToConstraints
-                width = Dimension.fillToConstraints
-            }, text = stringResource(R.string.total), overflow = TextOverflow.Ellipsis, maxLines = 1
-        )
+        val (txtTotalValue, btnConfirm) = createRefs()
         Text(
             modifier = Modifier.constrainAs(txtTotalValue) {
                 start.linkTo(parent.start)
                 end.linkTo(btnConfirm.start)
-                top.linkTo(txtTotalSrc.bottom)
+                top.linkTo(parent.top)
                 bottom.linkTo(parent.bottom)
-                height = Dimension.fillToConstraints
-                width = Dimension.fillToConstraints
-            }, text = "$${vm.total}", overflow = TextOverflow.Ellipsis, maxLines = 1
+            },
+            text = stringResource(R.string.total_value, vm.total),
+            fontWeight = FontWeight.Bold,
+            overflow = TextOverflow.Ellipsis,
+            maxLines = 1
         )
         DefaultButton(modifier = Modifier.constrainAs(btnConfirm) {
             start.linkTo(txtTotalValue.end)
@@ -53,7 +45,7 @@ fun ClientShoppingBagBottomBar(
             top.linkTo(parent.top)
             bottom.linkTo(parent.bottom)
         },
-            text = R.string.confirm_order,
+            text = R.string.continue_src,
             onClick = { navHostController.navigate(ShoppingBagScreen.AddressList.route) })
     }
 }

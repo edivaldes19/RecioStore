@@ -8,17 +8,20 @@ import com.edival.reciostore.data.dataSource.local.ShoppingBagLocalDataSource
 import com.edival.reciostore.data.dataSource.remote.AddressRemoteDataSource
 import com.edival.reciostore.data.dataSource.remote.AuthRemoteDataSource
 import com.edival.reciostore.data.dataSource.remote.CategoriesRemoteDataSource
+import com.edival.reciostore.data.dataSource.remote.OrdersRemoteDataSource
 import com.edival.reciostore.data.dataSource.remote.ProductsRemoteDataSource
 import com.edival.reciostore.data.dataSource.remote.UsersRemoteDataSource
 import com.edival.reciostore.data.repository.AddressRepositoryImpl
 import com.edival.reciostore.data.repository.AuthRepositoryImpl
 import com.edival.reciostore.data.repository.CategoriesRepositoryImpl
+import com.edival.reciostore.data.repository.OrdersRepositoryImpl
 import com.edival.reciostore.data.repository.ProductsRepositoryImpl
 import com.edival.reciostore.data.repository.ShoppingBagRepositoryImpl
 import com.edival.reciostore.data.repository.UsersRepositoryImpl
 import com.edival.reciostore.domain.repository.AddressRepository
 import com.edival.reciostore.domain.repository.AuthRepository
 import com.edival.reciostore.domain.repository.CategoriesRepository
+import com.edival.reciostore.domain.repository.OrdersRepository
 import com.edival.reciostore.domain.repository.ProductsRepository
 import com.edival.reciostore.domain.repository.ShoppingBagRepository
 import com.edival.reciostore.domain.repository.UsersRepository
@@ -67,5 +70,10 @@ object RepositoryModule {
         addressRemoteDataSource: AddressRemoteDataSource
     ): AddressRepository {
         return AddressRepositoryImpl(addressLocalDataSource, addressRemoteDataSource)
+    }
+
+    @Provides
+    fun provideOrdersRepository(ordersRemoteDataSource: OrdersRemoteDataSource): OrdersRepository {
+        return OrdersRepositoryImpl(ordersRemoteDataSource)
     }
 }
