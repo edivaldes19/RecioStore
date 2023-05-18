@@ -1,6 +1,9 @@
 package com.edival.reciostore.presentation.screens.admin.product.create.components
 
+import android.net.Uri
 import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -18,48 +21,55 @@ import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Add
+import androidx.compose.material.icons.outlined.AddCircle
 import androidx.compose.material.icons.outlined.Create
 import androidx.compose.material.icons.outlined.Face
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.edival.reciostore.R
+import com.edival.reciostore.core.Config
 import com.edival.reciostore.presentation.components.DefaultButton
 import com.edival.reciostore.presentation.components.DefaultTextField
-import com.edival.reciostore.presentation.components.DialogCapturePicture
+import com.edival.reciostore.presentation.components.ShowImage
 import com.edival.reciostore.presentation.screens.admin.product.create.AdminProductCreateViewModel
 import com.edival.reciostore.presentation.ui.theme.primaryColor
-import com.edival.reciostore.presentation.util.ShowImage
 
 @Composable
 fun AdminProductCreateContent(
     padding: PaddingValues, vm: AdminProductCreateViewModel = hiltViewModel()
 ) {
     val ctx = LocalContext.current
-    val stateDialog = remember { mutableStateOf(false) }
-    val stateImageNumber = remember { mutableStateOf(1) }
-    vm.resultingActivityHandler.Handle()
+    val launcher1 =
+        rememberLauncherForActivityResult(contract = ActivityResultContracts.GetContent()) { uri: Uri? ->
+            uri?.let { photo ->
+                vm.imgUri1 = photo
+                vm.onImage1Input(photo.toString())
+            }
+        }
+    val launcher2 =
+        rememberLauncherForActivityResult(contract = ActivityResultContracts.GetContent()) { uri: Uri? ->
+            uri?.let { photo ->
+                vm.imgUri2 = photo
+                vm.onImage2Input(photo.toString())
+            }
+        }
     LaunchedEffect(key1 = vm.errorMessage) {
         if (vm.errorMessage.isNotBlank()) {
             Toast.makeText(ctx, vm.errorMessage, Toast.LENGTH_SHORT).show()
             vm.errorMessage = ""
         }
     }
-    DialogCapturePicture(status = stateDialog,
-        takePhoto = { vm.takePhoto(ctx, stateImageNumber.value) },
-        pickImage = { vm.pickImage(ctx, stateImageNumber.value) })
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
@@ -67,42 +77,35 @@ fun AdminProductCreateContent(
             .padding(padding)
     ) {
         val (iconProduct1, iconProduct2, cardInfo) = createRefs()
-        val topCard = createGuidelineFromTop(0.2f)
         ShowImage(modifier = Modifier
             .height(dimensionResource(R.dimen.icon_big_size))
             .width(dimensionResource(R.dimen.icon_big_size))
             .clip(CircleShape)
-            .clickable {
-                stateDialog.value = true
-                stateImageNumber.value = 1
-            }
+            .clickable { launcher1.launch(Config.IMAGES_MT) }
             .constrainAs(iconProduct1) {
                 start.linkTo(parent.start)
                 end.linkTo(iconProduct2.start)
-                top.linkTo(parent.top)
-                bottom.linkTo(cardInfo.top)
-            }, url = vm.state.img1, icon = Icons.Outlined.Add
+                top.linkTo(parent.top, margin = 16.dp)
+                bottom.linkTo(cardInfo.top, margin = 8.dp)
+            }, url = vm.state.img1, icon = Icons.Outlined.AddCircle
         )
         ShowImage(modifier = Modifier
             .height(dimensionResource(R.dimen.icon_big_size))
             .width(dimensionResource(R.dimen.icon_big_size))
             .clip(CircleShape)
-            .clickable {
-                stateDialog.value = true
-                stateImageNumber.value = 2
-            }
+            .clickable { launcher2.launch(Config.IMAGES_MT) }
             .constrainAs(iconProduct2) {
                 start.linkTo(iconProduct1.end)
                 end.linkTo(parent.end)
-                top.linkTo(parent.top)
-                bottom.linkTo(cardInfo.top)
-            }, url = vm.state.img2, icon = Icons.Outlined.Add
+                top.linkTo(parent.top, margin = 16.dp)
+                bottom.linkTo(cardInfo.top, margin = 8.dp)
+            }, url = vm.state.img2, icon = Icons.Outlined.AddCircle
         )
         Card(
             modifier = Modifier.constrainAs(cardInfo) {
                 start.linkTo(parent.start)
                 end.linkTo(parent.end)
-                top.linkTo(topCard)
+                top.linkTo(iconProduct1.bottom, margin = 8.dp)
                 bottom.linkTo(parent.bottom)
                 height = Dimension.fillToConstraints
                 width = Dimension.fillToConstraints

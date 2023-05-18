@@ -29,7 +29,7 @@
     <string name="profile">Profile</string>
     <string name="logout">Sign off</string>
     <string name="profile_picture">Profile picture</string>
-    <string name="username">Username</string>
+    <string name="username">Names and surnames</string>
     <string name="update_profile">Update profile</string>
     <string name="select_an_option">Select an option</string>
     <string name="gallery">Gallery</string>
@@ -96,4 +96,30 @@
     <string name="product_to_sb">Product added/updated in the shopping bag.</string>
     <string name="current_role">Current role</string>
     <string name="order_created_successfully">Order created successfully</string>
+    <string name="users_src">Users</string>
+    <string name="user_info">User information</string>
+    <string name="id_src" translatable="false">ID</string>
+    <string name="roles_src" translatable="false">Roles</string>
+    <string name="change_role">Change role</string>
+    <string name="i_wanna_admin">I want to be administrator</string>
+    <string name="i_wanna_client">I want to be a client</string>
+    <string name="ok_msg">OK</string>
+    <string name="cancel_msg">Cancel</string>
+    <string name="change_password">Change password</string>
+    <string name="role_assignment">Role assignment</string>
+    <string name="account_successfully_deleted">Account successfully deleted.</string>
+    <string name="delete_account">Delete account</string>
+    <string name="password_updated_successfully">Password updated successfully.</string>
+    <string name="new_password">New Password</string>
+    <string name="both_images_are_required">Both images are required.</string>
+    <string name="image_is_required">The image is required.</string>
+    <string name="id_cannot_be_null">ID cannot be null.</string>
+    <string name="wait_a_moment">Wait a moment…</string>
+    <string name="incorrect_password">Incorrect password.</string>
+    <string name="roles_updated_successfully">Roles updated successfully.</string>
+    <string name="master_password">Master password</string>
+    <string name="error_connecting_server">Error connecting to the server.</string>
+    <string name="update_required">Update required</string>
+    <string name="dialog_text_loading">There\'s a new version available! (%1$s). Please update the app to continue using it\'s features.</string>
+    <string name="getting_user_session">Getting user session…</string>
 </resources>

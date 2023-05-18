@@ -7,7 +7,7 @@ import androidx.navigation.NavHostController
 import com.edival.reciostore.R
 import com.edival.reciostore.presentation.components.DefaultTopBar
 import com.edival.reciostore.presentation.screens.admin.order.detail.components.AdminOrderDetailContent
-import com.edival.reciostore.presentation.screens.admin.order.detail.components.UpdateStatusOrder
+import com.edival.reciostore.presentation.screens.admin.order.detail.components.UpdateOrderStatus
 
 @Composable
 fun AdminOrderDetailScreen(
@@ -20,5 +20,5 @@ fun AdminOrderDetailScreen(
             upAvailable = true
         )
     }) { padding -> vm.order?.let { ord -> AdminOrderDetailContent(padding, ord) } }
-    UpdateStatusOrder()
+    UpdateOrderStatus()
 }

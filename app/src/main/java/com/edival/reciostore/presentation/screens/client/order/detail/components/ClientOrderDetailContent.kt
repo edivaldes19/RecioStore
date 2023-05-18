@@ -1,5 +1,6 @@
 package com.edival.reciostore.presentation.screens.client.order.detail.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -24,6 +26,7 @@ import com.edival.reciostore.domain.model.Order
 import com.edival.reciostore.presentation.components.OrderDetailInfoItem
 import com.edival.reciostore.presentation.components.OrderDetailProductItem
 import com.edival.reciostore.presentation.screens.client.order.detail.ClientOrderDetailViewModel
+import com.edival.reciostore.presentation.ui.theme.backgroundGray
 
 @Composable
 fun ClientOrderDetailContent(
@@ -36,14 +39,16 @@ fun ClientOrderDetailContent(
     ) {
         val (productsListRef, cardInfo) = createRefs()
         val topCard = createGuidelineFromTop(0.5f)
-        LazyColumn(modifier = Modifier.constrainAs(productsListRef) {
-            start.linkTo(parent.start)
-            end.linkTo(parent.end)
-            top.linkTo(parent.top)
-            bottom.linkTo(topCard)
-            height = Dimension.fillToConstraints
-            width = Dimension.fillToConstraints
-        }) {
+        LazyColumn(modifier = Modifier
+            .background(backgroundGray)
+            .constrainAs(productsListRef) {
+                start.linkTo(parent.start)
+                end.linkTo(parent.end)
+                top.linkTo(parent.top)
+                bottom.linkTo(topCard)
+                height = Dimension.fillToConstraints
+                width = Dimension.fillToConstraints
+            }) {
             items(items = order.ohp ?: listOf()) { orderHasProducts ->
                 OrderDetailProductItem(orderHasProducts)
             }
@@ -94,7 +99,8 @@ fun ClientOrderDetailContent(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(vertical = dimensionResource(R.dimen.padding_min)),
-                    text = stringResource(R.string.quantity_value, vm.totalToPay)
+                    text = stringResource(R.string.total_value, vm.totalToPay),
+                    fontWeight = FontWeight.Bold
                 )
             }
         }

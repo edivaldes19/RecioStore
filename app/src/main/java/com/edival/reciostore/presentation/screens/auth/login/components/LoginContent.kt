@@ -21,7 +21,6 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Email
-import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
@@ -39,6 +38,7 @@ import androidx.navigation.NavHostController
 import com.edival.reciostore.R
 import com.edival.reciostore.presentation.components.DefaultButton
 import com.edival.reciostore.presentation.components.DefaultTextField
+import com.edival.reciostore.presentation.components.PasswordTextField
 import com.edival.reciostore.presentation.navigation.screen.auth.AuthScreen
 import com.edival.reciostore.presentation.screens.auth.login.LoginViewModel
 import com.edival.reciostore.presentation.ui.theme.primaryColor
@@ -119,16 +119,13 @@ fun LoginContent(
                     icon = Icons.Outlined.Email,
                     keyboardType = KeyboardType.Email
                 )
-                DefaultTextField(
+                PasswordTextField(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(vertical = dimensionResource(R.dimen.padding_min)),
                     value = vm.state.password,
                     onValueChange = { vm.onPasswordInput(it) },
-                    label = R.string.password,
-                    icon = Icons.Outlined.Lock,
-                    keyboardType = KeyboardType.Password,
-                    hideText = true
+                    label = R.string.password
                 )
                 DefaultButton(modifier = Modifier
                     .fillMaxWidth()
@@ -146,7 +143,7 @@ fun LoginContent(
                         text = stringResource(R.string.not_have_account),
                     )
                     Text(modifier = Modifier
-                        .clickable { navHostController.navigate(route = AuthScreen.Register.route) }
+                        .clickable { navHostController.navigate(AuthScreen.SignUp.route) }
                         .padding(all = dimensionResource(R.dimen.padding_ultra_min)),
                         text = stringResource(R.string.sign_up_here),
                         color = primaryLightColor,

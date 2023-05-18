@@ -2,18 +2,15 @@ package com.edival.reciostore.di
 
 import com.edival.reciostore.data.dataSource.local.AddressLocalDataSource
 import com.edival.reciostore.data.dataSource.local.AuthLocalDataSource
-import com.edival.reciostore.data.dataSource.local.CategoriesLocalDataSource
-import com.edival.reciostore.data.dataSource.local.ProductsLocalDataSource
 import com.edival.reciostore.data.dataSource.local.ShoppingBagLocalDataSource
 import com.edival.reciostore.data.dataSource.remote.AddressRemoteDataSource
 import com.edival.reciostore.data.dataSource.remote.AuthRemoteDataSource
-import com.edival.reciostore.data.dataSource.remote.CategoriesRemoteDataSource
+import com.edival.reciostore.data.dataSource.remote.InfoRemoteDataSource
 import com.edival.reciostore.data.dataSource.remote.OrdersRemoteDataSource
-import com.edival.reciostore.data.dataSource.remote.ProductsRemoteDataSource
-import com.edival.reciostore.data.dataSource.remote.UsersRemoteDataSource
 import com.edival.reciostore.data.repository.AddressRepositoryImpl
 import com.edival.reciostore.data.repository.AuthRepositoryImpl
 import com.edival.reciostore.data.repository.CategoriesRepositoryImpl
+import com.edival.reciostore.data.repository.InfoRepositoryImpl
 import com.edival.reciostore.data.repository.OrdersRepositoryImpl
 import com.edival.reciostore.data.repository.ProductsRepositoryImpl
 import com.edival.reciostore.data.repository.ShoppingBagRepositoryImpl
@@ -21,6 +18,7 @@ import com.edival.reciostore.data.repository.UsersRepositoryImpl
 import com.edival.reciostore.domain.repository.AddressRepository
 import com.edival.reciostore.domain.repository.AuthRepository
 import com.edival.reciostore.domain.repository.CategoriesRepository
+import com.edival.reciostore.domain.repository.InfoRepository
 import com.edival.reciostore.domain.repository.OrdersRepository
 import com.edival.reciostore.domain.repository.ProductsRepository
 import com.edival.reciostore.domain.repository.ShoppingBagRepository
@@ -39,25 +37,13 @@ object RepositoryModule {
     ): AuthRepository = AuthRepositoryImpl(authLocalDataSource, authRemoteDataSource)
 
     @Provides
-    fun provideUsersRepository(usersRemoteDataSource: UsersRemoteDataSource): UsersRepository {
-        return UsersRepositoryImpl(usersRemoteDataSource)
-    }
+    fun provideUsersRepository(impl: UsersRepositoryImpl): UsersRepository = impl
 
     @Provides
-    fun provideCategoriesRepository(
-        categoriesLocalDataSource: CategoriesLocalDataSource,
-        categoriesRemoteDataSource: CategoriesRemoteDataSource
-    ): CategoriesRepository {
-        return CategoriesRepositoryImpl(categoriesLocalDataSource, categoriesRemoteDataSource)
-    }
+    fun provideCategoriesRepository(impl: CategoriesRepositoryImpl): CategoriesRepository = impl
 
     @Provides
-    fun provideProductsRepository(
-        productsLocalDataSource: ProductsLocalDataSource,
-        productsRemoteDataSource: ProductsRemoteDataSource
-    ): ProductsRepository {
-        return ProductsRepositoryImpl(productsLocalDataSource, productsRemoteDataSource)
-    }
+    fun provideProductsRepository(impl: ProductsRepositoryImpl): ProductsRepository = impl
 
     @Provides
     fun provideShoppingBagRepository(shoppingBagLocalDataSource: ShoppingBagLocalDataSource): ShoppingBagRepository {
@@ -75,5 +61,10 @@ object RepositoryModule {
     @Provides
     fun provideOrdersRepository(ordersRemoteDataSource: OrdersRemoteDataSource): OrdersRepository {
         return OrdersRepositoryImpl(ordersRemoteDataSource)
+    }
+
+    @Provides
+    fun provideInfoRepository(infoRemoteDataSource: InfoRemoteDataSource): InfoRepository {
+        return InfoRepositoryImpl(infoRemoteDataSource)
     }
 }

@@ -1,10 +1,13 @@
 package com.edival.reciostore.domain.repository
 
+import android.net.Uri
 import com.edival.reciostore.domain.model.User
 import com.edival.reciostore.domain.util.Resource
-import java.io.File
+import kotlinx.coroutines.flow.Flow
 
 interface UsersRepository {
-    suspend fun updateUser(id: String, user: User): Resource<User>
-    suspend fun updateUserImage(id: String, file: File): Resource<User>
+    fun getUsers(id: String): Flow<Resource<List<User>>>
+    suspend fun updateUser(id: String, user: User, uri: Uri?): Resource<User>
+    suspend fun updateUserToClient(id: String): Resource<User>
+    suspend fun updateUserToAdmin(id: String): Resource<User>
 }

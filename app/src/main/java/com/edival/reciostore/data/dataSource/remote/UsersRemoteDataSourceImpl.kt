@@ -11,6 +11,8 @@ import retrofit2.Response
 import java.io.File
 
 class UsersRemoteDataSourceImpl(private val usersService: UsersService) : UsersRemoteDataSource {
+    override suspend fun getUsers(id: String): Response<List<User>> = usersService.getUsers(id)
+
     override suspend fun updateUser(id: String, user: User): Response<User> {
         return usersService.updateUser(id, user)
     }
@@ -21,5 +23,13 @@ class UsersRemoteDataSourceImpl(private val usersService: UsersService) : UsersR
         val requestFile = file.asRequestBody(mimeType.toMediaTypeOrNull())
         val fileFormData = MultipartBody.Part.createFormData("file", file.name, requestFile)
         return usersService.updateUserImage(id, fileFormData)
+    }
+
+    override suspend fun updateUserToClient(id: String): Response<User> {
+        return usersService.updateUserToClient(id)
+    }
+
+    override suspend fun updateUserToAdmin(id: String): Response<User> {
+        return usersService.updateUserToAdmin(id)
     }
 }

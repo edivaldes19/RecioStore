@@ -8,9 +8,6 @@ interface ProductsLocalDataSource {
     fun getProductsByCategory(id_category: String): Flow<List<ProductEntity>>
     suspend fun insertProduct(product: ProductEntity)
     suspend fun insertAllProducts(products: List<ProductEntity>)
-    suspend fun updateProduct(
-        id: String, name: String, description: String, price: Double, img1: String, img2: String
-    )
-
+    suspend fun updateProduct(id: String, name: String, description: String, price: Double)
     suspend fun deleteProduct(id: String)
 }

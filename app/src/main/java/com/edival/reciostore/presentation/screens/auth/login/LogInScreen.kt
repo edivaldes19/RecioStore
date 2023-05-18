@@ -7,7 +7,7 @@ import com.edival.reciostore.presentation.screens.auth.login.components.Login
 import com.edival.reciostore.presentation.screens.auth.login.components.LoginContent
 
 @Composable
-fun LoginScreen(navHostController: NavHostController) {
+fun LogInScreen(navHostController: NavHostController) {
     Scaffold { padding -> LoginContent(padding, navHostController) }
     Login(navHostController)
 }

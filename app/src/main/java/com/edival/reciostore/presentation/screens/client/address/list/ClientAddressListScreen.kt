@@ -29,8 +29,8 @@ fun ClientAddressListScreen(
     Scaffold(topBar = {
         DefaultTopBar(
             titleRes = R.string.my_addresses,
-            navHostController = navHostController,
-            upAvailable = true
+            upAvailable = true,
+            navHostController = navHostController
         )
     }, floatingActionButton = {
         FloatingActionButton(modifier = Modifier.padding(bottom = 55.dp),

@@ -1,12 +1,12 @@
 package com.edival.reciostore.domain.useCase.categories
 
+import android.net.Uri
 import com.edival.reciostore.domain.model.Category
 import com.edival.reciostore.domain.repository.CategoriesRepository
 import com.edival.reciostore.domain.util.Resource
-import java.io.File
 
 class CreateCategoryUseCase(private val categoriesRepository: CategoriesRepository) {
-    suspend operator fun invoke(file: File, category: Category): Resource<Category> {
-        return categoriesRepository.createCategory(file, category)
+    suspend operator fun invoke(category: Category, uri: Uri): Resource<Category> {
+        return categoriesRepository.createCategory(category, uri)
     }
 }

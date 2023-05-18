@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "710268563838",
+    "project_id": "recio-store",
+    "storage_bucket": "recio-store.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:710268563838:android:bde3917eb8641c0b73c32f",
+        "android_client_info": {
+          "package_name": "com.edival.reciostore"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "710268563838-diktl1e095bkreshttjnj81qd63fm6sr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCSw2v_u_ZVFVcPxJXBCjFNE1v_PUofF_0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "710268563838-diktl1e095bkreshttjnj81qd63fm6sr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

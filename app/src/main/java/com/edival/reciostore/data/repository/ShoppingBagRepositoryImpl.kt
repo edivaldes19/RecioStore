@@ -30,11 +30,6 @@ class ShoppingBagRepositoryImpl(private val localDS: ShoppingBagLocalDataSource)
         }
     }
 
-    override suspend fun deleteProductBag(idProduct: String) {
-        localDS.deleteProductBag(idProduct)
-    }
-
-    override suspend fun emptyShoppingBag() {
-        localDS.emptyShoppingBag()
-    }
+    override suspend fun deleteProductBag(idProduct: String) = localDS.deleteProductBag(idProduct)
+    override suspend fun emptyShoppingBag() = localDS.emptyShoppingBag()
 }

@@ -23,15 +23,6 @@ class LoginViewModel @Inject constructor(private val authUseCase: AuthUseCase) :
     var logInResponse by mutableStateOf<Resource<AuthResponse>?>(null)
         private set
     var errorMessage by mutableStateOf("")
-
-    init {
-        viewModelScope.launch {
-            authUseCase.getSessionDataUseCase().collect { data ->
-                if (!data.token.isNullOrBlank()) logInResponse = Resource.Success(data)
-            }
-        }
-    }
-
     fun saveSession(authResponse: AuthResponse): Job = viewModelScope.launch {
         authUseCase.saveSessionUseCase(authResponse)
     }

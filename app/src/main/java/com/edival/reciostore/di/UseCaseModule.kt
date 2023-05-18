@@ -3,6 +3,7 @@ package com.edival.reciostore.di
 import com.edival.reciostore.domain.repository.AddressRepository
 import com.edival.reciostore.domain.repository.AuthRepository
 import com.edival.reciostore.domain.repository.CategoriesRepository
+import com.edival.reciostore.domain.repository.InfoRepository
 import com.edival.reciostore.domain.repository.OrdersRepository
 import com.edival.reciostore.domain.repository.ProductsRepository
 import com.edival.reciostore.domain.repository.ShoppingBagRepository
@@ -14,6 +15,9 @@ import com.edival.reciostore.domain.useCase.address.GetAddressByUserUseCase
 import com.edival.reciostore.domain.useCase.address.UpdateAddressUseCase
 import com.edival.reciostore.domain.useCase.auth.*
 import com.edival.reciostore.domain.useCase.categories.*
+import com.edival.reciostore.domain.useCase.info.GetInfoByKeyUseCase
+import com.edival.reciostore.domain.useCase.info.GetInfoUseCase
+import com.edival.reciostore.domain.useCase.info.InfoUseCase
 import com.edival.reciostore.domain.useCase.orders.CreateOrderUseCase
 import com.edival.reciostore.domain.useCase.orders.GetOrdersByClientUseCase
 import com.edival.reciostore.domain.useCase.orders.GetOrdersUseCase
@@ -25,15 +29,16 @@ import com.edival.reciostore.domain.useCase.products.GetProductsByCategoryUseCas
 import com.edival.reciostore.domain.useCase.products.GetProductsByNameUseCase
 import com.edival.reciostore.domain.useCase.products.GetProductsUseCase
 import com.edival.reciostore.domain.useCase.products.ProductsUseCase
-import com.edival.reciostore.domain.useCase.products.UpdateProductImagesUseCase
 import com.edival.reciostore.domain.useCase.products.UpdateProductUseCase
 import com.edival.reciostore.domain.useCase.shopping_bag.AddProductBagUseCase
 import com.edival.reciostore.domain.useCase.shopping_bag.DeleteProductBagUseCase
 import com.edival.reciostore.domain.useCase.shopping_bag.EmptyShoppingBagUseCase
 import com.edival.reciostore.domain.useCase.shopping_bag.GetProductBagByIdUseCase
-import com.edival.reciostore.domain.useCase.shopping_bag.GetProductBagUseCase
+import com.edival.reciostore.domain.useCase.shopping_bag.GetProductsBagUseCase
 import com.edival.reciostore.domain.useCase.shopping_bag.ShoppingBagUseCase
-import com.edival.reciostore.domain.useCase.users.UpdateUserImageUseCase
+import com.edival.reciostore.domain.useCase.users.GetUsersUseCase
+import com.edival.reciostore.domain.useCase.users.UpdateUserToAdminUseCase
+import com.edival.reciostore.domain.useCase.users.UpdateUserToClientUseCase
 import com.edival.reciostore.domain.useCase.users.UpdateUserUseCase
 import com.edival.reciostore.domain.useCase.users.UsersUseCase
 import dagger.Module
@@ -47,8 +52,10 @@ object UseCaseModule {
     @Provides
     fun provideAuthUseCase(authRepository: AuthRepository): AuthUseCase {
         return AuthUseCase(
-            loginUseCase = LoginUseCase(authRepository),
             signUpUseCase = SignUpUseCase(authRepository),
+            loginUseCase = LoginUseCase(authRepository),
+            updatePasswordUseCase = UpdatePasswordUseCase(authRepository),
+            deleteAccountUseCase = DeleteAccountUseCase(authRepository),
             saveSessionUseCase = SaveSessionUseCase(authRepository),
             saveRoleNameUseCase = SaveRoleNameUseCase(authRepository),
             getSessionDataUseCase = GetSessionDataUseCase(authRepository),
@@ -61,18 +68,19 @@ object UseCaseModule {
     @Provides
     fun provideUsersUseCase(usersRepository: UsersRepository): UsersUseCase {
         return UsersUseCase(
+            getUsersUseCase = GetUsersUseCase(usersRepository),
             updateUserUseCase = UpdateUserUseCase(usersRepository),
-            updateUserImageUseCase = UpdateUserImageUseCase(usersRepository)
+            updateUserToClientUseCase = UpdateUserToClientUseCase(usersRepository),
+            updateUserToAdminUseCase = UpdateUserToAdminUseCase(usersRepository)
         )
     }
 
     @Provides
     fun provideCategoriesUseCase(categoriesRepository: CategoriesRepository): CategoriesUseCase {
         return CategoriesUseCase(
-            createCategoryUseCase = CreateCategoryUseCase(categoriesRepository),
             getCategoriesUseCase = GetCategoriesUseCase(categoriesRepository),
+            createCategoryUseCase = CreateCategoryUseCase(categoriesRepository),
             updateCategoryUseCase = UpdateCategoryUseCase(categoriesRepository),
-            updateCategoryImageUseCase = UpdateCategoryImageUseCase(categoriesRepository),
             deleteCategoryUseCase = DeleteCategoryUseCase(categoriesRepository)
         )
     }
@@ -84,7 +92,6 @@ object UseCaseModule {
             getProductsByCategoryUseCase = GetProductsByCategoryUseCase(productsRepository),
             createProductUseCase = CreateProductUseCase(productsRepository),
             updateProductUseCase = UpdateProductUseCase(productsRepository),
-            updateProductImagesUseCase = UpdateProductImagesUseCase(productsRepository),
             deleteProductUseCase = DeleteProductUseCase(productsRepository),
             getProductsByNameUseCase = GetProductsByNameUseCase(productsRepository)
         )
@@ -93,7 +100,7 @@ object UseCaseModule {
     @Provides
     fun provideShoppingBagUseCase(shoppingBagRepository: ShoppingBagRepository): ShoppingBagUseCase {
         return ShoppingBagUseCase(
-            getProductsBagUseCase = GetProductBagUseCase(shoppingBagRepository),
+            getProductsBagUseCase = GetProductsBagUseCase(shoppingBagRepository),
             getProductBagByIdUseCase = GetProductBagByIdUseCase(shoppingBagRepository),
             addProductBagUseCase = AddProductBagUseCase(shoppingBagRepository),
             deleteProductBagUseCase = DeleteProductBagUseCase(shoppingBagRepository),
@@ -118,6 +125,14 @@ object UseCaseModule {
             getOrdersByClientUseCase = GetOrdersByClientUseCase(ordersRepository),
             createOrderUseCase = CreateOrderUseCase(ordersRepository),
             updateOrderStatusUseCase = UpdateOrderStatusUseCase(ordersRepository)
+        )
+    }
+
+    @Provides
+    fun provideInfoUseCase(infoRepository: InfoRepository): InfoUseCase {
+        return InfoUseCase(
+            getInfoUseCase = GetInfoUseCase(infoRepository),
+            getInfoByKeyUseCase = GetInfoByKeyUseCase(infoRepository)
         )
     }
 }

@@ -36,7 +36,7 @@ fun ProfileInfoItem(title: String, @StringRes subtitle: Int) {
                     start.linkTo(parent.start)
                     end.linkTo(parent.end)
                     top.linkTo(titleRef.bottom)
-                    bottom.linkTo(parent.bottom)
+                    bottom.linkTo(dividerRef.top)
                 }, text = stringResource(subtitle)
         )
         Divider(modifier = Modifier.constrainAs(dividerRef) {

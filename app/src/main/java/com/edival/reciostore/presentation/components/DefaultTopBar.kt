@@ -6,8 +6,8 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.ShoppingCart
+import androidx.compose.material.icons.outlined.ArrowBack
+import androidx.compose.material.icons.outlined.ShoppingCart
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -33,13 +33,13 @@ fun DefaultTopBar(
     }, backgroundColor = primaryColor, elevation = 0.dp, navigationIcon = {
         if (upAvailable) {
             IconButton(onClick = { navHostController?.popBackStack() }) {
-                Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
+                Icon(imageVector = Icons.Outlined.ArrowBack, contentDescription = null)
             }
         }
     }, actions = {
         if (hasActions) {
             IconButton(onClick = { navHostController?.navigate(ShoppingBagScreen.ShoppingBag.route) }) {
-                Icon(imageVector = Icons.Default.ShoppingCart, contentDescription = null)
+                Icon(imageVector = Icons.Outlined.ShoppingCart, contentDescription = null)
             }
         }
     })

@@ -20,8 +20,8 @@ import androidx.constraintlayout.compose.Dimension
 import androidx.navigation.NavHostController
 import com.edival.reciostore.R
 import com.edival.reciostore.domain.model.Product
+import com.edival.reciostore.presentation.components.ShowImage
 import com.edival.reciostore.presentation.navigation.screen.client.ClientProductScreen
-import com.edival.reciostore.presentation.util.ShowImage
 
 @Composable
 fun ClientProductListByCategoryItem(navHostController: NavHostController, product: Product) {
@@ -39,18 +39,20 @@ fun ClientProductListByCategoryItem(navHostController: NavHostController, produc
         ) {
             val (imgCtg, columnInfo) = createRefs()
             val imgGuide = createGuidelineFromStart(0.2f)
-            ShowImage(
-                modifier = Modifier
-                    .clip(RoundedCornerShape(dimensionResource(R.dimen.padding_default)))
-                    .constrainAs(imgCtg) {
-                        start.linkTo(parent.start)
-                        end.linkTo(imgGuide)
-                        top.linkTo(parent.top)
-                        bottom.linkTo(parent.bottom)
-                        height = Dimension.fillToConstraints
-                        width = Dimension.fillToConstraints
-                    }, url = product.img1, icon = Icons.Outlined.Info
-            )
+            product.phi?.let { images ->
+                ShowImage(
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(dimensionResource(R.dimen.padding_default)))
+                        .constrainAs(imgCtg) {
+                            start.linkTo(parent.start)
+                            end.linkTo(imgGuide)
+                            top.linkTo(parent.top)
+                            bottom.linkTo(parent.bottom)
+                            height = Dimension.fillToConstraints
+                            width = Dimension.fillToConstraints
+                        }, url = images.first().img_url, icon = Icons.Outlined.Info
+                )
+            }
             Column(modifier = Modifier.constrainAs(columnInfo) {
                 start.linkTo(imgGuide)
                 end.linkTo(parent.end)

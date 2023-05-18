@@ -14,15 +14,12 @@ import com.edival.reciostore.presentation.screens.admin.order.list.AdminOrderLis
 @Composable
 fun GetOrders(
     navHostController: NavHostController,
-    paddingValues: PaddingValues,
+    padding: PaddingValues,
     vm: AdminOrderListViewModel = hiltViewModel()
 ) {
     when (val response = vm.ordersResponse) {
         Resource.Loading -> DefaultProgressBar()
-        is Resource.Success -> AdminOrderListContent(
-            paddingValues, response.data, navHostController
-        )
-
+        is Resource.Success -> AdminOrderListContent(padding, response.data, navHostController)
         is Resource.Failure -> Toast.makeText(
             LocalContext.current, response.message, Toast.LENGTH_SHORT
         ).show()

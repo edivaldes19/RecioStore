@@ -9,7 +9,8 @@ import com.edival.reciostore.presentation.navigation.graph.profile.profileNavGra
 import com.edival.reciostore.presentation.navigation.screen.admin.AdminScreen
 import com.edival.reciostore.presentation.screens.admin.category.list.AdminCategoryListScreen
 import com.edival.reciostore.presentation.screens.admin.order.list.AdminOrderListScreen
-import com.edival.reciostore.presentation.screens.profile.info.ProfileScreen
+import com.edival.reciostore.presentation.screens.admin.user.list.AdminUserListScreen
+import com.edival.reciostore.presentation.screens.profile.info.ProfileInfoScreen
 
 @Composable
 fun AdminNavGraph(navHostController: NavHostController) {
@@ -20,9 +21,11 @@ fun AdminNavGraph(navHostController: NavHostController) {
     ) {
         composable(AdminScreen.CategoryList.route) { AdminCategoryListScreen(navHostController) }
         composable(AdminScreen.OrderList.route) { AdminOrderListScreen(navHostController) }
-        composable(AdminScreen.Profile.route) { ProfileScreen(navHostController) }
-        profileNavGraph(navHostController)
+        composable(AdminScreen.UserList.route) { AdminUserListScreen(navHostController) }
+        composable(AdminScreen.Profile.route) { ProfileInfoScreen(navHostController) }
         adminCategoryNavGraph(navHostController)
         adminOrderNavGraph(navHostController)
+        adminUserNavGraph(navHostController)
+        profileNavGraph(navHostController)
     }
 }

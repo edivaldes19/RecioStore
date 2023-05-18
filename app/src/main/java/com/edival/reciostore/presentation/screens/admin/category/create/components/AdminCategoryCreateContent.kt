@@ -1,6 +1,9 @@
 package com.edival.reciostore.presentation.screens.admin.category.create.components
 
+import android.net.Uri
 import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -21,39 +24,40 @@ import androidx.compose.material.icons.outlined.Create
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.edival.reciostore.R
+import com.edival.reciostore.core.Config
 import com.edival.reciostore.presentation.components.DefaultButton
 import com.edival.reciostore.presentation.components.DefaultTextField
-import com.edival.reciostore.presentation.components.DialogCapturePicture
+import com.edival.reciostore.presentation.components.ShowImage
 import com.edival.reciostore.presentation.screens.admin.category.create.AdminCategoryCreateViewModel
 import com.edival.reciostore.presentation.ui.theme.primaryColor
-import com.edival.reciostore.presentation.util.ShowImage
 
 @Composable
 fun AdminCategoryCreateContent(
     padding: PaddingValues, vm: AdminCategoryCreateViewModel = hiltViewModel()
 ) {
     val ctx = LocalContext.current
-    val stateDialog = remember { mutableStateOf(false) }
-    vm.resultingActivityHandler.Handle()
+    val launcher =
+        rememberLauncherForActivityResult(contract = ActivityResultContracts.GetContent()) { uri: Uri? ->
+            uri?.let { photo ->
+                vm.imgUri = photo
+                vm.onImageInput(photo.toString())
+            }
+        }
     LaunchedEffect(key1 = vm.errorMessage) {
         if (vm.errorMessage.isNotBlank()) {
             Toast.makeText(ctx, vm.errorMessage, Toast.LENGTH_SHORT).show()
             vm.errorMessage = ""
         }
     }
-    DialogCapturePicture(status = stateDialog,
-        takePhoto = { vm.takePhoto(ctx) },
-        pickImage = { vm.pickImage(ctx) })
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
@@ -61,24 +65,23 @@ fun AdminCategoryCreateContent(
             .padding(padding)
     ) {
         val (iconCategory, cardInfo) = createRefs()
-        val topCard = createGuidelineFromTop(0.2f)
         ShowImage(modifier = Modifier
             .height(dimensionResource(R.dimen.icon_big_size))
             .width(dimensionResource(R.dimen.icon_big_size))
             .clip(CircleShape)
-            .clickable { stateDialog.value = true }
+            .clickable { launcher.launch(Config.IMAGES_MT) }
             .constrainAs(iconCategory) {
                 start.linkTo(parent.start)
                 end.linkTo(parent.end)
-                top.linkTo(parent.top)
-                bottom.linkTo(cardInfo.top)
-            }, url = vm.state.img, icon = Icons.Outlined.AddCircle
+                top.linkTo(parent.top, margin = 16.dp)
+                bottom.linkTo(cardInfo.top, margin = 8.dp)
+            }, url = vm.state.imgSelected, icon = Icons.Outlined.AddCircle
         )
         Card(
             modifier = Modifier.constrainAs(cardInfo) {
                 start.linkTo(parent.start)
                 end.linkTo(parent.end)
-                top.linkTo(topCard)
+                top.linkTo(iconCategory.bottom, margin = 8.dp)
                 bottom.linkTo(parent.bottom)
                 height = Dimension.fillToConstraints
                 width = Dimension.fillToConstraints

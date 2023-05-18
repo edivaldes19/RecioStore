@@ -18,8 +18,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.navigation.NavHostController
 import com.edival.reciostore.R
 import com.edival.reciostore.domain.model.Category
+import com.edival.reciostore.presentation.components.ShowImage
 import com.edival.reciostore.presentation.navigation.screen.client.ClientCategoryScreen
-import com.edival.reciostore.presentation.util.ShowImage
 
 @Composable
 fun ClientCategoryListItem(navHostController: NavHostController, category: Category) {

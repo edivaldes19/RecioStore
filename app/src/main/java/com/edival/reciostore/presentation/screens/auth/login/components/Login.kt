@@ -13,7 +13,7 @@ import com.edival.reciostore.presentation.navigation.Graph
 import com.edival.reciostore.presentation.screens.auth.login.LoginViewModel
 
 @Composable
-fun Login(navController: NavHostController, vm: LoginViewModel = hiltViewModel()) {
+fun Login(navHostController: NavHostController, vm: LoginViewModel = hiltViewModel()) {
     when (val response = vm.logInResponse) {
         Resource.Loading -> DefaultProgressBar()
         is Resource.Success -> {
@@ -21,12 +21,12 @@ fun Login(navController: NavHostController, vm: LoginViewModel = hiltViewModel()
                 vm.saveSession(response.data)
                 response.data.user?.roles?.let { roles ->
                     if (roles.size > 1) {
-                        navController.navigate(Graph.ROLES) {
+                        navHostController.navigate(Graph.ROLES) {
                             popUpTo(Graph.AUTH) { inclusive = true }
                         }
                     } else {
                         roles.first().name?.let { roleName -> vm.saveRoleName(roleName) }
-                        navController.navigate(Graph.CLIENT) {
+                        navHostController.navigate(Graph.CLIENT) {
                             popUpTo(Graph.AUTH) { inclusive = true }
                         }
                     }

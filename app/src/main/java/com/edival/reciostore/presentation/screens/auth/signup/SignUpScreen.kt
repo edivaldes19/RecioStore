@@ -9,7 +9,7 @@ import com.edival.reciostore.presentation.screens.auth.signup.components.SignUp
 import com.edival.reciostore.presentation.screens.auth.signup.components.SignUpContent
 
 @Composable
-fun RegisterScreen(navHostController: NavHostController) {
+fun SignUpScreen(navHostController: NavHostController) {
     Scaffold(topBar = {
         DefaultTopBar(
             titleRes = R.string.sign_up, upAvailable = true, navHostController = navHostController

@@ -5,14 +5,7 @@ import com.edival.reciostore.domain.model.Product
 
 fun ProductEntity.toProduct(): Product {
     return Product(
-        id = id,
-        name = name,
-        description = description,
-        img1 = img1,
-        img2 = img2,
-        price = price,
-        id_category = id_category,
-        images_to_update = null
+        id = id, name = name, description = description, price = price, id_category = id_category
     )
 }
 
@@ -21,8 +14,6 @@ fun Product.toProductEntity(): ProductEntity {
         id = id.orEmpty(),
         name = name.orEmpty(),
         description = description.orEmpty(),
-        img1 = img1.orEmpty(),
-        img2 = img2.orEmpty(),
         price = price,
         id_category = id_category.orEmpty()
     )

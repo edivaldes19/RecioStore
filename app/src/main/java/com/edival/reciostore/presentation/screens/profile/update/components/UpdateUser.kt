@@ -3,7 +3,6 @@ package com.edival.reciostore.presentation.screens.profile.update.components
 import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.edival.reciostore.R
 import com.edival.reciostore.domain.util.Resource
@@ -18,9 +17,7 @@ fun UpdateUser(vm: ProfileUpdateViewModel = hiltViewModel()) {
             vm.enabledBtn = true
             vm.updateUserSession(response.data)
             Toast.makeText(
-                LocalContext.current,
-                stringResource(R.string.profile_updated_successfully),
-                Toast.LENGTH_SHORT
+                LocalContext.current, R.string.profile_updated_successfully, Toast.LENGTH_SHORT
             ).show()
         }
 
@@ -33,7 +30,7 @@ fun UpdateUser(vm: ProfileUpdateViewModel = hiltViewModel()) {
             response?.let {
                 vm.enabledBtn = true
                 Toast.makeText(
-                    LocalContext.current, stringResource(R.string.unknown_error), Toast.LENGTH_SHORT
+                    LocalContext.current, R.string.unknown_error, Toast.LENGTH_SHORT
                 ).show()
             }
         }

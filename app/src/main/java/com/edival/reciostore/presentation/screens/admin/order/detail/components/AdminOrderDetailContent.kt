@@ -1,5 +1,6 @@
 package com.edival.reciostore.presentation.screens.admin.order.detail.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -26,6 +27,7 @@ import com.edival.reciostore.presentation.components.DefaultButton
 import com.edival.reciostore.presentation.components.OrderDetailInfoItem
 import com.edival.reciostore.presentation.components.OrderDetailProductItem
 import com.edival.reciostore.presentation.screens.admin.order.detail.AdminOrderDetailViewModel
+import com.edival.reciostore.presentation.ui.theme.backgroundGray
 
 @Composable
 fun AdminOrderDetailContent(
@@ -38,14 +40,16 @@ fun AdminOrderDetailContent(
     ) {
         val (productsListRef, cardInfo) = createRefs()
         val topCard = createGuidelineFromTop(0.5f)
-        LazyColumn(modifier = Modifier.constrainAs(productsListRef) {
-            start.linkTo(parent.start)
-            end.linkTo(parent.end)
-            top.linkTo(parent.top)
-            bottom.linkTo(topCard)
-            height = Dimension.fillToConstraints
-            width = Dimension.fillToConstraints
-        }) {
+        LazyColumn(modifier = Modifier
+            .background(backgroundGray)
+            .constrainAs(productsListRef) {
+                start.linkTo(parent.start)
+                end.linkTo(parent.end)
+                top.linkTo(parent.top)
+                bottom.linkTo(topCard)
+                height = Dimension.fillToConstraints
+                width = Dimension.fillToConstraints
+            }) {
             items(items = order.ohp ?: listOf()) { orderHasProducts ->
                 OrderDetailProductItem(orderHasProducts)
             }
@@ -95,18 +99,16 @@ fun AdminOrderDetailContent(
                 ConstraintLayout(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(vertical = dimensionResource(R.dimen.padding_min))
+                        .padding(all = dimensionResource(R.dimen.padding_default))
                 ) {
                     val (txtTotal, btnUpdateOrder) = createRefs()
                     Text(
-                        modifier = Modifier
-                            .padding(vertical = dimensionResource(R.dimen.padding_ultra_min))
-                            .constrainAs(txtTotal) {
-                                start.linkTo(parent.start)
-                                end.linkTo(btnUpdateOrder.end)
-                                top.linkTo(parent.top)
-                                bottom.linkTo(parent.bottom)
-                            },
+                        modifier = Modifier.constrainAs(txtTotal) {
+                            start.linkTo(parent.start)
+                            end.linkTo(btnUpdateOrder.start)
+                            top.linkTo(parent.top)
+                            bottom.linkTo(parent.bottom)
+                        },
                         text = stringResource(R.string.total_value, vm.totalToPay),
                         fontWeight = FontWeight.Bold
                     )

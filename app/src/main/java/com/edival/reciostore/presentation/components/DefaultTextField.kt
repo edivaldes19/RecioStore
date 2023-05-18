@@ -9,9 +9,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.VisualTransformation
 
 @Composable
 fun DefaultTextField(
@@ -20,16 +20,19 @@ fun DefaultTextField(
     onValueChange: (value: String) -> Unit,
     @StringRes label: Int,
     icon: ImageVector,
-    keyboardType: KeyboardType = KeyboardType.Text,
-    hideText: Boolean = false
+    keyboardType: KeyboardType = KeyboardType.Text
 ) {
     OutlinedTextField(
         modifier = modifier,
         value = value,
-        onValueChange = { values -> onValueChange(values) },
+        onValueChange = { if (it.length <= 50) onValueChange(it) },
         label = { Text(text = stringResource(label)) },
         leadingIcon = { Icon(imageVector = icon, contentDescription = null) },
-        keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
-        visualTransformation = if (hideText) PasswordVisualTransformation() else VisualTransformation.None
+        keyboardOptions = KeyboardOptions(
+            capitalization = KeyboardCapitalization.Sentences,
+            keyboardType = keyboardType,
+            imeAction = ImeAction.Next
+        ),
+        singleLine = true
     )
 }

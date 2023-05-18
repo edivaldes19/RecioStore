@@ -7,6 +7,7 @@ import androidx.compose.material.Icon
 import androidx.compose.material.LocalContentColor
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -21,7 +22,8 @@ fun RowScope.ClientBottomBarItem(
     BottomNavigationItem(label = { Text(text = stringResource(screen.title)) },
         icon = {
             Icon(
-                imageVector = screen.icon, contentDescription = stringResource(screen.title)
+                painter = painterResource(screen.icon),
+                contentDescription = stringResource(screen.title)
             )
         },
         selected = currentDestination?.hierarchy?.any { destination -> destination.route == screen.route } == true,

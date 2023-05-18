@@ -24,11 +24,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.edival.reciostore.R
 import com.edival.reciostore.domain.model.Category
+import com.edival.reciostore.presentation.components.ShowImage
 import com.edival.reciostore.presentation.navigation.screen.admin.AdminCategoryScreen
 import com.edival.reciostore.presentation.screens.admin.category.list.AdminCategoryListViewModel
 import com.edival.reciostore.presentation.ui.theme.errorRed
 import com.edival.reciostore.presentation.ui.theme.secondaryColor
-import com.edival.reciostore.presentation.util.ShowImage
 
 @Composable
 fun AdminCategoryListItem(

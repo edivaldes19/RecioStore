@@ -8,7 +8,7 @@ data class Category(
     val id: String? = null,
     val name: String? = null,
     val description: String? = null,
-    val img: String? = null
+    var img: String? = null
 ) {
     fun toJson(): String = Gson().toJson(
         Category(

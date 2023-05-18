@@ -1,6 +1,5 @@
 package com.edival.reciostore.presentation.screens.client.order.detail
 
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -20,11 +19,10 @@ class ClientOrderDetailViewModel @Inject constructor(savedStateHandle: SavedStat
 
     init {
         savedStateHandle.get<String>("order")?.let { orderStr ->
-            Log.d("ClientOrderDetailViewModel", "ORDER: $orderStr")
-//            order = Order.fromJson(orderStr)
-//            order!!.ohp?.forEach { ohp ->
-//                totalToPay += (ohp.quantity * (ohp.product?.price ?: 0.0))
-//            }
+            order = Order.fromJson(orderStr)
+            order!!.ohp?.forEach { ohp ->
+                totalToPay += (ohp.quantity * (ohp.product?.price ?: 0.0))
+            }
         }
     }
 }

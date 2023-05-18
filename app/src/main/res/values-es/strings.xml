@@ -17,7 +17,7 @@
     <string name="invalid_name">El nombre debe ser mayor o igual a 5 caracteres.</string>
     <string name="invalid_surname">El apellido debe ser mayor o igual a 5 caracteres.</string>
     <string name="invalid_phone">El teléfono debe ser mayor o igual a 10 caracteres.</string>
-    <string name="invalid_password_matches">las contraseñas no coinciden.</string>
+    <string name="invalid_password_matches">Las contraseñas no coinciden.</string>
     <string name="unknown_error">Ocurrió un error desconocido.</string>
     <string name="admin">Administrador</string>
     <string name="client">Cliente</string>
@@ -27,7 +27,7 @@
     <string name="profile">Perfil</string>
     <string name="logout">Cerrar sesión</string>
     <string name="profile_picture">Foto de perfil</string>
-    <string name="username">Nombre de usuario</string>
+    <string name="username">Nombre(s) y apellido(s)</string>
     <string name="update_profile">Actualizar perfil</string>
     <string name="select_an_option">Seleccione una opción</string>
     <string name="gallery">Galería</string>
@@ -92,4 +92,28 @@
     <string name="product_to_sb">Producto agregado/actualizado en la bolsa de compras.</string>
     <string name="current_role">Rol actual</string>
     <string name="order_created_successfully">Orden creada exitosamente.</string>
+    <string name="users_src">Usuarios</string>
+    <string name="user_info">Información del usuario</string>
+    <string name="change_role">Cambiar de rol</string>
+    <string name="i_wanna_admin">Quiero ser administrador</string>
+    <string name="i_wanna_client">Quiero ser cliente</string>
+    <string name="ok_msg">Aceptar</string>
+    <string name="cancel_msg">Cancelar</string>
+    <string name="change_password">Cambiar contraseña</string>
+    <string name="role_assignment">Asignación de rol</string>
+    <string name="account_successfully_deleted">Cuenta eliminada exitosamente.</string>
+    <string name="delete_account">Eliminar cuenta</string>
+    <string name="password_updated_successfully">Contraseña actualizada exitosamente.</string>
+    <string name="new_password">Contraseña nueva</string>
+    <string name="both_images_are_required">Ambas imágenes son obligatorias.</string>
+    <string name="image_is_required">La imagen es obligatoria.</string>
+    <string name="id_cannot_be_null">El ID no puede ser nulo.</string>
+    <string name="wait_a_moment">Espere un momento…</string>
+    <string name="incorrect_password">Contraseña incorrecta.</string>
+    <string name="roles_updated_successfully">Roles actualizados exitosamente.</string>
+    <string name="master_password">Contraseña maestra</string>
+    <string name="error_connecting_server">Error en la conexión con el servidor.</string>
+    <string name="update_required">Actualización requerida</string>
+    <string name="dialog_text_loading">¡Hay una nueva version disponible! (%1$s), Por favor, actualiza la aplicación para seguir utilizando sus funcionalidades.</string>
+    <string name="getting_user_session">Obteniendo sesión del usuario…</string>
 </resources>

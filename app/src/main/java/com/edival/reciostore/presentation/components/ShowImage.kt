@@ -1,4 +1,4 @@
-package com.edival.reciostore.presentation.util
+package com.edival.reciostore.presentation.components
 
 import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable

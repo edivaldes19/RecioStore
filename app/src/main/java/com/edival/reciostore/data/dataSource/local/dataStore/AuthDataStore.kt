@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.runBlocking
 
-class AuthDataStore constructor(private val dataStore: DataStore<Preferences>) {
+class AuthDataStore(private val dataStore: DataStore<Preferences>) {
     suspend fun saveUser(authResponse: AuthResponse) {
         val dataStoreKey = stringPreferencesKey(Config.AUTH_KEY)
         dataStore.edit { pref -> pref[dataStoreKey] = authResponse.toJson() }

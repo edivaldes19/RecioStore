@@ -20,32 +20,32 @@ import com.edival.reciostore.R
 @Composable
 fun OrderDetailInfoItem(@StringRes titleRes: Int, subtitle: String?, @DrawableRes icon: Int) {
     ConstraintLayout(modifier = Modifier.fillMaxWidth()) {
-        val (titleRef, subtitleRef, dividerRef, iconRef) = createRefs()
+        val (titleRef, subtitleRef, iconRef, dividerRef) = createRefs()
+        val iconGuide = createGuidelineFromEnd(0.1f)
         Text(
             modifier = Modifier
                 .padding(vertical = dimensionResource(R.dimen.padding_ultra_min))
                 .constrainAs(titleRef) {
                     start.linkTo(parent.start)
-                    end.linkTo(iconRef.start)
+                    end.linkTo(iconGuide)
                     top.linkTo(parent.top)
                     bottom.linkTo(subtitleRef.top)
-                    height = Dimension.fillToConstraints
                     width = Dimension.fillToConstraints
-                }, text = stringResource(titleRes), fontWeight = FontWeight.Bold
+                }, text = stringResource(titleRes)
         )
         Text(
             modifier = Modifier
                 .padding(vertical = dimensionResource(R.dimen.padding_ultra_min))
                 .constrainAs(subtitleRef) {
                     start.linkTo(parent.start)
-                    end.linkTo(iconRef.start)
+                    end.linkTo(iconGuide)
                     top.linkTo(titleRef.bottom)
-                    bottom.linkTo(parent.bottom)
-                    height = Dimension.fillToConstraints
+                    bottom.linkTo(dividerRef.top)
                     width = Dimension.fillToConstraints
-                }, text = subtitle ?: stringResource(R.string.unknown)
+                }, text = subtitle ?: stringResource(R.string.unknown), fontWeight = FontWeight.Bold
         )
-        Icon(modifier = Modifier.constrainAs(subtitleRef) {
+        Icon(modifier = Modifier.constrainAs(iconRef) {
+            start.linkTo(iconGuide)
             end.linkTo(parent.end)
             top.linkTo(parent.top)
             bottom.linkTo(parent.bottom)

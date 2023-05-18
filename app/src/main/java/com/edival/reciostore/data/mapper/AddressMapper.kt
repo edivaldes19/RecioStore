@@ -4,9 +4,7 @@ import com.edival.reciostore.data.dataSource.local.entity.AddressEntity
 import com.edival.reciostore.domain.model.Address
 
 fun AddressEntity.toAddress(): Address {
-    return Address(
-        id = id, address = address, neighborhood = neighborhood, id_user = id_user
-    )
+    return Address(id = id, address = address, neighborhood = neighborhood, id_user = id_user)
 }
 
 fun Address.toAddressEntity(): AddressEntity {

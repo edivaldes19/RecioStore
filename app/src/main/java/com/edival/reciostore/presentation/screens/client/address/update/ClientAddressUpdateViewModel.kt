@@ -44,10 +44,10 @@ class ClientAddressUpdateViewModel @Inject constructor(
     }
 
     fun updateAddress(): Job = viewModelScope.launch {
-        idAddress?.let { id ->
+        if (!idAddress.isNullOrBlank()) {
             enabledBtn = false
             addressResponse = Resource.Loading
-            addressUseCase.updateAddressUseCase(id, state.toAddress()).also { result ->
+            addressUseCase.updateAddressUseCase(idAddress!!, state.toAddress()).also { result ->
                 addressResponse = result
             }
         }

@@ -1,35 +1,29 @@
 package com.edival.reciostore.presentation.screens.profile.update.components
 
+import android.net.Uri
 import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
-import androidx.compose.material.FloatingActionButton
-import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.Phone
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
@@ -38,53 +32,48 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.edival.reciostore.R
+import com.edival.reciostore.core.Config
 import com.edival.reciostore.presentation.components.DefaultButton
 import com.edival.reciostore.presentation.components.DefaultTextField
-import com.edival.reciostore.presentation.components.DialogCapturePicture
+import com.edival.reciostore.presentation.components.ShowImage
 import com.edival.reciostore.presentation.screens.profile.update.ProfileUpdateViewModel
 import com.edival.reciostore.presentation.ui.theme.primaryColor
-import com.edival.reciostore.presentation.util.ShowImage
 
 @Composable
 fun ProfileUpdateContent(padding: PaddingValues, vm: ProfileUpdateViewModel = hiltViewModel()) {
     val ctx = LocalContext.current
-    val stateDialog = remember { mutableStateOf(false) }
-    vm.resultingActivityHandler.Handle()
+    val launcher =
+        rememberLauncherForActivityResult(contract = ActivityResultContracts.GetContent()) { uri: Uri? ->
+            uri?.let { photo ->
+                vm.imgUri = photo
+                vm.onImageInput(photo.toString())
+            }
+        }
     LaunchedEffect(key1 = vm.errorMessage) {
         if (vm.errorMessage.isNotBlank()) {
             Toast.makeText(ctx, vm.errorMessage, Toast.LENGTH_SHORT).show()
             vm.errorMessage = ""
         }
     }
-    DialogCapturePicture(status = stateDialog,
-        takePhoto = { vm.takePhoto(ctx) },
-        pickImage = { vm.pickImage(ctx) })
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
             .background(primaryColor)
             .padding(padding)
     ) {
-        val (imgUser, btnUpdatePhoto, cardInfo) = createRefs()
-        val topCard = createGuidelineFromTop(0.5f)
+        val (imgUser, cardInfo) = createRefs()
+        val topCard = createGuidelineFromTop(0.33f)
         ShowImage(modifier = Modifier
-            .height(dimensionResource(R.dimen.icon_big_size))
-            .width(dimensionResource(R.dimen.icon_big_size))
-            .clip(CircleShape)
-            .clickable { stateDialog.value = true }
+            .clickable { launcher.launch(Config.IMAGES_MT) }
             .constrainAs(imgUser) {
                 start.linkTo(parent.start)
-                end.linkTo(btnUpdatePhoto.start)
+                end.linkTo(parent.end)
                 top.linkTo(parent.top)
-                bottom.linkTo(cardInfo.top)
-            }, url = vm.state.img, icon = Icons.Outlined.Person
+                bottom.linkTo(topCard)
+                height = Dimension.fillToConstraints
+                width = Dimension.fillToConstraints
+            }, url = vm.state.imgSelected ?: vm.state.img, icon = Icons.Outlined.Person
         )
-        FloatingActionButton(modifier = Modifier.constrainAs(btnUpdatePhoto) {
-            start.linkTo(imgUser.end)
-            end.linkTo(parent.end)
-            top.linkTo(imgUser.top)
-            bottom.linkTo(imgUser.bottom)
-        }, onClick = { vm.updateUserImage() }) { Icon(Icons.Outlined.Edit, null) }
         Card(
             modifier = Modifier.constrainAs(cardInfo) {
                 start.linkTo(parent.start)

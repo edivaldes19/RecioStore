@@ -24,6 +24,7 @@ fun AdminOrderListContent(
             .fillMaxSize()
     ) {
         items(items = orders) { order ->
+            order.user?.password = null
             OrderListItem(order) {
                 navHostController.navigate(AdminOrderScreen.OrderDetail.passOrder(order.toJson()))
             }

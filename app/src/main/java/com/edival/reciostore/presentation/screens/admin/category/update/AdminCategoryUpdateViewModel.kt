@@ -1,6 +1,8 @@
 package com.edival.reciostore.presentation.screens.admin.category.update
 
 import android.content.Context
+import android.net.Uri
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -8,18 +10,14 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.edival.reciostore.R
-import com.edival.reciostore.core.Config
 import com.edival.reciostore.domain.model.Category
 import com.edival.reciostore.domain.useCase.categories.CategoriesUseCase
 import com.edival.reciostore.domain.util.Resource
 import com.edival.reciostore.presentation.screens.admin.category.AdminCategoryState
 import com.edival.reciostore.presentation.screens.admin.category.mapper.toCategory
-import com.edival.reciostore.presentation.util.ComposeFileProvider
-import com.edival.reciostore.presentation.util.ResultingActivityHandler
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import java.io.File
 import javax.inject.Inject
 
 @HiltViewModel
@@ -30,15 +28,15 @@ class AdminCategoryUpdateViewModel @Inject constructor(
         private set
     var categoryResponse by mutableStateOf<Resource<Category>?>(null)
         private set
+    var imgUri by mutableStateOf<Uri?>(null)
     var enabledBtn by mutableStateOf(true)
     var errorMessage by mutableStateOf("")
-    val resultingActivityHandler = ResultingActivityHandler()
-    private var file: File? = null
     private var idCategory: String? = null
 
     init {
         savedStateHandle.get<String>("category")?.let { categoryStr ->
             Category.fromJson(categoryStr).also { category ->
+                Log.d("AdminCategoryUpdateViewModel", "CATEGORY: $category")
                 idCategory = category.id
                 state = state.copy(
                     name = category.name.orEmpty(),
@@ -50,40 +48,11 @@ class AdminCategoryUpdateViewModel @Inject constructor(
     }
 
     fun updateCategory(): Job = viewModelScope.launch {
-        idCategory?.let { id ->
+        if (!idCategory.isNullOrBlank()) {
             enabledBtn = false
             categoryResponse = Resource.Loading
-            categoriesUseCase.updateCategoryUseCase(id, state.toCategory()).also { result ->
-                categoryResponse = result
-            }
-        }
-    }
-
-    fun updateCategoryImage(): Job = viewModelScope.launch {
-        if (idCategory != null && file != null) {
-            enabledBtn = false
-            categoryResponse = Resource.Loading
-            categoriesUseCase.updateCategoryImageUseCase(idCategory!!, file!!).also { result ->
-                categoryResponse = result
-            }
-        }
-    }
-
-    fun pickImage(ctx: Context): Job = viewModelScope.launch {
-        resultingActivityHandler.getContent(Config.IMAGES_MT).also { result ->
-            result?.let { uri ->
-                state = state.copy(img = uri.toString())
-                file = ComposeFileProvider.createFileFromUri(ctx, uri)
-            }
-        }
-    }
-
-    fun takePhoto(ctx: Context): Job = viewModelScope.launch {
-        resultingActivityHandler.takePicturePreview().also { result ->
-            result?.let { bitmap ->
-                state = state.copy(img = ComposeFileProvider.getPathFromBitmap(ctx, bitmap))
-                file = File(state.img!!)
-            }
+            categoriesUseCase.updateCategoryUseCase(idCategory!!, state.toCategory(), imgUri)
+                .also { result -> categoryResponse = result }
         }
     }
 
@@ -93,6 +62,10 @@ class AdminCategoryUpdateViewModel @Inject constructor(
 
     fun onDescriptionInput(description: String) {
         state = state.copy(description = description)
+    }
+
+    fun onImageInput(url: String) {
+        state = state.copy(imgSelected = url)
     }
 
     fun validateForm(ctx: Context, isValid: (Boolean) -> Unit) {

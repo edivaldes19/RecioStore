@@ -31,9 +31,9 @@ class AdminCategoryListViewModel @Inject constructor(private val categoriesUseCa
     }
 
     fun deleteCategory(idCtg: String?): Job = viewModelScope.launch {
-        idCtg?.let { id ->
+        if (!idCtg.isNullOrBlank()) {
             deleteCategoryResponse = Resource.Loading
-            categoriesUseCase.deleteCategoryUseCase(id).also { result ->
+            categoriesUseCase.deleteCategoryUseCase(idCtg).also { result ->
                 deleteCategoryResponse = result
             }
         }

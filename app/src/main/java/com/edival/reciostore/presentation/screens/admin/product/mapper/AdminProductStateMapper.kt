@@ -5,12 +5,9 @@ import com.edival.reciostore.presentation.screens.admin.product.AdminProductStat
 
 fun AdminProductState.toProduct(): Product {
     return Product(
-        name = name,
-        description = description,
+        name = name.trim(),
+        description = description.trim(),
         price = price,
-        id_category = id_category,
-        img1 = img1,
-        img2 = img2,
-        images_to_update = images_to_update
+        id_category = id_category.trim()
     )
 }

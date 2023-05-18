@@ -69,16 +69,16 @@ class ClientAddressListViewModel @Inject constructor(
 
     fun onSelectedAddressInput(address: Address): Job = viewModelScope.launch {
         selectedAddress = address.id.orEmpty()
-        user?.let { u ->
-            u.address = address
-            authUseCase.updateSessionUseCase(u)
+        user?.let { myUser ->
+            myUser.address = address
+            authUseCase.updateSessionUseCase(myUser)
         }
     }
 
     fun deleteAddress(idAddress: String?): Job = viewModelScope.launch {
-        idAddress?.let { id ->
+        if (!idAddress.isNullOrBlank()) {
             deleteAddressResponse = Resource.Loading
-            addressUseCase.deleteAddressUseCase(id).also { result ->
+            addressUseCase.deleteAddressUseCase(idAddress).also { result ->
                 deleteAddressResponse = result
             }
         }

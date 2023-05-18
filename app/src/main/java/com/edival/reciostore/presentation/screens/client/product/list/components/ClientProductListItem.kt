@@ -1,5 +1,6 @@
 package com.edival.reciostore.presentation.screens.client.product.list.components
 
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -20,8 +21,8 @@ import androidx.constraintlayout.compose.Dimension
 import androidx.navigation.NavHostController
 import com.edival.reciostore.R
 import com.edival.reciostore.domain.model.Product
+import com.edival.reciostore.presentation.components.ShowImage
 import com.edival.reciostore.presentation.navigation.screen.client.ClientProductScreen
-import com.edival.reciostore.presentation.util.ShowImage
 
 @Composable
 fun ClientProductListItem(navHostController: NavHostController, product: Product) {
@@ -29,6 +30,8 @@ fun ClientProductListItem(navHostController: NavHostController, product: Product
         modifier = Modifier
             .padding(all = dimensionResource(R.dimen.padding_min))
             .clickable {
+                Log.d("ClientProductListItem", "product: $product")
+                Log.d("ClientProductListItem", "product.toJson(): ${product.toJson()}")
                 navHostController.navigate(ClientProductScreen.ProductDetail.passProduct(product.toJson()))
             }, shape = RoundedCornerShape(dimensionResource(R.dimen.padding_default))
     ) {
@@ -39,18 +42,20 @@ fun ClientProductListItem(navHostController: NavHostController, product: Product
         ) {
             val (imgCtg, columnInfo) = createRefs()
             val imgGuide = createGuidelineFromStart(0.2f)
-            ShowImage(
-                modifier = Modifier
-                    .clip(RoundedCornerShape(dimensionResource(R.dimen.padding_default)))
-                    .constrainAs(imgCtg) {
-                        start.linkTo(parent.start)
-                        end.linkTo(imgGuide)
-                        top.linkTo(parent.top)
-                        bottom.linkTo(parent.bottom)
-                        height = Dimension.fillToConstraints
-                        width = Dimension.fillToConstraints
-                    }, url = product.img1, icon = Icons.Outlined.Info
-            )
+            product.phi?.let { images ->
+                ShowImage(
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(dimensionResource(R.dimen.padding_default)))
+                        .constrainAs(imgCtg) {
+                            start.linkTo(parent.start)
+                            end.linkTo(imgGuide)
+                            top.linkTo(parent.top)
+                            bottom.linkTo(parent.bottom)
+                            height = Dimension.fillToConstraints
+                            width = Dimension.fillToConstraints
+                        }, url = images.first().img_url, icon = Icons.Outlined.Info
+                )
+            }
             Column(modifier = Modifier.constrainAs(columnInfo) {
                 start.linkTo(imgGuide)
                 end.linkTo(parent.end)

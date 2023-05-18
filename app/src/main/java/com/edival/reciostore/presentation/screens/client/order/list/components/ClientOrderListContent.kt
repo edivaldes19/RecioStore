@@ -22,6 +22,7 @@ fun ClientOrderListContent(
             .padding(bottom = 55.dp)
     ) {
         items(items = orders) { order ->
+            order.user?.password = null
             OrderListItem(order) {
                 navHostController.navigate(ClientOrderScreen.OrderDetail.passOrder(order.toJson()))
             }

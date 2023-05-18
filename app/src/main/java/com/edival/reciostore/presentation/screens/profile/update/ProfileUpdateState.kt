@@ -1,5 +1,9 @@
 package com.edival.reciostore.presentation.screens.profile.update
 
 data class ProfileUpdateState(
-    val name: String = "", val surname: String = "", val phone: String = "", val img: String? = null
+    val name: String = "",
+    val surname: String = "",
+    val phone: String = "",
+    val img: String? = null,
+    val imgSelected: String? = null
 )

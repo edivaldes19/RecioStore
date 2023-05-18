@@ -20,6 +20,16 @@ class AuthRepositoryImpl(
         return ResponseToRequest.send(remoteDS.signUp(user))
     }
 
+    override suspend fun updatePassword(
+        id: String, oldPassword: String, newPassword: String
+    ): Resource<User> {
+        return ResponseToRequest.send(remoteDS.updatePassword(id, oldPassword, newPassword))
+    }
+
+    override suspend fun deleteAccount(id: String): Resource<Unit> {
+        return ResponseToRequest.send(remoteDS.deleteAccount(id))
+    }
+
     override suspend fun saveUser(authResponse: AuthResponse) = localDS.saveUser(authResponse)
     override suspend fun saveRoleName(name: String) = localDS.saveRoleName(name)
     override suspend fun updateUser(user: User) = localDS.updateUser(user)

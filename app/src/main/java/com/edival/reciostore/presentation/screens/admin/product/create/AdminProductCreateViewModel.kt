@@ -1,6 +1,7 @@
 package com.edival.reciostore.presentation.screens.admin.product.create
 
 import android.content.Context
+import android.net.Uri
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -8,19 +9,15 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.edival.reciostore.R
-import com.edival.reciostore.core.Config
 import com.edival.reciostore.domain.model.Category
 import com.edival.reciostore.domain.model.Product
 import com.edival.reciostore.domain.useCase.products.ProductsUseCase
 import com.edival.reciostore.domain.util.Resource
 import com.edival.reciostore.presentation.screens.admin.product.AdminProductState
 import com.edival.reciostore.presentation.screens.admin.product.mapper.toProduct
-import com.edival.reciostore.presentation.util.ComposeFileProvider
-import com.edival.reciostore.presentation.util.ResultingActivityHandler
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import java.io.File
 import javax.inject.Inject
 
 @HiltViewModel
@@ -33,11 +30,11 @@ class AdminProductCreateViewModel @Inject constructor(
         private set
     var enabledBtn by mutableStateOf(true)
         private set
+    var categoryName by mutableStateOf<String?>(null)
+        private set
     var errorMessage by mutableStateOf("")
-    val resultingActivityHandler = ResultingActivityHandler()
-    var categoryName: String? = null
-    private var file1: File? = null
-    private var file2: File? = null
+    var imgUri1 by mutableStateOf<Uri?>(null)
+    var imgUri2 by mutableStateOf<Uri?>(null)
 
     init {
         savedStateHandle.get<String>("category")?.let { ctgStr ->
@@ -49,50 +46,10 @@ class AdminProductCreateViewModel @Inject constructor(
     }
 
     fun createProduct(): Job = viewModelScope.launch {
-        if (file1 != null && file2 != null) {
-            enabledBtn = false
-            productResponse = Resource.Loading
-            productsUseCase.createProductUseCase(listOf(file1!!, file2!!), state.toProduct())
-                .also { result -> productResponse = result }
-        }
-    }
-
-    fun pickImage(ctx: Context, imageNumber: Int): Job = viewModelScope.launch {
-        resultingActivityHandler.getContent(Config.IMAGES_MT).also { result ->
-            result?.let { uri ->
-                when (imageNumber) {
-                    1 -> {
-                        state = state.copy(img1 = uri.toString())
-                        file1 = ComposeFileProvider.createFileFromUri(ctx, uri)
-                    }
-
-                    2 -> {
-                        state = state.copy(img2 = uri.toString())
-                        file2 = ComposeFileProvider.createFileFromUri(ctx, uri)
-                    }
-                }
-            }
-        }
-    }
-
-    fun takePhoto(ctx: Context, imageNumber: Int): Job = viewModelScope.launch {
-        resultingActivityHandler.takePicturePreview().also { result ->
-            result?.let { bitmap ->
-                when (imageNumber) {
-                    1 -> {
-                        state =
-                            state.copy(img1 = ComposeFileProvider.getPathFromBitmap(ctx, bitmap))
-                        file1 = File(state.img1!!)
-                    }
-
-                    2 -> {
-                        state =
-                            state.copy(img2 = ComposeFileProvider.getPathFromBitmap(ctx, bitmap))
-                        file2 = File(state.img2!!)
-                    }
-                }
-            }
-        }
+        enabledBtn = false
+        productResponse = Resource.Loading
+        productsUseCase.createProductUseCase(state.toProduct(), listOf(imgUri1!!, imgUri2!!))
+            .also { result -> productResponse = result }
     }
 
     fun onNameInput(name: String) {
@@ -105,6 +62,14 @@ class AdminProductCreateViewModel @Inject constructor(
 
     fun onPriceInput(price: String) {
         state = state.copy(price = price.toDoubleOrNull() ?: 0.0)
+    }
+
+    fun onImage1Input(url: String) {
+        state = state.copy(img1 = url)
+    }
+
+    fun onImage2Input(url: String) {
+        state = state.copy(img2 = url)
     }
 
     fun validateForm(ctx: Context, isValid: (Boolean) -> Unit) {
@@ -121,6 +86,16 @@ class AdminProductCreateViewModel @Inject constructor(
 
             state.price == 0.0 -> {
                 errorMessage = ctx.getString(R.string.invalid_price)
+                isValid(false)
+            }
+
+            state.id_category.isBlank() -> {
+                errorMessage = ctx.getString(R.string.id_cannot_be_null)
+                isValid(false)
+            }
+
+            imgUri1 == null || imgUri2 == null -> {
+                errorMessage = ctx.getString(R.string.both_images_are_required)
                 isValid(false)
             }
 

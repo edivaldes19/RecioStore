@@ -39,8 +39,8 @@ class AdminProductListViewModel @Inject constructor(
         }
     }
 
-    fun deleteProduct(idProd: String?): Job = viewModelScope.launch {
-        idProd?.let { id ->
+    fun deleteProduct(idProduct: String?): Job = viewModelScope.launch {
+        idProduct?.let { id ->
             productDeleteResponse = Resource.Loading
             productsUseCase.deleteProductUseCase(id).also { result ->
                 productDeleteResponse = result

@@ -9,8 +9,10 @@ import com.edival.reciostore.presentation.navigation.graph.roles.rolesNavGraph
 
 @Composable
 fun RootNavGraph(navHostController: NavHostController) {
-    NavHost(navController = navHostController, route = Graph.ROOT, startDestination = Graph.AUTH) {
-        authNavGraph(navHostController = navHostController)
-        rolesNavGraph(navHostController = navHostController)
+    NavHost(
+        navController = navHostController, route = Graph.ROOT, startDestination = Graph.AUTH
+    ) {
+        authNavGraph(navHostController)
+        rolesNavGraph(navHostController)
     }
 }

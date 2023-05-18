@@ -10,7 +10,7 @@ data class User(
     var surname: String? = null,
     var phone: String? = null,
     val email: String? = null,
-    val password: String? = null,
+    var password: String? = null,
     var img: String? = null,
     val notification_token: String? = null,
     val roles: List<Role>? = null,
