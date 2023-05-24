@@ -10,5 +10,6 @@ data class ProductEntity(
     @ColumnInfo(name = "name") val name: String = "",
     @ColumnInfo(name = "description") val description: String = "",
     @ColumnInfo(name = "price") val price: Double = 0.0,
-    @ColumnInfo(name = "id_category") val id_category: String = ""
+    @ColumnInfo(name = "id_category") val id_category: String = "",
+    @ColumnInfo(name = "phi") val phi: String = ""
 )

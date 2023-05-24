@@ -19,10 +19,7 @@ fun GetProducts(
 ) {
     when (val response = vm.productsResponse) {
         Resource.Loading -> DefaultProgressBar()
-        is Resource.Success -> ClientProductListContent(
-            navHostController = navHostController, padding = padding, products = response.data
-        )
-
+        is Resource.Success -> ClientProductListContent(navHostController, padding, response.data)
         is Resource.Failure -> Toast.makeText(
             LocalContext.current, response.message, Toast.LENGTH_SHORT
         ).show()

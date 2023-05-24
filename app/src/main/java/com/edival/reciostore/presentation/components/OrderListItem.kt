@@ -18,6 +18,10 @@ import com.edival.reciostore.domain.model.Order
 
 @Composable
 fun OrderListItem(order: Order, onClick: () -> Unit) {
+    val allModifier = Modifier.padding(
+        horizontal = dimensionResource(R.dimen.padding_min),
+        vertical = dimensionResource(R.dimen.padding_ultra_min)
+    )
     Card(
         modifier = Modifier
             .padding(all = dimensionResource(R.dimen.padding_min))
@@ -26,43 +30,28 @@ fun OrderListItem(order: Order, onClick: () -> Unit) {
     ) {
         Column(modifier = Modifier.fillMaxWidth()) {
             Text(
-                modifier = Modifier.padding(
-                    horizontal = dimensionResource(R.dimen.padding_min),
-                    vertical = dimensionResource(R.dimen.padding_ultra_min)
-                ), text = stringResource(
+                modifier = allModifier, text = stringResource(
                     R.string.order_value, order.id ?: stringResource(R.string.unknown)
                 ), fontWeight = FontWeight.Bold, overflow = TextOverflow.Ellipsis, maxLines = 1
             )
             Text(
-                modifier = Modifier.padding(
-                    horizontal = dimensionResource(R.dimen.padding_min),
-                    vertical = dimensionResource(R.dimen.padding_ultra_min)
-                ), text = stringResource(
+                modifier = allModifier, text = stringResource(
                     R.string.date_value, order.created_at ?: stringResource(R.string.unknown)
                 ), overflow = TextOverflow.Ellipsis, maxLines = 1
             )
             Text(
-                modifier = Modifier.padding(
-                    horizontal = dimensionResource(R.dimen.padding_min),
-                    vertical = dimensionResource(R.dimen.padding_ultra_min)
-                ), text = stringResource(
+                modifier = allModifier, text = stringResource(
                     R.string.client_value, "${order.user?.name} ${order.user?.surname}"
                 ), overflow = TextOverflow.Ellipsis, maxLines = 1
             )
             Text(
-                modifier = Modifier.padding(
-                    horizontal = dimensionResource(R.dimen.padding_min),
-                    vertical = dimensionResource(R.dimen.padding_ultra_min)
-                ), text = stringResource(
+                modifier = allModifier, text = stringResource(
                     R.string.deliver_to_value,
                     order.address?.address ?: stringResource(R.string.unknown)
                 ), overflow = TextOverflow.Ellipsis, maxLines = 1
             )
             Text(
-                modifier = Modifier.padding(
-                    horizontal = dimensionResource(R.dimen.padding_min),
-                    vertical = dimensionResource(R.dimen.padding_ultra_min)
-                ), text = stringResource(
+                modifier = allModifier, text = stringResource(
                     R.string.status_value, order.status ?: stringResource(R.string.unknown)
                 ), overflow = TextOverflow.Ellipsis, maxLines = 1
             )

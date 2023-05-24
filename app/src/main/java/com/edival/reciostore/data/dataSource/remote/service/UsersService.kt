@@ -1,6 +1,7 @@
 package com.edival.reciostore.data.dataSource.remote.service
 
 import com.edival.reciostore.core.Config
+import com.edival.reciostore.domain.model.AuthResponse
 import com.edival.reciostore.domain.model.User
 import okhttp3.MultipartBody
 import retrofit2.Response
@@ -20,8 +21,8 @@ interface UsersService {
     ): Response<User>
 
     @PUT("${Config.USERS_URL}/updateUserToClient/{id}")
-    suspend fun updateUserToClient(@Path("id") id: String): Response<User>
+    suspend fun updateUserToClient(@Path("id") id: String): Response<AuthResponse>
 
     @PUT("${Config.USERS_URL}/updateUserToAdmin/{id}")
-    suspend fun updateUserToAdmin(@Path("id") id: String): Response<User>
+    suspend fun updateUserToAdmin(@Path("id") id: String): Response<AuthResponse>
 }

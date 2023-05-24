@@ -1,7 +1,10 @@
 package com.edival.reciostore.data.repository
 
+import android.content.Context
 import android.net.Uri
+import android.os.Environment
 import android.util.Log
+import com.edival.reciostore.R
 import com.edival.reciostore.core.Config
 import com.edival.reciostore.data.dataSource.local.ProductsLocalDataSource
 import com.edival.reciostore.data.dataSource.remote.ProductsRemoteDataSource
@@ -20,6 +23,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.tasks.await
+import java.io.File
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -92,11 +96,12 @@ class ProductsRepositoryImpl @Inject constructor(
     override suspend fun createProduct(product: Product, images: List<Uri>): Resource<Product> {
         try {
             val phiList = mutableListOf<ProductHasImages>()
+            val folderRef =
+                storageProductsRef.child(product.name ?: "${System.currentTimeMillis()}")
             images.forEach { uri ->
-                val currentTime = "${System.currentTimeMillis() / 1000}"
-                val ref = storageProductsRef.child("${product.name}_$currentTime")
-                ref.putFile(uri).await()
-                ref.downloadUrl.await().also { dlUri ->
+                val fileRef = folderRef.child("${System.currentTimeMillis()}")
+                fileRef.putFile(uri).await()
+                fileRef.downloadUrl.await().also { dlUri ->
                     phiList.add(ProductHasImages(img_url = dlUri.toString()))
                 }
             }
@@ -124,17 +129,18 @@ class ProductsRepositoryImpl @Inject constructor(
                 if (!product.phi.isNullOrEmpty()) {
                     product.phi!!.forEach { oldImages ->
                         if (!oldImages.img_url.isNullOrBlank()) {
-                            val httpsReference = storage.getReferenceFromUrl(oldImages.img_url)
+                            val httpsReference = storage.getReferenceFromUrl(oldImages.img_url!!)
                             httpsReference.delete().await()
                         }
                     }
                 }
                 val phiList = mutableListOf<ProductHasImages>()
+                val folderRef =
+                    storageProductsRef.child(product.name ?: "${System.currentTimeMillis()}")
                 images.forEach { uri ->
-                    val currentTime = "${System.currentTimeMillis() / 1000}"
-                    val ref = storageProductsRef.child("${product.name}_$currentTime")
-                    ref.putFile(uri).await()
-                    ref.downloadUrl.await().also { dlUri ->
+                    val fileRef = folderRef.child("${System.currentTimeMillis()}")
+                    fileRef.putFile(uri).await()
+                    fileRef.downloadUrl.await().also { dlUri ->
                         phiList.add(ProductHasImages(img_url = dlUri.toString()))
                     }
                 }
@@ -146,12 +152,12 @@ class ProductsRepositoryImpl @Inject constructor(
         ResponseToRequest.send(remoteDS.updateProduct(id, product)).run {
             return when (this) {
                 is Resource.Success -> {
-                    localDS.updateProduct(
-                        id = this.data.id.orEmpty(),
+                    localDS.updateProduct(id = this.data.id.orEmpty(),
                         name = this.data.name.orEmpty(),
                         description = this.data.description.orEmpty(),
-                        price = this.data.price
-                    )
+                        price = this.data.price,
+                        phi = this.data.phi?.joinToString(separator = " - ") { images -> images.toJson() }
+                            .orEmpty())
                     Resource.Success(this.data)
                 }
 
@@ -165,11 +171,41 @@ class ProductsRepositoryImpl @Inject constructor(
             return when (this) {
                 is Resource.Success -> {
                     localDS.deleteProduct(id)
+                    if (!this.data.phi.isNullOrEmpty()) {
+                        this.data.phi!!.forEach { oldImages ->
+                            if (!oldImages.img_url.isNullOrBlank()) {
+                                val httpsReference =
+                                    storage.getReferenceFromUrl(oldImages.img_url!!)
+                                httpsReference.delete().await()
+                            }
+                        }
+                    }
                     Resource.Success(Unit)
                 }
 
                 else -> Resource.Failure()
             }
+        }
+    }
+
+    override suspend fun downloadProdImages(
+        ctx: Context, prodName: String, urls: List<String>
+    ): Resource<Unit> {
+        return try {
+            val directory = File(
+                "${Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)}${File.separator}${
+                    ctx.getString(R.string.app_name)
+                }${File.separator}${Config.PRODUCTS_URL}${File.separator}$prodName"
+            )
+            if (!directory.exists()) directory.mkdirs()
+            urls.forEach { url ->
+                val imageFile =
+                    File(directory, "${System.currentTimeMillis()}.${Config.IMAGES_SUFFIX}")
+                storage.getReferenceFromUrl(url).getFile(imageFile).await()
+            }
+            Resource.Success(Unit)
+        } catch (e: Exception) {
+            if (!e.message.isNullOrBlank()) Resource.Failure(e.message!!) else Resource.Failure()
         }
     }
 }

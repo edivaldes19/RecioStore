@@ -9,7 +9,7 @@ import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material.icons.outlined.Person
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -53,7 +53,7 @@ fun AdminUserListItem(navHostController: NavHostController, user: User) {
                         bottom.linkTo(parent.bottom)
                         height = Dimension.fillToConstraints
                         width = Dimension.fillToConstraints
-                    }, url = user.img, icon = Icons.Outlined.Info
+                    }, url = user.img, icon = Icons.Outlined.Person
             )
             Column(modifier = Modifier.constrainAs(columnInfo) {
                 start.linkTo(imgGuide)

@@ -1,6 +1,5 @@
 package com.edival.reciostore.presentation.screens.admin.product.list
 
-import androidx.compose.material.FabPosition
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
@@ -18,9 +17,7 @@ import com.edival.reciostore.presentation.screens.admin.product.list.components.
 fun AdminProductListScreen(navHostController: NavHostController, ctgParam: String) {
     Scaffold(topBar = {
         DefaultTopBar(
-            titleStr = Category.fromJson(ctgParam).name,
-            upAvailable = true,
-            navHostController = navHostController
+            titleStr = Category.fromJson(ctgParam).name, navHostController = navHostController
         )
     }, floatingActionButton = {
         FloatingActionButton(onClick = {
@@ -29,10 +26,7 @@ fun AdminProductListScreen(navHostController: NavHostController, ctgParam: Strin
                     Category.fromJson(ctgParam).toJson()
                 )
             )
-        }) {
-            Icon(imageVector = Icons.Outlined.Add, contentDescription = null)
-        }
-    }, isFloatingActionButtonDocked = true, floatingActionButtonPosition = FabPosition.Center
-    ) { padding -> GetProductsByCategoryAdmin(navHostController, padding) }
+        }) { Icon(imageVector = Icons.Outlined.Add, contentDescription = null) }
+    }) { padding -> GetProductsByCategoryAdmin(navHostController, padding) }
     DeleteProduct()
 }

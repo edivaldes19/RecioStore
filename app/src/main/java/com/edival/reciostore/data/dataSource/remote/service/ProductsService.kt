@@ -22,5 +22,5 @@ interface ProductsService {
     suspend fun updateProduct(@Path("id") id: String, @Body product: Product): Response<Product>
 
     @DELETE("${Config.PRODUCTS_URL}/deleteProduct/{id}")
-    suspend fun deleteProduct(@Path("id") id: String): Response<Unit>
+    suspend fun deleteProduct(@Path("id") id: String): Response<Product>
 }

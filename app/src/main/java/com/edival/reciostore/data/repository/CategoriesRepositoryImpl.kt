@@ -1,7 +1,10 @@
 package com.edival.reciostore.data.repository
 
+import android.content.Context
 import android.net.Uri
+import android.os.Environment
 import android.util.Log
+import com.edival.reciostore.R
 import com.edival.reciostore.core.Config
 import com.edival.reciostore.data.dataSource.local.CategoriesLocalDataSource
 import com.edival.reciostore.data.dataSource.remote.CategoriesRemoteDataSource
@@ -19,6 +22,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.tasks.await
+import java.io.File
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -58,8 +62,7 @@ class CategoriesRepositoryImpl @Inject constructor(
 
     override suspend fun createCategory(category: Category, uri: Uri): Resource<Category> {
         try {
-            val currentTime = "${System.currentTimeMillis() / 1000}"
-            val ref = storageCategoriesRef.child("${category.name}_$currentTime")
+            val ref = storageCategoriesRef.child("${category.name}_${System.currentTimeMillis()}")
             ref.putFile(uri).await()
             ref.downloadUrl.await().also { dlUri -> category.img = dlUri.toString() }
         } catch (e: Exception) {
@@ -86,8 +89,8 @@ class CategoriesRepositoryImpl @Inject constructor(
                     val httpsReference = storage.getReferenceFromUrl(category.img!!)
                     httpsReference.delete().await()
                 }
-                val currentTime = "${System.currentTimeMillis() / 1000}"
-                val ref = storageCategoriesRef.child("${category.name}_$currentTime")
+                val ref =
+                    storageCategoriesRef.child("${category.name}_${System.currentTimeMillis()}")
                 ref.putFile(photo).await()
                 ref.downloadUrl.await().also { dlUri -> category.img = dlUri.toString() }
             }
@@ -125,6 +128,22 @@ class CategoriesRepositoryImpl @Inject constructor(
 
                 else -> Resource.Failure()
             }
+        }
+    }
+
+    override suspend fun downloadCtgImg(ctx: Context, url: String): Resource<Unit> {
+        return try {
+            val directory = File(
+                "${Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)}${File.separator}${
+                    ctx.getString(R.string.app_name)
+                }${File.separator}${Config.CATEGORIES_URL}"
+            )
+            if (!directory.exists()) directory.mkdirs()
+            val imageFile = File(directory, "${System.currentTimeMillis()}.${Config.IMAGES_SUFFIX}")
+            storage.getReferenceFromUrl(url).getFile(imageFile).await()
+            Resource.Success(Unit)
+        } catch (e: Exception) {
+            if (!e.message.isNullOrBlank()) Resource.Failure(e.message!!) else Resource.Failure()
         }
     }
 }

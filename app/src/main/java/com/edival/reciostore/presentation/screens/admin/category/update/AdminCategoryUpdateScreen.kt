@@ -6,16 +6,14 @@ import androidx.navigation.NavHostController
 import com.edival.reciostore.R
 import com.edival.reciostore.presentation.components.DefaultTopBar
 import com.edival.reciostore.presentation.screens.admin.category.update.components.AdminCategoryUpdateContent
+import com.edival.reciostore.presentation.screens.admin.category.update.components.DownloadCtgImg
 import com.edival.reciostore.presentation.screens.admin.category.update.components.UpdateCategory
 
 @Composable
 fun AdminCategoryUpdateScreen(navHostController: NavHostController) {
     Scaffold(topBar = {
-        DefaultTopBar(
-            titleRes = R.string.update_category,
-            upAvailable = true,
-            navHostController = navHostController
-        )
-    }, content = { padding -> AdminCategoryUpdateContent(padding) })
-    UpdateCategory()
+        DefaultTopBar(titleRes = R.string.update_category, navHostController = navHostController)
+    }) { padding -> AdminCategoryUpdateContent(padding) }
+    UpdateCategory(navHostController)
+    DownloadCtgImg()
 }

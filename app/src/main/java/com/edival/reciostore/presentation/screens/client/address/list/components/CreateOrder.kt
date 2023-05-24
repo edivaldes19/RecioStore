@@ -21,21 +21,25 @@ fun CreateOrder(vm: ClientAddressListViewModel = hiltViewModel()) {
         is Resource.Success -> {
             LaunchedEffect(Unit) {
                 activity?.let { act ->
+                    vm.resetForm()
                     vm.emptyShoppingBag()
                     act.finish()
                     act.startActivity(Intent(act, MainActivity::class.java))
-                    Toast.makeText(act, R.string.order_created_successfully, Toast.LENGTH_SHORT)
-                        .show()
                 }
             }
+            Toast.makeText(
+                LocalContext.current, R.string.order_created_successfully, Toast.LENGTH_SHORT
+            ).show()
         }
 
-        is Resource.Failure -> Toast.makeText(
-            LocalContext.current, response.message, Toast.LENGTH_SHORT
-        ).show()
+        is Resource.Failure -> {
+            vm.resetForm()
+            Toast.makeText(LocalContext.current, response.message, Toast.LENGTH_SHORT).show()
+        }
 
         else -> {
             response?.let {
+                vm.resetForm()
                 Toast.makeText(LocalContext.current, R.string.unknown_error, Toast.LENGTH_SHORT)
                     .show()
             }

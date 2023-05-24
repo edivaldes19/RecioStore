@@ -26,4 +26,10 @@ sealed class ClientScreen(
     object Profile : ClientScreen(
         route = "client/profile", title = R.string.profile, icon = R.drawable.outline_person
     )
+
+    object ShoppingBag : ClientScreen(
+        route = "client/shoppingBag",
+        title = R.string.shopping_bag,
+        icon = R.drawable.outline_shopping_bag
+    )
 }

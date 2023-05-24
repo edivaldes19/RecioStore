@@ -18,6 +18,7 @@ import kotlinx.coroutines.runBlocking
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Module
@@ -26,12 +27,14 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideOkHttpClient(dataStore: AuthDataStore): OkHttpClient {
-        return OkHttpClient.Builder().addInterceptor { chain ->
-            val token = runBlocking { dataStore.getUser().first().token }
-            val newRequest =
-                chain.request().newBuilder().addHeader("Authorization", token.orEmpty()).build()
-            chain.proceed(newRequest)
-        }.build()
+        return OkHttpClient.Builder().connectTimeout(30, TimeUnit.SECONDS)
+            .readTimeout(30, TimeUnit.SECONDS).writeTimeout(30, TimeUnit.SECONDS)
+            .addInterceptor { chain ->
+                val token = runBlocking { dataStore.getAccount().first().token }
+                val newRequest =
+                    chain.request().newBuilder().addHeader("Authorization", token.orEmpty()).build()
+                chain.proceed(newRequest)
+            }.build()
     }
 
     @Provides

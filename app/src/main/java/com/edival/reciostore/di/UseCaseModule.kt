@@ -25,6 +25,7 @@ import com.edival.reciostore.domain.useCase.orders.OrdersUseCase
 import com.edival.reciostore.domain.useCase.orders.UpdateOrderStatusUseCase
 import com.edival.reciostore.domain.useCase.products.CreateProductUseCase
 import com.edival.reciostore.domain.useCase.products.DeleteProductUseCase
+import com.edival.reciostore.domain.useCase.products.DownloadProdImagesUseCase
 import com.edival.reciostore.domain.useCase.products.GetProductsByCategoryUseCase
 import com.edival.reciostore.domain.useCase.products.GetProductsByNameUseCase
 import com.edival.reciostore.domain.useCase.products.GetProductsUseCase
@@ -36,6 +37,7 @@ import com.edival.reciostore.domain.useCase.shopping_bag.EmptyShoppingBagUseCase
 import com.edival.reciostore.domain.useCase.shopping_bag.GetProductBagByIdUseCase
 import com.edival.reciostore.domain.useCase.shopping_bag.GetProductsBagUseCase
 import com.edival.reciostore.domain.useCase.shopping_bag.ShoppingBagUseCase
+import com.edival.reciostore.domain.useCase.users.DownloadUserImgUseCase
 import com.edival.reciostore.domain.useCase.users.GetUsersUseCase
 import com.edival.reciostore.domain.useCase.users.UpdateUserToAdminUseCase
 import com.edival.reciostore.domain.useCase.users.UpdateUserToClientUseCase
@@ -52,14 +54,14 @@ object UseCaseModule {
     @Provides
     fun provideAuthUseCase(authRepository: AuthRepository): AuthUseCase {
         return AuthUseCase(
+            createTokenUseCase = CreateTokenUseCase(authRepository),
             signUpUseCase = SignUpUseCase(authRepository),
             loginUseCase = LoginUseCase(authRepository),
             updatePasswordUseCase = UpdatePasswordUseCase(authRepository),
+            updateNotificationTokenUseCase = UpdateNotificationTokenUseCase(authRepository),
             deleteAccountUseCase = DeleteAccountUseCase(authRepository),
             saveSessionUseCase = SaveSessionUseCase(authRepository),
-            saveRoleNameUseCase = SaveRoleNameUseCase(authRepository),
             getSessionDataUseCase = GetSessionDataUseCase(authRepository),
-            getRoleNameUseCase = GetRoleNameUseCase(authRepository),
             logOutUseCase = LogOutUseCase(authRepository),
             updateSessionUseCase = UpdateSessionUseCase(authRepository)
         )
@@ -71,7 +73,8 @@ object UseCaseModule {
             getUsersUseCase = GetUsersUseCase(usersRepository),
             updateUserUseCase = UpdateUserUseCase(usersRepository),
             updateUserToClientUseCase = UpdateUserToClientUseCase(usersRepository),
-            updateUserToAdminUseCase = UpdateUserToAdminUseCase(usersRepository)
+            updateUserToAdminUseCase = UpdateUserToAdminUseCase(usersRepository),
+            downloadUserImgUseCase = DownloadUserImgUseCase(usersRepository)
         )
     }
 
@@ -81,7 +84,8 @@ object UseCaseModule {
             getCategoriesUseCase = GetCategoriesUseCase(categoriesRepository),
             createCategoryUseCase = CreateCategoryUseCase(categoriesRepository),
             updateCategoryUseCase = UpdateCategoryUseCase(categoriesRepository),
-            deleteCategoryUseCase = DeleteCategoryUseCase(categoriesRepository)
+            deleteCategoryUseCase = DeleteCategoryUseCase(categoriesRepository),
+            downloadCtgImgUseCase = DownloadCtgImgUseCase(categoriesRepository)
         )
     }
 
@@ -93,7 +97,8 @@ object UseCaseModule {
             createProductUseCase = CreateProductUseCase(productsRepository),
             updateProductUseCase = UpdateProductUseCase(productsRepository),
             deleteProductUseCase = DeleteProductUseCase(productsRepository),
-            getProductsByNameUseCase = GetProductsByNameUseCase(productsRepository)
+            getProductsByNameUseCase = GetProductsByNameUseCase(productsRepository),
+            downloadProdImagesUseCase = DownloadProdImagesUseCase(productsRepository)
         )
     }
 

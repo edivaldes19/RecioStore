@@ -11,9 +11,7 @@ import com.edival.reciostore.presentation.screens.client.product.listByCategory.
 fun ClientProductListByCategoryScreen(navHostController: NavHostController, ctgParam: String) {
     Scaffold(topBar = {
         DefaultTopBar(
-            titleStr = Category.fromJson(ctgParam).name,
-            upAvailable = true,
-            navHostController = navHostController
+            titleStr = Category.fromJson(ctgParam).name, navHostController = navHostController
         )
     }) { padding -> GetProductsByCategoryClient(navHostController, padding) }
 }

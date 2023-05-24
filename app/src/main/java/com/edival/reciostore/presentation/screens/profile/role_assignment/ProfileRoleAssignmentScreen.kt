@@ -11,11 +11,7 @@ import com.edival.reciostore.presentation.screens.profile.role_assignment.compon
 @Composable
 fun ProfileRoleAssignmentScreen(navHostController: NavHostController) {
     Scaffold(topBar = {
-        DefaultTopBar(
-            titleRes = R.string.role_assignment,
-            upAvailable = true,
-            navHostController = navHostController
-        )
+        DefaultTopBar(titleRes = R.string.role_assignment, navHostController = navHostController)
     }) { padding -> GetInfoRoles(padding) }
-    UpdateUserRoles()
+    UpdateUserRoles(navHostController)
 }

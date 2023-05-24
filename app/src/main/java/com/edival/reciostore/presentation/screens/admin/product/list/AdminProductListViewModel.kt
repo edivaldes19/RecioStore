@@ -40,11 +40,15 @@ class AdminProductListViewModel @Inject constructor(
     }
 
     fun deleteProduct(idProduct: String?): Job = viewModelScope.launch {
-        idProduct?.let { id ->
+        if (!idProduct.isNullOrBlank()) {
             productDeleteResponse = Resource.Loading
-            productsUseCase.deleteProductUseCase(id).also { result ->
+            productsUseCase.deleteProductUseCase(idProduct).also { result ->
                 productDeleteResponse = result
             }
         }
+    }
+
+    fun resetForm() {
+        productDeleteResponse = null
     }
 }

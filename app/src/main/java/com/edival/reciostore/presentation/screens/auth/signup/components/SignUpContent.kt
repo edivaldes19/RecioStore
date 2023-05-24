@@ -34,46 +34,42 @@ import com.edival.reciostore.presentation.screens.auth.signup.SignUpViewModel
 @Composable
 fun SignUpContent(padding: PaddingValues, vm: SignUpViewModel = hiltViewModel()) {
     val ctx = LocalContext.current
+    val allModifier = Modifier
+        .fillMaxWidth()
+        .padding(vertical = dimensionResource(R.dimen.padding_min))
     LaunchedEffect(key1 = vm.errorMessage) {
-        if (vm.errorMessage.isNotBlank()) {
-            Toast.makeText(ctx, vm.errorMessage, Toast.LENGTH_SHORT).show()
-            vm.errorMessage = ""
-        }
+        vm.showMsg { Toast.makeText(ctx, vm.errorMessage, Toast.LENGTH_SHORT).show() }
     }
     Column(
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
-            .padding(all = dimensionResource(R.dimen.padding_default))
+            .padding(dimensionResource(R.dimen.padding_default))
             .padding(padding),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = stringResource(R.string.complete_the_form), style = MaterialTheme.typography.h5
+            modifier = allModifier,
+            text = stringResource(R.string.complete_the_form),
+            style = MaterialTheme.typography.h5
         )
         DefaultTextField(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = dimensionResource(R.dimen.padding_min)),
+            modifier = allModifier,
             value = vm.state.name,
             onValueChange = { vm.onNameInput(it) },
             label = R.string.name,
             icon = Icons.Default.Person
         )
         DefaultTextField(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = dimensionResource(R.dimen.padding_min)),
+            modifier = allModifier,
             value = vm.state.surname,
             onValueChange = { vm.onSurnameInput(it) },
             label = R.string.lastname,
             icon = Icons.Outlined.Person
         )
         DefaultTextField(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = dimensionResource(R.dimen.padding_min)),
+            modifier = allModifier,
             value = vm.state.phone,
             onValueChange = { vm.onPhoneInput(it) },
             label = R.string.phone,
@@ -81,9 +77,7 @@ fun SignUpContent(padding: PaddingValues, vm: SignUpViewModel = hiltViewModel())
             keyboardType = KeyboardType.Number
         )
         DefaultTextField(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = dimensionResource(R.dimen.padding_min)),
+            modifier = allModifier,
             value = vm.state.email,
             onValueChange = { vm.onEmailInput(it) },
             label = R.string.email,
@@ -91,24 +85,18 @@ fun SignUpContent(padding: PaddingValues, vm: SignUpViewModel = hiltViewModel())
             keyboardType = KeyboardType.Email
         )
         PasswordTextField(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = dimensionResource(R.dimen.padding_min)),
+            modifier = allModifier,
             value = vm.state.password,
             onValueChange = { vm.onPasswordInput(it) },
             label = R.string.password
         )
         PasswordTextField(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = dimensionResource(R.dimen.padding_min)),
+            modifier = allModifier,
             value = vm.state.confirmPassword,
             onValueChange = { vm.onConfirmPasswordInput(it) },
             label = R.string.confirm_password
         )
-        DefaultButton(modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = dimensionResource(R.dimen.padding_min)),
+        DefaultButton(modifier = allModifier,
             text = R.string.sign_up,
             onClick = { vm.validateForm(ctx) { isValid -> if (isValid) vm.signUp() } })
     }

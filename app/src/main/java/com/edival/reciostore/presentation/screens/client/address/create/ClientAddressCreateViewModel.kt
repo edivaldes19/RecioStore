@@ -27,7 +27,10 @@ class ClientAddressCreateViewModel @Inject constructor(
         private set
     var addressResponse by mutableStateOf<Resource<Address>?>(null)
         private set
+    var enabledBtn by mutableStateOf(true)
+        private set
     var errorMessage by mutableStateOf("")
+        private set
 
     init {
         viewModelScope.launch {
@@ -40,6 +43,7 @@ class ClientAddressCreateViewModel @Inject constructor(
     }
 
     fun createAddress(): Job = viewModelScope.launch {
+        enabledBtn = false
         addressResponse = Resource.Loading
         addressUseCase.createAddressUseCase(state.toAddress()).also { result ->
             addressResponse = result
@@ -52,6 +56,13 @@ class ClientAddressCreateViewModel @Inject constructor(
 
     fun onNeighborhoodInput(neighborhood: String) {
         state = state.copy(neighborhood = neighborhood)
+    }
+
+    fun showMsg(show: () -> Unit) {
+        if (errorMessage.isNotBlank()) {
+            show()
+            errorMessage = ""
+        }
     }
 
     fun validateForm(ctx: Context, isValid: (Boolean) -> Unit) {
@@ -71,7 +82,7 @@ class ClientAddressCreateViewModel @Inject constructor(
     }
 
     fun clearForm() {
-        state = state.copy(address = "", neighborhood = "")
         addressResponse = null
+        enabledBtn = true
     }
 }

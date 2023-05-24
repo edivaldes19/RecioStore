@@ -11,11 +11,9 @@ import com.edival.reciostore.presentation.navigation.screen.client.ShoppingBagSc
 import com.edival.reciostore.presentation.screens.client.address.create.ClientAddressCreateScreen
 import com.edival.reciostore.presentation.screens.client.address.list.ClientAddressListScreen
 import com.edival.reciostore.presentation.screens.client.address.update.ClientAddressUpdateScreen
-import com.edival.reciostore.presentation.screens.client.shopping_bag.ClientShoppingBagScreen
 
 fun NavGraphBuilder.shoppingBagNavGraph(navHostController: NavHostController) {
-    navigation(route = Graph.SHOPPING_BAG, startDestination = ShoppingBagScreen.ShoppingBag.route) {
-        composable(ShoppingBagScreen.ShoppingBag.route) { ClientShoppingBagScreen(navHostController) }
+    navigation(route = Graph.SHOPPING_BAG, startDestination = ShoppingBagScreen.AddressList.route) {
         composable(ShoppingBagScreen.AddressList.route) { ClientAddressListScreen(navHostController) }
         composable(ShoppingBagScreen.AddressCreate.route) {
             ClientAddressCreateScreen(navHostController)

@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.edival.reciostore.R
 import com.edival.reciostore.domain.model.AuthResponse
+import com.edival.reciostore.domain.model.User
 import com.edival.reciostore.domain.useCase.auth.AuthUseCase
 import com.edival.reciostore.domain.util.Resource
 import com.edival.reciostore.presentation.screens.auth.signup.mapper.toUser
@@ -23,20 +24,41 @@ class SignUpViewModel @Inject constructor(private val authUseCase: AuthUseCase) 
         private set
     var signUpResource by mutableStateOf<Resource<AuthResponse>?>(null)
         private set
+    var updateNotTokResponse by mutableStateOf<Resource<User>?>(null)
+        private set
+    var tokenResponse by mutableStateOf<Resource<String>?>(null)
+        private set
     var errorMessage by mutableStateOf("")
-    fun saveSession(authResponse: AuthResponse): Job = viewModelScope.launch {
-        authUseCase.saveSessionUseCase(authResponse)
-    }
+        private set
+    var enabledBtn by mutableStateOf(true)
+        private set
 
     fun signUp(): Job = viewModelScope.launch {
+        enabledBtn = false
         signUpResource = Resource.Loading
         authUseCase.signUpUseCase(state.toUser()).also { result ->
             signUpResource = result
         }
     }
 
-    fun saveRoleName(name: String): Job = viewModelScope.launch {
-        authUseCase.saveRoleNameUseCase(name)
+    fun updateNotificationToken(idUser: String?, token: String): Job = viewModelScope.launch {
+        if (!idUser.isNullOrBlank()) {
+            updateNotTokResponse = Resource.Loading
+            authUseCase.updateNotificationTokenUseCase(idUser, token).also { result ->
+                updateNotTokResponse = result
+            }
+        } else updateNotTokResponse = Resource.Failure("idUser cannot be null")
+    }
+
+    fun createToken(): Job = viewModelScope.launch {
+        tokenResponse = Resource.Loading
+        authUseCase.createTokenUseCase().also { result ->
+            tokenResponse = result
+        }
+    }
+
+    fun saveSession(authResponse: AuthResponse): Job = viewModelScope.launch {
+        authUseCase.saveSessionUseCase(authResponse)
     }
 
     fun onNameInput(name: String) {
@@ -61,6 +83,13 @@ class SignUpViewModel @Inject constructor(private val authUseCase: AuthUseCase) 
 
     fun onConfirmPasswordInput(confirmPassword: String) {
         state = state.copy(confirmPassword = confirmPassword)
+    }
+
+    fun showMsg(show: () -> Unit) {
+        if (errorMessage.isNotBlank()) {
+            show()
+            errorMessage = ""
+        }
     }
 
     fun validateForm(ctx: Context, isValid: (Boolean) -> Unit) {
@@ -97,5 +126,12 @@ class SignUpViewModel @Inject constructor(private val authUseCase: AuthUseCase) 
 
             else -> isValid(true)
         }
+    }
+
+    fun clearForm() {
+        signUpResource = null
+        updateNotTokResponse = null
+        tokenResponse = null
+        enabledBtn = true
     }
 }

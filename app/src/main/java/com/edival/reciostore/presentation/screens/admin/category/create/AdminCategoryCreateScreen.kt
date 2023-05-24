@@ -11,11 +11,7 @@ import com.edival.reciostore.presentation.screens.admin.category.create.componen
 @Composable
 fun AdminCategoryCreateScreen(navHostController: NavHostController) {
     Scaffold(topBar = {
-        DefaultTopBar(
-            titleRes = R.string.create_category,
-            upAvailable = true,
-            navHostController = navHostController
-        )
+        DefaultTopBar(titleRes = R.string.create_category, navHostController = navHostController)
     }, content = { padding -> AdminCategoryCreateContent(padding) })
-    CreateCategory()
+    CreateCategory(navHostController)
 }

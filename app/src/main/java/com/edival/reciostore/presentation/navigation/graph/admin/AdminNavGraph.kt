@@ -1,5 +1,6 @@
 package com.edival.reciostore.presentation.navigation.graph.admin
 
+import androidx.compose.material.ScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -11,18 +12,29 @@ import com.edival.reciostore.presentation.screens.admin.category.list.AdminCateg
 import com.edival.reciostore.presentation.screens.admin.order.list.AdminOrderListScreen
 import com.edival.reciostore.presentation.screens.admin.user.list.AdminUserListScreen
 import com.edival.reciostore.presentation.screens.profile.info.ProfileInfoScreen
+import kotlinx.coroutines.CoroutineScope
 
 @Composable
-fun AdminNavGraph(navHostController: NavHostController) {
+fun AdminNavGraph(
+    navHostController: NavHostController, scope: CoroutineScope, scaffoldState: ScaffoldState
+) {
     NavHost(
         navController = navHostController,
         route = Graph.ADMIN,
         startDestination = AdminScreen.CategoryList.route
     ) {
-        composable(AdminScreen.CategoryList.route) { AdminCategoryListScreen(navHostController) }
-        composable(AdminScreen.OrderList.route) { AdminOrderListScreen(navHostController) }
-        composable(AdminScreen.UserList.route) { AdminUserListScreen(navHostController) }
-        composable(AdminScreen.Profile.route) { ProfileInfoScreen(navHostController) }
+        composable(AdminScreen.CategoryList.route) {
+            AdminCategoryListScreen(navHostController, scope, scaffoldState)
+        }
+        composable(AdminScreen.OrderList.route) {
+            AdminOrderListScreen(navHostController, scope, scaffoldState)
+        }
+        composable(AdminScreen.UserList.route) {
+            AdminUserListScreen(navHostController, scope, scaffoldState)
+        }
+        composable(AdminScreen.Profile.route) {
+            ProfileInfoScreen(navHostController, scope, scaffoldState)
+        }
         adminCategoryNavGraph(navHostController)
         adminOrderNavGraph(navHostController)
         adminUserNavGraph(navHostController)

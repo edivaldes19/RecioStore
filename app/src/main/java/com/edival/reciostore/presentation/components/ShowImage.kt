@@ -3,7 +3,6 @@ package com.edival.reciostore.presentation.components
 import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -13,7 +12,7 @@ import com.edival.reciostore.R
 @Composable
 fun ShowImage(modifier: Modifier, url: String?, icon: ImageVector) {
     if (url.isNullOrBlank()) {
-        Icon(modifier = modifier, imageVector = icon, contentDescription = null, tint = Color.White)
+        Icon(modifier = modifier, imageVector = icon, contentDescription = null)
     } else {
         AsyncImage(
             modifier = modifier,

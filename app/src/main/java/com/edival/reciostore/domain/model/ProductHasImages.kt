@@ -5,7 +5,7 @@ import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 
 data class ProductHasImages(
-    val id: String? = null, val id_product: String? = null, val img_url: String? = null
+    val id: String? = null, val id_product: String? = null, var img_url: String? = null
 ) {
     fun toJson(): String {
         return Gson().toJson(

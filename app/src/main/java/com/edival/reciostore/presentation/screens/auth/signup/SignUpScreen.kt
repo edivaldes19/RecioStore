@@ -11,9 +11,7 @@ import com.edival.reciostore.presentation.screens.auth.signup.components.SignUpC
 @Composable
 fun SignUpScreen(navHostController: NavHostController) {
     Scaffold(topBar = {
-        DefaultTopBar(
-            titleRes = R.string.sign_up, upAvailable = true, navHostController = navHostController
-        )
+        DefaultTopBar(titleRes = R.string.sign_up, navHostController = navHostController)
     }) { padding -> SignUpContent(padding) }
     SignUp(navHostController)
 }

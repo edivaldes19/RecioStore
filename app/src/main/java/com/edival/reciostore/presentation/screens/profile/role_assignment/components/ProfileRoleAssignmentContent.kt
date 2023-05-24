@@ -32,11 +32,11 @@ fun ProfileRoleAssignmentContent(
     vm: ProfileRoleAssignmentViewModel = hiltViewModel()
 ) {
     val ctx = LocalContext.current
+    val allModifier = Modifier
+        .fillMaxWidth()
+        .padding(vertical = dimensionResource(R.dimen.padding_min))
     LaunchedEffect(key1 = vm.errorMessage) {
-        if (vm.errorMessage.isNotBlank()) {
-            Toast.makeText(ctx, vm.errorMessage, Toast.LENGTH_SHORT).show()
-            vm.errorMessage = ""
-        }
+        vm.showMsg { Toast.makeText(ctx, vm.errorMessage, Toast.LENGTH_SHORT).show() }
     }
     Column(
         modifier = Modifier
@@ -50,25 +50,21 @@ fun ProfileRoleAssignmentContent(
         vm.getDataToShow(infoList).also { texts ->
             if (texts.isNotEmpty()) {
                 Text(
-                    modifier = Modifier.padding(vertical = dimensionResource(R.dimen.padding_min)),
+                    modifier = allModifier,
                     text = texts.component1() ?: stringResource(R.string.unknown),
                     style = MaterialTheme.typography.h5
                 )
                 Text(
-                    modifier = Modifier.padding(vertical = dimensionResource(R.dimen.padding_min)),
+                    modifier = allModifier,
                     text = texts.component2() ?: stringResource(R.string.unknown)
                 )
                 PasswordTextField(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = dimensionResource(R.dimen.padding_min)),
+                    modifier = allModifier,
                     value = vm.state.masterPassword,
                     onValueChange = { vm.onMasterPasswordInput(it) },
                     label = R.string.master_password
                 )
-                DefaultButton(modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = dimensionResource(R.dimen.padding_min)),
+                DefaultButton(modifier = allModifier,
                     text = R.string.ok_msg,
                     enabled = vm.enabledBtn,
                     onClick = {

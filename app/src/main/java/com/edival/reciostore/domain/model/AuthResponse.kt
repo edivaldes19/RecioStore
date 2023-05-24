@@ -2,7 +2,7 @@ package com.edival.reciostore.domain.model
 
 import com.google.gson.Gson
 
-data class AuthResponse(val user: User? = null, val token: String? = null) {
+data class AuthResponse(var user: User? = null, val token: String? = null) {
     fun toJson(): String = Gson().toJson(this)
 
     companion object {

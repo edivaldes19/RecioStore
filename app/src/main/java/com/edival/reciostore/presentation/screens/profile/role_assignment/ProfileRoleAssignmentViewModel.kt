@@ -8,9 +8,10 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.edival.reciostore.R
+import com.edival.reciostore.domain.model.AuthResponse
 import com.edival.reciostore.domain.model.Info
 import com.edival.reciostore.domain.model.RoleAssignment
-import com.edival.reciostore.domain.model.User
+import com.edival.reciostore.domain.useCase.auth.AuthUseCase
 import com.edival.reciostore.domain.useCase.info.InfoUseCase
 import com.edival.reciostore.domain.useCase.users.UsersUseCase
 import com.edival.reciostore.domain.util.Resource
@@ -21,6 +22,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProfileRoleAssignmentViewModel @Inject constructor(
+    private val authUseCase: AuthUseCase,
     private val usersUseCase: UsersUseCase,
     private val infoUseCase: InfoUseCase,
     savedStateHandle: SavedStateHandle
@@ -30,11 +32,12 @@ class ProfileRoleAssignmentViewModel @Inject constructor(
         private set
     var infoResponse by mutableStateOf<Resource<List<Info>>?>(null)
         private set
-    var userResponse by mutableStateOf<Resource<User>?>(null)
+    var userResponse by mutableStateOf<Resource<AuthResponse>?>(null)
         private set
     var enabledBtn by mutableStateOf(true)
         private set
     var errorMessage by mutableStateOf("")
+        private set
 
     init {
         savedStateHandle.get<String>("role_assignment")?.let { roleAssignmentStr ->
@@ -64,7 +67,7 @@ class ProfileRoleAssignmentViewModel @Inject constructor(
                 return listOf(clientQuestion, clientFunctions, masterPassword)
             }
         }
-        return listOf()
+        return emptyList()
     }
 
     fun onUserRoleUpdate(): Job = viewModelScope.launch {
@@ -83,8 +86,19 @@ class ProfileRoleAssignmentViewModel @Inject constructor(
         }
     }
 
+    fun saveSession(authResponse: AuthResponse): Job = viewModelScope.launch {
+        authUseCase.saveSessionUseCase(authResponse)
+    }
+
     fun onMasterPasswordInput(masterPassword: String) {
         state = state.copy(masterPassword = masterPassword)
+    }
+
+    fun showMsg(show: () -> Unit) {
+        if (errorMessage.isNotBlank()) {
+            show()
+            errorMessage = ""
+        }
     }
 
     fun validateField(ctx: Context, passwordDB: String, isValid: (Boolean) -> Unit) {
@@ -94,11 +108,8 @@ class ProfileRoleAssignmentViewModel @Inject constructor(
         } else isValid(true)
     }
 
-    fun clearForm(isOnlyForm: Boolean) {
-        if (isOnlyForm) {
-            state = state.copy(masterPassword = "")
-            userResponse = null
-        }
+    fun clearForm() {
+        userResponse = null
         enabledBtn = true
     }
 }

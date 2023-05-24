@@ -11,11 +11,7 @@ import com.edival.reciostore.presentation.screens.client.address.update.componen
 @Composable
 fun ClientAddressUpdateScreen(navHostController: NavHostController) {
     Scaffold(topBar = {
-        DefaultTopBar(
-            titleRes = R.string.update_address,
-            upAvailable = true,
-            navHostController = navHostController
-        )
-    }, content = { padding -> ClientAddressUpdateContent(padding) })
-    UpdateAddress()
+        DefaultTopBar(titleRes = R.string.update_address, navHostController = navHostController)
+    }) { padding -> ClientAddressUpdateContent(padding) }
+    UpdateAddress(navHostController)
 }

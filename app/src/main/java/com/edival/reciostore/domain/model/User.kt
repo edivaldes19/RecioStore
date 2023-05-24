@@ -12,8 +12,8 @@ data class User(
     val email: String? = null,
     var password: String? = null,
     var img: String? = null,
-    val notification_token: String? = null,
-    val roles: List<Role>? = null,
+    var notification_token: String? = null,
+    var roles: List<Role>? = null,
     var address: Address? = null
 ) {
     fun toJson(): String = Gson().toJson(

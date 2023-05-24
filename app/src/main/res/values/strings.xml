@@ -122,4 +122,26 @@
     <string name="update_required">Update required</string>
     <string name="dialog_text_loading">There\'s a new version available! (%1$s). Please update the app to continue using it\'s features.</string>
     <string name="getting_user_session">Getting user session…</string>
+    <string name="product_detail">Product detail</string>
+    <string name="maximum_imgs">You can only attach a maximum of 5 images.</string>
+    <string name="msg_least_one_image">You must attach at least one image.</string>
+    <string name="product_images">Product images</string>
+    <string name="previous_images">Previous images</string>
+    <string name="new_images">New images</string>
+    <string name="note_images_attach">NOTE: The images you attach here will replace all previous images.</string>
+    <string name="category_value">Category: %1$s</string>
+    <string name="image_downloaded_successfully">Image downloaded successfully.</string>
+    <string name="images_downloaded_successfully">Images downloaded successfully.</string>
+    <string name="theres_no_image_to_download">There\'s no image to download.</string>
+    <string name="download_image">Download image</string>
+    <string name="downloading_image">Downloading image…</string>
+    <string name="downloading_images">Downloading images…</string>
+    <string name="download_images">Download images</string>
+    <string name="shopping_bag">Shopping bag</string>
+    <string name="default_notification_channel_id" translatable="false">general</string>
+    <string name="default_notification_channel_name" translatable="false">Generals</string>
+    <string name="getting_notifications_token">Getting notifications token…</string>
+    <string name="saving_notification_token">Saving notification token…</string>
+    <string name="unknown_title">Unknown title</string>
+    <string name="unknown_content">Unknown content</string>
 </resources>

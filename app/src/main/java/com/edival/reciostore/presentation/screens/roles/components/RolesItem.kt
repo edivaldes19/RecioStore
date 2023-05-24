@@ -13,21 +13,16 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.edival.reciostore.R
 import com.edival.reciostore.domain.model.Role
 import com.edival.reciostore.presentation.components.ShowImage
 import com.edival.reciostore.presentation.navigation.Graph
-import com.edival.reciostore.presentation.screens.roles.RolesViewModel
 
 @Composable
-fun RolesItem(
-    navHostController: NavHostController, role: Role, vm: RolesViewModel = hiltViewModel()
-) {
+fun RolesItem(navHostController: NavHostController, role: Role) {
     ConstraintLayout(modifier = Modifier.clickable {
         if (!role.route.isNullOrBlank()) {
-            if (!role.name.isNullOrBlank()) vm.saveRoleName(role.name)
             navHostController.navigate(role.route) {
                 popUpTo(Graph.ROLES) { inclusive = true }
             }

@@ -7,7 +7,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.edival.reciostore.domain.model.User
 
@@ -17,9 +16,8 @@ fun AdminUserListContent(
 ) {
     LazyColumn(
         modifier = Modifier
-            .padding(padding)
-            .padding(bottom = 55.dp)
             .fillMaxSize()
+            .padding(padding)
     ) {
         items(items = users) { user ->
             user.password = null

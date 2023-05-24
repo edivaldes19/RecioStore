@@ -19,12 +19,7 @@ fun GetProductsByCategoryAdmin(
 ) {
     when (val response = vm.productResponse) {
         Resource.Loading -> DefaultProgressBar()
-        is Resource.Success -> {
-            AdminProductListContent(
-                navHostController = navHostController, padding = padding, products = response.data
-            )
-        }
-
+        is Resource.Success -> AdminProductListContent(navHostController, padding, response.data)
         is Resource.Failure -> Toast.makeText(
             LocalContext.current, response.message, Toast.LENGTH_SHORT
         ).show()

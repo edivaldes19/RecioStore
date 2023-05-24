@@ -3,7 +3,6 @@ package com.edival.reciostore.presentation.screens.admin.category.list.component
 import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.edival.reciostore.R
 import com.edival.reciostore.domain.util.Resource
@@ -14,21 +13,23 @@ import com.edival.reciostore.presentation.screens.admin.category.list.AdminCateg
 fun DeleteCategory(vm: AdminCategoryListViewModel = hiltViewModel()) {
     when (val response = vm.deleteCategoryResponse) {
         Resource.Loading -> DefaultProgressBar()
-        is Resource.Success -> Toast.makeText(
-            LocalContext.current,
-            stringResource(R.string.category_deleted_successfully),
-            Toast.LENGTH_SHORT
-        ).show()
+        is Resource.Success -> {
+            vm.resetForm()
+            Toast.makeText(
+                LocalContext.current, R.string.category_deleted_successfully, Toast.LENGTH_SHORT
+            ).show()
+        }
 
-        is Resource.Failure -> Toast.makeText(
-            LocalContext.current, response.message, Toast.LENGTH_SHORT
-        ).show()
+        is Resource.Failure -> {
+            vm.resetForm()
+            Toast.makeText(LocalContext.current, response.message, Toast.LENGTH_SHORT).show()
+        }
 
         else -> {
             response?.let {
-                Toast.makeText(
-                    LocalContext.current, stringResource(R.string.unknown_error), Toast.LENGTH_SHORT
-                ).show()
+                vm.resetForm()
+                Toast.makeText(LocalContext.current, R.string.unknown_error, Toast.LENGTH_SHORT)
+                    .show()
             }
         }
     }

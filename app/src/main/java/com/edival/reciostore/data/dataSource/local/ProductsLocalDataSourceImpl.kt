@@ -16,8 +16,8 @@ class ProductsLocalDataSourceImpl(private val productsDAO: ProductsDAO) : Produc
     }
 
     override suspend fun updateProduct(
-        id: String, name: String, description: String, price: Double
-    ) = productsDAO.updateProduct(id, name, description, price)
+        id: String, name: String, description: String, price: Double, phi: String
+    ) = productsDAO.updateProduct(id, name, description, price, phi)
 
     override suspend fun deleteProduct(id: String) = productsDAO.deleteProduct(id)
 }

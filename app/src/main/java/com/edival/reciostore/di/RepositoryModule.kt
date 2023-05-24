@@ -1,10 +1,8 @@
 package com.edival.reciostore.di
 
 import com.edival.reciostore.data.dataSource.local.AddressLocalDataSource
-import com.edival.reciostore.data.dataSource.local.AuthLocalDataSource
 import com.edival.reciostore.data.dataSource.local.ShoppingBagLocalDataSource
 import com.edival.reciostore.data.dataSource.remote.AddressRemoteDataSource
-import com.edival.reciostore.data.dataSource.remote.AuthRemoteDataSource
 import com.edival.reciostore.data.dataSource.remote.InfoRemoteDataSource
 import com.edival.reciostore.data.dataSource.remote.OrdersRemoteDataSource
 import com.edival.reciostore.data.repository.AddressRepositoryImpl
@@ -32,9 +30,7 @@ import dagger.hilt.components.SingletonComponent
 @InstallIn(SingletonComponent::class)
 object RepositoryModule {
     @Provides
-    fun provideAuthRepository(
-        authLocalDataSource: AuthLocalDataSource, authRemoteDataSource: AuthRemoteDataSource
-    ): AuthRepository = AuthRepositoryImpl(authLocalDataSource, authRemoteDataSource)
+    fun provideAuthRepository(impl: AuthRepositoryImpl): AuthRepository = impl
 
     @Provides
     fun provideUsersRepository(impl: UsersRepositoryImpl): UsersRepository = impl

@@ -24,6 +24,8 @@ class AdminOrderDetailViewModel @Inject constructor(
         private set
     var order by mutableStateOf<Order?>(null)
         private set
+    var enabledBtn by mutableStateOf(true)
+        private set
 
     init {
         savedStateHandle.get<String>("order")?.let { orderStr ->
@@ -35,11 +37,17 @@ class AdminOrderDetailViewModel @Inject constructor(
     }
 
     fun updateOrderStatus(idOrder: String?): Job = viewModelScope.launch {
-        idOrder?.let { id ->
+        if (!idOrder.isNullOrBlank()) {
+            enabledBtn = false
             ordersStatusResponse = Resource.Loading
-            ordersUseCase.updateOrderStatusUseCase(id).also { result ->
+            ordersUseCase.updateOrderStatusUseCase(idOrder).also { result ->
                 ordersStatusResponse = result
             }
         }
+    }
+
+    fun resetForm() {
+        ordersStatusResponse = null
+        enabledBtn = true
     }
 }

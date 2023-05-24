@@ -23,7 +23,7 @@ class ProductsRemoteDataSourceImpl(private val productsService: ProductsService)
         return productsService.updateProduct(id, product)
     }
 
-    override suspend fun deleteProduct(id: String): Response<Unit> {
+    override suspend fun deleteProduct(id: String): Response<Product> {
         return productsService.deleteProduct(id)
     }
 }

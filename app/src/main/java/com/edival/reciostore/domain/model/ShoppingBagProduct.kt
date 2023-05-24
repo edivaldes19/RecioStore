@@ -28,7 +28,8 @@ data class ShoppingBagProduct(
     }
 
     companion object {
-        fun fromJson(data: String): ShoppingBagProduct =
-            Gson().fromJson(data, ShoppingBagProduct::class.java)
+        fun fromJson(data: String): ShoppingBagProduct {
+            return Gson().fromJson(data, ShoppingBagProduct::class.java)
+        }
     }
 }

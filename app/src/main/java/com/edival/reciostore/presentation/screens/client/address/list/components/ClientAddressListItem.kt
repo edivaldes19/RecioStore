@@ -35,7 +35,7 @@ fun ClientAddressListItem(
     vm: ClientAddressListViewModel = hiltViewModel()
 ) {
     Card(
-        modifier = Modifier.padding(all = dimensionResource(R.dimen.padding_min)),
+        modifier = Modifier.padding(dimensionResource(R.dimen.padding_min)),
         shape = RoundedCornerShape(dimensionResource(R.dimen.padding_default))
     ) {
         ConstraintLayout(

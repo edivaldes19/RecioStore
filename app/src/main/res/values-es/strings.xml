@@ -116,4 +116,24 @@
     <string name="update_required">Actualización requerida</string>
     <string name="dialog_text_loading">¡Hay una nueva version disponible! (%1$s), Por favor, actualiza la aplicación para seguir utilizando sus funcionalidades.</string>
     <string name="getting_user_session">Obteniendo sesión del usuario…</string>
+    <string name="product_detail">Detalle del producto</string>
+    <string name="maximum_imgs">Solo puede adjuntar máximo 5 imágenes.</string>
+    <string name="msg_least_one_image">Debe adjuntar al menos una imagen.</string>
+    <string name="product_images">Imágenes del producto.</string>
+    <string name="previous_images">Imágenes anteriores</string>
+    <string name="new_images">Imágenes nuevas</string>
+    <string name="note_images_attach">NOTA: Las imágenes que adjunte aquí reemplazarán todas las imágenes anteriores.</string>
+    <string name="category_value">Categoría: %1$s</string>
+    <string name="image_downloaded_successfully">Imagen descargada exitosamente.</string>
+    <string name="images_downloaded_successfully">Imágenes descargadas exitosamente.</string>
+    <string name="theres_no_image_to_download">No hay imagen que descargar.</string>
+    <string name="download_image">Descargar imagen</string>
+    <string name="downloading_image">Descargando imagen…</string>
+    <string name="downloading_images">Descargando imágenes…</string>
+    <string name="download_images">Descargar imágenes.</string>
+    <string name="shopping_bag">Bolsa de compras</string>
+    <string name="getting_notifications_token">Obteniendo token de notificaciones…</string>
+    <string name="saving_notification_token">Guardando token de notificaciones…</string>
+    <string name="unknown_title">Título desconocido</string>
+    <string name="unknown_content">Contenido desconocido</string>
 </resources>

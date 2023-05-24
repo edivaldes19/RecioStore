@@ -11,7 +11,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.edival.reciostore.R
@@ -27,19 +26,12 @@ fun ClientAddressListScreen(
     navHostController: NavHostController, vm: ClientAddressListViewModel = hiltViewModel()
 ) {
     Scaffold(topBar = {
-        DefaultTopBar(
-            titleRes = R.string.my_addresses,
-            upAvailable = true,
-            navHostController = navHostController
-        )
+        DefaultTopBar(titleRes = R.string.my_addresses, navHostController = navHostController)
     }, floatingActionButton = {
-        FloatingActionButton(modifier = Modifier.padding(bottom = 55.dp),
-            onClick = { navHostController.navigate(ShoppingBagScreen.AddressCreate.route) }) {
-            Icon(
-                imageVector = Icons.Default.Add, contentDescription = null, tint = Color.White
-            )
+        FloatingActionButton(onClick = { navHostController.navigate(ShoppingBagScreen.AddressCreate.route) }) {
+            Icon(imageVector = Icons.Default.Add, contentDescription = null, tint = Color.White)
         }
-    }, isFloatingActionButtonDocked = true, bottomBar = {
+    }, bottomBar = {
         DefaultButton(modifier = Modifier
             .fillMaxWidth()
             .padding(all = dimensionResource(R.dimen.padding_default)),

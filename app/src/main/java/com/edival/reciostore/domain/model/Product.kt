@@ -12,14 +12,12 @@ data class Product(
 ) {
     fun toJson(): String {
         return Gson().toJson(
-            Product(
-                id = id,
+            Product(id = id,
                 name = name,
                 description = description,
                 price = price,
                 id_category = id_category,
-                phi = phi?.map { phi -> ProductHasImages.fromJson(phi.toJson()) },
-            )
+                phi = phi?.map { images -> ProductHasImages.fromJson(images.toJson()) })
         )
     }
 

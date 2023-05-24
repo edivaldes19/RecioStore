@@ -1,6 +1,7 @@
 package com.edival.reciostore.data.dataSource.remote
 
 import com.edival.reciostore.data.dataSource.remote.service.UsersService
+import com.edival.reciostore.domain.model.AuthResponse
 import com.edival.reciostore.domain.model.User
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -25,11 +26,11 @@ class UsersRemoteDataSourceImpl(private val usersService: UsersService) : UsersR
         return usersService.updateUserImage(id, fileFormData)
     }
 
-    override suspend fun updateUserToClient(id: String): Response<User> {
+    override suspend fun updateUserToClient(id: String): Response<AuthResponse> {
         return usersService.updateUserToClient(id)
     }
 
-    override suspend fun updateUserToAdmin(id: String): Response<User> {
+    override suspend fun updateUserToAdmin(id: String): Response<AuthResponse> {
         return usersService.updateUserToAdmin(id)
     }
 }

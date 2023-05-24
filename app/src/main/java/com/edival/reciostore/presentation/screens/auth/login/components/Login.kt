@@ -7,25 +7,29 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.edival.reciostore.R
+import com.edival.reciostore.domain.model.AuthResponse
 import com.edival.reciostore.domain.util.Resource
 import com.edival.reciostore.presentation.components.DefaultProgressBar
 import com.edival.reciostore.presentation.navigation.Graph
 import com.edival.reciostore.presentation.screens.auth.login.LoginViewModel
 
 @Composable
-fun Login(navHostController: NavHostController, vm: LoginViewModel = hiltViewModel()) {
-    when (val response = vm.logInResponse) {
+fun Login(
+    navHostController: NavHostController,
+    vm: LoginViewModel = hiltViewModel(),
+    data: @Composable (AuthResponse) -> Unit
+) {
+    when (val logInResponse = vm.logInResponse) {
         Resource.Loading -> DefaultProgressBar()
         is Resource.Success -> {
+            data(logInResponse.data)
             LaunchedEffect(Unit) {
-                vm.saveSession(response.data)
-                response.data.user?.roles?.let { roles ->
+                logInResponse.data.user?.roles?.let { roles ->
                     if (roles.size > 1) {
                         navHostController.navigate(Graph.ROLES) {
                             popUpTo(Graph.AUTH) { inclusive = true }
                         }
                     } else {
-                        roles.first().name?.let { roleName -> vm.saveRoleName(roleName) }
                         navHostController.navigate(Graph.CLIENT) {
                             popUpTo(Graph.AUTH) { inclusive = true }
                         }
@@ -34,12 +38,14 @@ fun Login(navHostController: NavHostController, vm: LoginViewModel = hiltViewMod
             }
         }
 
-        is Resource.Failure -> Toast.makeText(
-            LocalContext.current, response.message, Toast.LENGTH_SHORT
-        ).show()
+        is Resource.Failure -> {
+            vm.clearForm()
+            Toast.makeText(LocalContext.current, logInResponse.message, Toast.LENGTH_SHORT).show()
+        }
 
         else -> {
-            response?.let {
+            logInResponse?.let {
+                vm.clearForm()
                 Toast.makeText(LocalContext.current, R.string.unknown_error, Toast.LENGTH_SHORT)
                     .show()
             }

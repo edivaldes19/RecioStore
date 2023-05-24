@@ -4,5 +4,5 @@ import com.edival.reciostore.domain.model.User
 import com.edival.reciostore.domain.repository.AuthRepository
 
 class UpdateSessionUseCase(private val repository: AuthRepository) {
-    suspend operator fun invoke(user: User) = repository.updateUser(user)
+    suspend operator fun invoke(user: User) = repository.updateAccount(user)
 }

@@ -11,13 +11,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import com.edival.reciostore.presentation.screens.roles.RolesViewModel
+import com.edival.reciostore.presentation.screens.publicViewModels.HomeViewModel
 
 @Composable
 fun RolesContent(
     navHostController: NavHostController,
     padding: PaddingValues,
-    vm: RolesViewModel = hiltViewModel()
+    vm: HomeViewModel = hiltViewModel()
 ) {
     LazyColumn(
         modifier = Modifier
@@ -26,8 +26,6 @@ fun RolesContent(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        vm.user?.let { user ->
-            items(items = user.roles ?: listOf()) { role -> RolesItem(navHostController, role) }
-        }
+        items(items = vm.user?.roles ?: listOf()) { role -> RolesItem(navHostController, role) }
     }
 }

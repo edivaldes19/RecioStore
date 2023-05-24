@@ -12,22 +12,16 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.runBlocking
 
 class AuthDataStore(private val dataStore: DataStore<Preferences>) {
-    suspend fun saveUser(authResponse: AuthResponse) {
+    suspend fun saveAccount(authResponse: AuthResponse) {
         val dataStoreKey = stringPreferencesKey(Config.AUTH_KEY)
         dataStore.edit { pref -> pref[dataStoreKey] = authResponse.toJson() }
     }
 
-    suspend fun saveRoleName(name: String) {
-        val dataStoreKey = stringPreferencesKey(Config.ROLE_KEY)
-        dataStore.edit { pref -> pref[dataStoreKey] = name }
-    }
-
-    suspend fun updateUser(newUser: User) {
+    suspend fun updateAccount(newUser: User) {
         val dataStoreKey = stringPreferencesKey(Config.AUTH_KEY)
-        val authResponse = runBlocking { getUser().first() }
+        val authResponse = getAccount().first()
         authResponse.user?.let { oldUser ->
             oldUser.name = newUser.name
             oldUser.surname = newUser.surname
@@ -42,16 +36,11 @@ class AuthDataStore(private val dataStore: DataStore<Preferences>) {
         dataStore.edit { pref -> pref.clear() }
     }
 
-    fun getUser(): Flow<AuthResponse> {
+    fun getAccount(): Flow<AuthResponse> {
         val dataStoreKey = stringPreferencesKey(Config.AUTH_KEY)
         return dataStore.data.catch { emptyPreferences() }.map { pref ->
             if (pref[dataStoreKey] != null) AuthResponse.fromJson(pref[dataStoreKey]!!)
             else AuthResponse()
         }
-    }
-
-    fun getRoleName(): Flow<String?> {
-        val dataStoreKey = stringPreferencesKey(Config.ROLE_KEY)
-        return dataStore.data.catch { emptyPreferences() }.map { pref -> pref[dataStoreKey] }
     }
 }

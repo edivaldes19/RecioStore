@@ -2,19 +2,24 @@ package com.edival.reciostore.presentation.screens.admin.product.create
 
 import android.content.Context
 import android.net.Uri
+import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.core.net.toUri
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.edival.reciostore.R
+import com.edival.reciostore.core.Config
 import com.edival.reciostore.domain.model.Category
 import com.edival.reciostore.domain.model.Product
 import com.edival.reciostore.domain.useCase.products.ProductsUseCase
 import com.edival.reciostore.domain.util.Resource
 import com.edival.reciostore.presentation.screens.admin.product.AdminProductState
 import com.edival.reciostore.presentation.screens.admin.product.mapper.toProduct
+import com.edival.reciostore.presentation.util.ComposeFileProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -30,11 +35,12 @@ class AdminProductCreateViewModel @Inject constructor(
         private set
     var enabledBtn by mutableStateOf(true)
         private set
+    var errorMessage by mutableStateOf("")
+        private set
     var categoryName by mutableStateOf<String?>(null)
         private set
-    var errorMessage by mutableStateOf("")
-    var imgUri1 by mutableStateOf<Uri?>(null)
-    var imgUri2 by mutableStateOf<Uri?>(null)
+    var uriList = mutableStateListOf<Uri>()
+        private set
 
     init {
         savedStateHandle.get<String>("category")?.let { ctgStr ->
@@ -45,11 +51,20 @@ class AdminProductCreateViewModel @Inject constructor(
         }
     }
 
-    fun createProduct(): Job = viewModelScope.launch {
+    fun createProduct(ctx: Context): Job = viewModelScope.launch {
         enabledBtn = false
         productResponse = Resource.Loading
-        productsUseCase.createProductUseCase(state.toProduct(), listOf(imgUri1!!, imgUri2!!))
-            .also { result -> productResponse = result }
+        ComposeFileProvider.createFilesFromUris(ctx, uriList) { zipFiles, errMsg ->
+            when {
+                !errMsg.isNullOrBlank() -> productResponse = Resource.Failure(errMsg)
+                zipFiles.isNotEmpty() -> {
+                    productsUseCase.createProductUseCase(
+                        state.toProduct(),
+                        zipFiles.map { file -> file.toUri() })
+                        .also { result -> productResponse = result }
+                }
+            }
+        }
     }
 
     fun onNameInput(name: String) {
@@ -64,12 +79,31 @@ class AdminProductCreateViewModel @Inject constructor(
         state = state.copy(price = price.toDoubleOrNull() ?: 0.0)
     }
 
-    fun onImage1Input(url: String) {
-        state = state.copy(img1 = url)
+    fun pickImage(ctx: Context, launcher: ManagedActivityResultLauncher<String, Uri?>) {
+        if (uriList.size < 5) launcher.launch(Config.IMAGES_MT)
+        else errorMessage = ctx.getString(R.string.maximum_imgs)
     }
 
-    fun onImage2Input(url: String) {
-        state = state.copy(img2 = url)
+    fun addImg(uri: Uri) {
+        if (!uriList.contains(uri)) uriList.add(uri)
+        else updateImg(uri)
+    }
+
+    private fun updateImg(uri: Uri) {
+        val i = uriList.indexOf(uri)
+        if (i != -1) uriList[i] = uri
+    }
+
+    fun deleteImg(uri: Uri) {
+        val i = uriList.indexOf(uri)
+        if (i != -1) uriList.removeAt(i)
+    }
+
+    fun showMsg(show: () -> Unit) {
+        if (errorMessage.isNotBlank()) {
+            show()
+            errorMessage = ""
+        }
     }
 
     fun validateForm(ctx: Context, isValid: (Boolean) -> Unit) {
@@ -94,8 +128,8 @@ class AdminProductCreateViewModel @Inject constructor(
                 isValid(false)
             }
 
-            imgUri1 == null || imgUri2 == null -> {
-                errorMessage = ctx.getString(R.string.both_images_are_required)
+            uriList.isEmpty() -> {
+                errorMessage = ctx.getString(R.string.msg_least_one_image)
                 isValid(false)
             }
 
@@ -103,11 +137,8 @@ class AdminProductCreateViewModel @Inject constructor(
         }
     }
 
-    fun clearForm(isOnlyForm: Boolean) {
-        if (isOnlyForm) {
-            state = state.copy(name = "", description = "", price = 0.0, img1 = null, img2 = null)
-            productResponse = null
-        }
+    fun clearForm() {
+        productResponse = null
         enabledBtn = true
     }
 }

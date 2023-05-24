@@ -27,6 +27,7 @@ class ProfileChangePasswordViewModel @Inject constructor(
     var enabledBtn by mutableStateOf(true)
         private set
     var errorMessage by mutableStateOf("")
+        private set
 
     init {
         savedStateHandle.get<String>("id_user")?.let { idUserStr ->
@@ -35,12 +36,14 @@ class ProfileChangePasswordViewModel @Inject constructor(
     }
 
     fun updatePassword(): Job = viewModelScope.launch {
-        if (state.idUser.isNotBlank()) {
-            enabledBtn = false
-            changePasswordResponse = Resource.Loading
-            authUseCase.updatePasswordUseCase(state.idUser, state.oldPassword, state.newPassword)
-                .also { result -> changePasswordResponse = result }
-        }
+        enabledBtn = false
+        changePasswordResponse = Resource.Loading
+        authUseCase.updatePasswordUseCase(state.idUser, state.oldPassword, state.newPassword)
+            .also { result -> changePasswordResponse = result }
+    }
+
+    fun updateUserSession(userResponse: User): Job = viewModelScope.launch {
+        authUseCase.updateSessionUseCase(userResponse)
     }
 
     fun onOldPasswordInput(oldPassword: String) {
@@ -49,6 +52,13 @@ class ProfileChangePasswordViewModel @Inject constructor(
 
     fun onNewPasswordInput(newPassword: String) {
         state = state.copy(newPassword = newPassword)
+    }
+
+    fun showMsg(show: () -> Unit) {
+        if (errorMessage.isNotBlank()) {
+            show()
+            errorMessage = ""
+        }
     }
 
     fun validateForm(ctx: Context, isValid: (Boolean) -> Unit) {
@@ -63,15 +73,17 @@ class ProfileChangePasswordViewModel @Inject constructor(
                 isValid(false)
             }
 
+            state.idUser.isBlank() -> {
+                errorMessage = ctx.getString(R.string.id_cannot_be_null)
+                isValid(false)
+            }
+
             else -> isValid(true)
         }
     }
 
-    fun clearForm(isOnlyForm: Boolean) {
-        if (isOnlyForm) {
-            state = state.copy(oldPassword = "", newPassword = "")
-            changePasswordResponse = null
-        }
+    fun clearForm() {
+        changePasswordResponse = null
         enabledBtn = true
     }
 }

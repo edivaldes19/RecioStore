@@ -9,5 +9,5 @@ interface ProductsRemoteDataSource {
     suspend fun getProductsByName(name: String): Response<List<Product>>
     suspend fun createProduct(product: Product): Response<Product>
     suspend fun updateProduct(id: String, product: Product): Response<Product>
-    suspend fun deleteProduct(id: String): Response<Unit>
+    suspend fun deleteProduct(id: String): Response<Product>
 }

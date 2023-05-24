@@ -1,6 +1,5 @@
 package com.edival.reciostore.presentation.screens.client.product.list.components
 
-import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -30,8 +29,6 @@ fun ClientProductListItem(navHostController: NavHostController, product: Product
         modifier = Modifier
             .padding(all = dimensionResource(R.dimen.padding_min))
             .clickable {
-                Log.d("ClientProductListItem", "product: $product")
-                Log.d("ClientProductListItem", "product.toJson(): ${product.toJson()}")
                 navHostController.navigate(ClientProductScreen.ProductDetail.passProduct(product.toJson()))
             }, shape = RoundedCornerShape(dimensionResource(R.dimen.padding_default))
     ) {

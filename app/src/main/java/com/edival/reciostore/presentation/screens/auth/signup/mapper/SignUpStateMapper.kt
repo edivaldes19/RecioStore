@@ -4,5 +4,11 @@ import com.edival.reciostore.domain.model.User
 import com.edival.reciostore.presentation.screens.auth.signup.SignUpState
 
 fun SignUpState.toUser(): User {
-    return User(name = name, surname = surname, phone = phone, email = email, password = password)
+    return User(
+        name = name.trim(),
+        surname = surname.trim(),
+        phone = phone.trim(),
+        email = email.trim(),
+        password = password.trim()
+    )
 }

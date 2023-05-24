@@ -22,7 +22,7 @@ fun GetInfoLoading(
     when (val response = vm.infoResponse) {
         Resource.Loading -> DefaultProgressBar(R.string.getting_user_session)
         is Resource.Success -> {
-            LoadingAppContent(padding, response.data) { route ->
+            LoadingAppContent(padding, response.data, vm.user) { route ->
                 LaunchedEffect(Unit) {
                     navHostController.navigate(route) {
                         popUpTo(Graph.AUTH) { inclusive = true }

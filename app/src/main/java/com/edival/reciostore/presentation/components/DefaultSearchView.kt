@@ -14,7 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
 import com.edival.reciostore.R
-import com.edival.reciostore.presentation.navigation.screen.client.ShoppingBagScreen
 
 @Composable
 fun DefaultSearchView(
@@ -34,7 +33,7 @@ fun DefaultSearchView(
                 }
             })
     }, actions = {
-        IconButton(onClick = { navHostController.navigate(ShoppingBagScreen.ShoppingBag.route) }) {
+        IconButton(onClick = { navHostController.navigate("ShoppingBagScreen.ShoppingBag.route") }) {
             Icon(imageVector = Icons.Outlined.ShoppingCart, contentDescription = null)
         }
     })

@@ -1,8 +1,12 @@
 package com.edival.reciostore.data.repository
 
+import android.content.Context
 import android.net.Uri
+import android.os.Environment
+import com.edival.reciostore.R
 import com.edival.reciostore.core.Config
 import com.edival.reciostore.data.dataSource.remote.UsersRemoteDataSource
+import com.edival.reciostore.domain.model.AuthResponse
 import com.edival.reciostore.domain.model.User
 import com.edival.reciostore.domain.repository.UsersRepository
 import com.edival.reciostore.domain.util.Resource
@@ -12,6 +16,7 @@ import com.google.firebase.storage.StorageReference
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
+import java.io.File
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -42,11 +47,27 @@ class UsersRepositoryImpl @Inject constructor(
         return ResponseToRequest.send(remoteDS.updateUser(id, user))
     }
 
-    override suspend fun updateUserToClient(id: String): Resource<User> {
+    override suspend fun updateUserToClient(id: String): Resource<AuthResponse> {
         return ResponseToRequest.send(remoteDS.updateUserToClient(id))
     }
 
-    override suspend fun updateUserToAdmin(id: String): Resource<User> {
+    override suspend fun updateUserToAdmin(id: String): Resource<AuthResponse> {
         return ResponseToRequest.send(remoteDS.updateUserToAdmin(id))
+    }
+
+    override suspend fun downloadUserImg(ctx: Context, url: String): Resource<Unit> {
+        return try {
+            val directory = File(
+                "${Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)}${File.separator}${
+                    ctx.getString(R.string.app_name)
+                }${File.separator}${Config.USERS_URL}"
+            )
+            if (!directory.exists()) directory.mkdirs()
+            val imageFile = File(directory, "${System.currentTimeMillis()}.${Config.IMAGES_SUFFIX}")
+            storage.getReferenceFromUrl(url).getFile(imageFile).await()
+            Resource.Success(Unit)
+        } catch (e: Exception) {
+            if (!e.message.isNullOrBlank()) Resource.Failure(e.message!!) else Resource.Failure()
+        }
     }
 }

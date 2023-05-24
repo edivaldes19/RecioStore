@@ -11,11 +11,7 @@ import com.edival.reciostore.presentation.screens.profile.change_password.compon
 @Composable
 fun ProfileChangePasswordScreen(navHostController: NavHostController) {
     Scaffold(topBar = {
-        DefaultTopBar(
-            titleRes = R.string.change_password,
-            upAvailable = true,
-            navHostController = navHostController
-        )
+        DefaultTopBar(titleRes = R.string.change_password, navHostController = navHostController)
     }) { padding -> ProfileChangePasswordContent(padding) }
-    UpdatePassword()
+    UpdatePassword(navHostController)
 }

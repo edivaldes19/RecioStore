@@ -2,6 +2,7 @@ package com.edival.reciostore.data.dataSource.remote.service
 
 import com.edival.reciostore.core.Config
 import com.edival.reciostore.domain.model.AuthResponse
+import com.edival.reciostore.domain.model.DeleteResponse
 import com.edival.reciostore.domain.model.User
 import retrofit2.Response
 import retrofit2.http.Body
@@ -30,6 +31,12 @@ interface AuthService {
         @Field("newPassword") newPassword: String
     ): Response<User>
 
+    @FormUrlEncoded
+    @PUT("${Config.AUTH_URL}/updateNotificationToken/{id}")
+    suspend fun updateNotificationToken(
+        @Path("id") id: String, @Field("notification_token") notification_token: String
+    ): Response<User>
+
     @DELETE("${Config.AUTH_URL}/deleteAccount/{id}")
-    suspend fun deleteAccount(@Path("id") id: String): Response<Unit>
+    suspend fun deleteAccount(@Path("id") id: String): Response<DeleteResponse>
 }

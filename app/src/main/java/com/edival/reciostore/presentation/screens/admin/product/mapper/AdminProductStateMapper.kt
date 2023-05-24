@@ -8,6 +8,7 @@ fun AdminProductState.toProduct(): Product {
         name = name.trim(),
         description = description.trim(),
         price = price,
-        id_category = id_category.trim()
+        id_category = id_category.trim(),
+        phi = phi
     )
 }

@@ -87,4 +87,9 @@ class ClientAddressListViewModel @Inject constructor(
     fun emptyShoppingBag(): Job = viewModelScope.launch {
         shoppingBagUseCase.emptyShoppingBagUseCase()
     }
+
+    fun resetForm() {
+        deleteAddressResponse = null
+        orderResponse = null
+    }
 }

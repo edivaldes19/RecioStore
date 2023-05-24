@@ -15,9 +15,7 @@ import com.edival.reciostore.R
 fun DialogAppUpdate(activity: Activity?, padding: PaddingValues, appVersion: String) {
     AlertDialog(onDismissRequest = {},
         confirmButton = {
-            TextButton(onClick = { activity?.finishAndRemoveTask() }) {
-                Text(text = stringResource(R.string.ok_msg))
-            }
+            TextButton(onClick = { activity?.finishAndRemoveTask() }) { Text(text = stringResource(R.string.ok_msg)) }
         },
         modifier = Modifier.padding(padding),
         title = { Text(text = stringResource(R.string.update_required)) },

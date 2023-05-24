@@ -10,14 +10,8 @@ import com.edival.reciostore.presentation.screens.client.address.create.componen
 
 @Composable
 fun ClientAddressCreateScreen(navHostController: NavHostController) {
-    Scaffold(
-        topBar = {
-            DefaultTopBar(
-                titleRes = R.string.new_address,
-                navHostController = navHostController,
-                upAvailable = true
-            )
-        },
-    ) { padding -> ClientAddressCreateContent(padding) }
-    CreateAddress()
+    Scaffold(topBar = {
+        DefaultTopBar(titleRes = R.string.new_address, navHostController = navHostController)
+    }) { padding -> ClientAddressCreateContent(padding) }
+    CreateAddress(navHostController)
 }

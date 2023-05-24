@@ -4,5 +4,6 @@ data class CategoriesUseCase(
     val getCategoriesUseCase: GetCategoriesUseCase,
     val createCategoryUseCase: CreateCategoryUseCase,
     val updateCategoryUseCase: UpdateCategoryUseCase,
-    val deleteCategoryUseCase: DeleteCategoryUseCase
+    val deleteCategoryUseCase: DeleteCategoryUseCase,
+    val downloadCtgImgUseCase: DownloadCtgImgUseCase
 )

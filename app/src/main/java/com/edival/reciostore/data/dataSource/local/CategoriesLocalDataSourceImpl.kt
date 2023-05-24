@@ -17,9 +17,7 @@ class CategoriesLocalDataSourceImpl(private val categoriesDAO: CategoriesDAO) :
     override fun getCategories(): Flow<List<CategoryEntity>> = categoriesDAO.getCategories()
     override suspend fun updateCategory(
         id: String, name: String, description: String, img: String
-    ) {
-        return categoriesDAO.updateCategory(id, name, description, img)
-    }
+    ) = categoriesDAO.updateCategory(id, name, description, img)
 
     override suspend fun deleteCategory(id: String) = categoriesDAO.deleteCategory(id)
 }

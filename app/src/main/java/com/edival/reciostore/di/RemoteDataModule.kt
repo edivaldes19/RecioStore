@@ -10,6 +10,8 @@ import com.edival.reciostore.data.dataSource.remote.service.OrdersService
 import com.edival.reciostore.data.dataSource.remote.service.ProductsService
 import com.edival.reciostore.data.dataSource.remote.service.UsersService
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.FirebaseMessaging
+import com.google.firebase.messaging.ktx.messaging
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
@@ -56,6 +58,9 @@ object RemoteDataModule {
     fun provideInfoRemoteDataSource(infoService: InfoService): InfoRemoteDataSource {
         return InfoRemoteDataSourceImpl(infoService)
     }
+
+    @Provides
+    fun provideFirebaseMessaging(): FirebaseMessaging = Firebase.messaging
 
     @Provides
     fun provideFirebaseStorage(): FirebaseStorage = Firebase.storage

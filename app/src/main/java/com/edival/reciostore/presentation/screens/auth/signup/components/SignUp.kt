@@ -14,26 +14,80 @@ import com.edival.reciostore.presentation.screens.auth.signup.SignUpViewModel
 
 @Composable
 fun SignUp(navHostController: NavHostController, vm: SignUpViewModel = hiltViewModel()) {
-    when (val response = vm.signUpResource) {
+    when (val logInResponse = vm.signUpResource) {
         Resource.Loading -> DefaultProgressBar()
         is Resource.Success -> {
-            LaunchedEffect(Unit) {
-                vm.saveSession(response.data)
-                response.data.user?.roles?.let { roles ->
-                    roles.first().name?.let { roleName -> vm.saveRoleName(roleName) }
+            vm.createToken()
+            when (val tokenResponse = vm.tokenResponse) {
+                Resource.Loading -> DefaultProgressBar(R.string.getting_notifications_token)
+                is Resource.Success -> {
+                    vm.updateNotificationToken(logInResponse.data.user?.id, tokenResponse.data)
+                    when (val updateNotTokResponse = vm.updateNotTokResponse) {
+                        Resource.Loading -> DefaultProgressBar(R.string.saving_notification_token)
+                        is Resource.Success -> {
+                            LaunchedEffect(Unit) {
+                                vm.clearForm()
+                                logInResponse.data.user = updateNotTokResponse.data
+                                vm.saveSession(logInResponse.data)
+                                logInResponse.data.user?.roles?.let { roles ->
+                                    if (roles.size > 1) {
+                                        navHostController.navigate(Graph.ROLES) {
+                                            popUpTo(Graph.AUTH) { inclusive = true }
+                                        }
+                                    } else {
+                                        navHostController.navigate(Graph.CLIENT) {
+                                            popUpTo(Graph.AUTH) { inclusive = true }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        is Resource.Failure -> {
+                            vm.clearForm()
+                            Toast.makeText(
+                                LocalContext.current,
+                                updateNotTokResponse.message,
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+
+                        else -> {
+                            updateNotTokResponse?.let {
+                                vm.clearForm()
+                                Toast.makeText(
+                                    LocalContext.current, R.string.unknown_error, Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
+                    }
                 }
-                navHostController.navigate(Graph.CLIENT) {
-                    popUpTo(Graph.AUTH) { inclusive = true }
+
+                is Resource.Failure -> {
+                    vm.clearForm()
+                    Toast.makeText(LocalContext.current, tokenResponse.message, Toast.LENGTH_SHORT)
+                        .show()
+                }
+
+                else -> {
+                    tokenResponse?.let {
+                        vm.clearForm()
+                        Toast.makeText(
+                            LocalContext.current, R.string.unknown_error, Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
             }
         }
 
-        is Resource.Failure -> Toast.makeText(
-            LocalContext.current, response.message, Toast.LENGTH_SHORT
-        ).show()
+        is Resource.Failure -> {
+            vm.clearForm()
+            Toast.makeText(LocalContext.current, logInResponse.message, Toast.LENGTH_SHORT).show()
+        }
 
         else -> {
-            response?.let {
+            logInResponse?.let {
+                vm.clearForm()
                 Toast.makeText(LocalContext.current, R.string.unknown_error, Toast.LENGTH_SHORT)
                     .show()
             }

@@ -21,8 +21,10 @@ interface ProductsDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAllProducts(products: List<ProductEntity>)
 
-    @Query("UPDATE products SET name = :name, description = :description, price = :price WHERE id = :id")
-    suspend fun updateProduct(id: String, name: String, description: String, price: Double)
+    @Query("UPDATE products SET name = :name, description = :description, price = :price, phi = :phi WHERE id = :id")
+    suspend fun updateProduct(
+        id: String, name: String, description: String, price: Double, phi: String
+    )
 
     @Query("DELETE FROM products WHERE id = :id")
     suspend fun deleteProduct(id: String)

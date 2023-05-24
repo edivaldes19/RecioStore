@@ -31,7 +31,8 @@ fun SliderView(modifier: Modifier, state: PagerState, images: List<String>) {
                 val painter = rememberAsyncImagePainter(
                     ImageRequest.Builder(LocalContext.current).data(data = imageUrl.value)
                         .apply(block = fun ImageRequest.Builder.() {
-                            placeholder(R.drawable.outline_hide_image)
+                            placeholder(R.drawable.outline_downloading)
+                            error(R.drawable.outline_hide_image)
                             scale(Scale.FILL)
                         }).build()
                 )

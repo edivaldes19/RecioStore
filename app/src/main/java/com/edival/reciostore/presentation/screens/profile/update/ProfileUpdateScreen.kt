@@ -11,11 +11,7 @@ import com.edival.reciostore.presentation.screens.profile.update.components.Upda
 @Composable
 fun ProfileUpdateScreen(navHostController: NavHostController) {
     Scaffold(topBar = {
-        DefaultTopBar(
-            titleRes = R.string.update_profile,
-            upAvailable = true,
-            navHostController = navHostController
-        )
+        DefaultTopBar(titleRes = R.string.update_profile, navHostController = navHostController)
     }) { padding -> ProfileUpdateContent(padding) }
-    UpdateUser()
+    UpdateUser(navHostController)
 }

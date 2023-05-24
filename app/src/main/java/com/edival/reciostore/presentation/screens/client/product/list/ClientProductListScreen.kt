@@ -1,21 +1,25 @@
 package com.edival.reciostore.presentation.screens.client.product.list
 
 import androidx.compose.material.Scaffold
+import androidx.compose.material.ScaffoldState
 import androidx.compose.runtime.Composable
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import com.edival.reciostore.presentation.components.DefaultSearchView
+import com.edival.reciostore.R
+import com.edival.reciostore.presentation.components.MainTopBar
 import com.edival.reciostore.presentation.screens.client.product.list.components.GetProducts
+import kotlinx.coroutines.CoroutineScope
 
 @Composable
 fun ClientProductListScreen(
-    navHostController: NavHostController, vm: ClientProductListViewModel = hiltViewModel()
+    navHostController: NavHostController, scope: CoroutineScope, scaffoldState: ScaffoldState
 ) {
-    Scaffold(topBar = {
-        DefaultSearchView(
-            value = vm.search,
-            onValueChange = { query -> vm.onSearchInput(query) },
-            navHostController = navHostController
-        ) { if (vm.search.isNotBlank()) vm.getProductsByName(vm.search) }
-    }) { padding -> GetProducts(navHostController, padding) }
+    Scaffold(scaffoldState = scaffoldState,
+        topBar = { MainTopBar(R.string.products, scope, scaffoldState) }) { padding ->
+        GetProducts(navHostController, padding)
+    }
 }
+//        DefaultSearchView(
+//            value = vm.search,
+//            onValueChange = { query -> vm.onSearchInput(query) },
+//            navHostController = navHostController
+//        ) { if (vm.search.isNotBlank()) vm.getProductsByName(vm.search) }

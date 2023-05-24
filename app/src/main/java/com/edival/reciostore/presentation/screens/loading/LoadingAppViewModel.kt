@@ -11,7 +11,6 @@ import com.edival.reciostore.domain.useCase.auth.AuthUseCase
 import com.edival.reciostore.domain.useCase.info.InfoUseCase
 import com.edival.reciostore.domain.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -34,9 +33,5 @@ class LoadingAppViewModel @Inject constructor(
                 }
             }
         }
-    }
-
-    fun saveRoleName(name: String): Job = viewModelScope.launch {
-        authUseCase.saveRoleNameUseCase(name)
     }
 }

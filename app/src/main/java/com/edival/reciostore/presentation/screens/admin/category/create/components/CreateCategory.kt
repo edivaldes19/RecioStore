@@ -2,38 +2,41 @@ package com.edival.reciostore.presentation.screens.admin.category.create.compone
 
 import android.widget.Toast
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import com.edival.reciostore.R
 import com.edival.reciostore.domain.util.Resource
 import com.edival.reciostore.presentation.components.DefaultProgressBar
 import com.edival.reciostore.presentation.screens.admin.category.create.AdminCategoryCreateViewModel
 
 @Composable
-fun CreateCategory(vm: AdminCategoryCreateViewModel = hiltViewModel()) {
+fun CreateCategory(
+    navHostController: NavHostController, vm: AdminCategoryCreateViewModel = hiltViewModel()
+) {
     when (val response = vm.categoryResponse) {
         Resource.Loading -> DefaultProgressBar()
         is Resource.Success -> {
-            vm.clearForm(true)
+            LaunchedEffect(Unit) {
+                vm.clearForm()
+                navHostController.popBackStack()
+            }
             Toast.makeText(
-                LocalContext.current,
-                stringResource(R.string.category_created_successfully),
-                Toast.LENGTH_SHORT
+                LocalContext.current, R.string.category_created_successfully, Toast.LENGTH_SHORT
             ).show()
         }
 
         is Resource.Failure -> {
-            vm.clearForm(false)
+            vm.clearForm()
             Toast.makeText(LocalContext.current, response.message, Toast.LENGTH_SHORT).show()
         }
 
         else -> {
             response?.let {
-                vm.clearForm(false)
-                Toast.makeText(
-                    LocalContext.current, stringResource(R.string.unknown_error), Toast.LENGTH_SHORT
-                ).show()
+                vm.clearForm()
+                Toast.makeText(LocalContext.current, R.string.unknown_error, Toast.LENGTH_SHORT)
+                    .show()
             }
         }
     }

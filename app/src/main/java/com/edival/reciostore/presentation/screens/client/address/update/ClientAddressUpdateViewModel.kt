@@ -26,8 +26,10 @@ class ClientAddressUpdateViewModel @Inject constructor(
         private set
     var addressResponse by mutableStateOf<Resource<Address>?>(null)
         private set
-    var enabledBtn by mutableStateOf(true)
     var errorMessage by mutableStateOf("")
+        private set
+    var enabledBtn by mutableStateOf(true)
+        private set
     private var idAddress: String? = null
 
     init {
@@ -44,12 +46,10 @@ class ClientAddressUpdateViewModel @Inject constructor(
     }
 
     fun updateAddress(): Job = viewModelScope.launch {
-        if (!idAddress.isNullOrBlank()) {
-            enabledBtn = false
-            addressResponse = Resource.Loading
-            addressUseCase.updateAddressUseCase(idAddress!!, state.toAddress()).also { result ->
-                addressResponse = result
-            }
+        enabledBtn = false
+        addressResponse = Resource.Loading
+        addressUseCase.updateAddressUseCase(idAddress!!, state.toAddress()).also { result ->
+            addressResponse = result
         }
     }
 
@@ -59,6 +59,13 @@ class ClientAddressUpdateViewModel @Inject constructor(
 
     fun onNeighborhoodInput(neighborhood: String) {
         state = state.copy(neighborhood = neighborhood)
+    }
+
+    fun showMsg(show: () -> Unit) {
+        if (errorMessage.isNotBlank()) {
+            show()
+            errorMessage = ""
+        }
     }
 
     fun validateForm(ctx: Context, isValid: (Boolean) -> Unit) {
@@ -73,7 +80,17 @@ class ClientAddressUpdateViewModel @Inject constructor(
                 isValid(false)
             }
 
+            idAddress.isNullOrBlank() -> {
+                errorMessage = ctx.getString(R.string.id_cannot_be_null)
+                isValid(false)
+            }
+
             else -> isValid(true)
         }
+    }
+
+    fun resetForm() {
+        addressResponse = null
+        enabledBtn = true
     }
 }

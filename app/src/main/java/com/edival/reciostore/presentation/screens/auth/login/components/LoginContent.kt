@@ -2,7 +2,6 @@ package com.edival.reciostore.presentation.screens.auth.login.components
 
 import android.widget.Toast
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -19,6 +18,7 @@ import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Email
 import androidx.compose.runtime.Composable
@@ -52,10 +52,7 @@ fun LoginContent(
 ) {
     val ctx = LocalContext.current
     LaunchedEffect(key1 = vm.errorMessage) {
-        if (vm.errorMessage.isNotBlank()) {
-            Toast.makeText(ctx, vm.errorMessage, Toast.LENGTH_SHORT).show()
-            vm.errorMessage = ""
-        }
+        vm.showMsg { Toast.makeText(ctx, vm.errorMessage, Toast.LENGTH_SHORT).show() }
     }
     ConstraintLayout(
         modifier = Modifier
@@ -142,12 +139,14 @@ fun LoginContent(
                         modifier = Modifier.padding(all = dimensionResource(R.dimen.padding_ultra_min)),
                         text = stringResource(R.string.not_have_account),
                     )
-                    Text(modifier = Modifier
-                        .clickable { navHostController.navigate(AuthScreen.SignUp.route) }
-                        .padding(all = dimensionResource(R.dimen.padding_ultra_min)),
-                        text = stringResource(R.string.sign_up_here),
-                        color = primaryLightColor,
-                        fontWeight = FontWeight.Bold)
+                    TextButton(modifier = Modifier.padding(all = dimensionResource(R.dimen.padding_ultra_min)),
+                        onClick = { navHostController.navigate(AuthScreen.SignUp.route) }) {
+                        Text(
+                            text = stringResource(R.string.sign_up_here),
+                            color = primaryLightColor,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
                 }
             }
         }

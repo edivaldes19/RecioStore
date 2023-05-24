@@ -11,11 +11,7 @@ import com.edival.reciostore.presentation.screens.admin.product.create.component
 @Composable
 fun AdminProductCreateScreen(navHostController: NavHostController) {
     Scaffold(topBar = {
-        DefaultTopBar(
-            titleRes = R.string.create_product,
-            upAvailable = true,
-            navHostController = navHostController
-        )
+        DefaultTopBar(titleRes = R.string.create_product, navHostController = navHostController)
     }) { padding -> AdminProductCreateContent(padding) }
-    CreateProduct()
+    CreateProduct(navHostController)
 }

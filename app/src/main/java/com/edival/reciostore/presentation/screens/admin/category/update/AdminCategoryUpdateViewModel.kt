@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.core.net.toUri
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -15,6 +16,7 @@ import com.edival.reciostore.domain.useCase.categories.CategoriesUseCase
 import com.edival.reciostore.domain.util.Resource
 import com.edival.reciostore.presentation.screens.admin.category.AdminCategoryState
 import com.edival.reciostore.presentation.screens.admin.category.mapper.toCategory
+import com.edival.reciostore.presentation.util.ComposeFileProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -28,9 +30,12 @@ class AdminCategoryUpdateViewModel @Inject constructor(
         private set
     var categoryResponse by mutableStateOf<Resource<Category>?>(null)
         private set
-    var imgUri by mutableStateOf<Uri?>(null)
-    var enabledBtn by mutableStateOf(true)
+    var downloadCtgImgResponse by mutableStateOf<Resource<Unit>?>(null)
+        private set
     var errorMessage by mutableStateOf("")
+        private set
+    var enabledBtn by mutableStateOf(true)
+        private set
     private var idCategory: String? = null
 
     init {
@@ -47,13 +52,36 @@ class AdminCategoryUpdateViewModel @Inject constructor(
         }
     }
 
-    fun updateCategory(): Job = viewModelScope.launch {
-        if (!idCategory.isNullOrBlank()) {
-            enabledBtn = false
-            categoryResponse = Resource.Loading
-            categoriesUseCase.updateCategoryUseCase(idCategory!!, state.toCategory(), imgUri)
+    fun updateCategory(ctx: Context): Job = viewModelScope.launch {
+        enabledBtn = false
+        categoryResponse = Resource.Loading
+        if (state.imgSelected != null) {
+            ComposeFileProvider.createFilesFromUris(
+                ctx, listOf(state.imgSelected!!)
+            ) { zipFiles, errMsg ->
+                when {
+                    !errMsg.isNullOrBlank() -> categoryResponse = Resource.Failure(errMsg)
+                    zipFiles.isNotEmpty() -> {
+                        categoriesUseCase.updateCategoryUseCase(
+                            idCategory!!, state.toCategory(), zipFiles.first().toUri()
+                        ).also { result -> categoryResponse = result }
+                    }
+                }
+            }
+        } else {
+            categoriesUseCase.updateCategoryUseCase(idCategory!!, state.toCategory(), null)
                 .also { result -> categoryResponse = result }
         }
+    }
+
+    fun downloadCtgImg(ctx: Context): Job = viewModelScope.launch {
+        if (!state.img.isNullOrBlank()) {
+            enabledBtn = false
+            downloadCtgImgResponse = Resource.Loading
+            categoriesUseCase.downloadCtgImgUseCase(ctx, state.img!!).also { result ->
+                downloadCtgImgResponse = result
+            }
+        } else errorMessage = ctx.getString(R.string.theres_no_image_to_download)
     }
 
     fun onNameInput(name: String) {
@@ -64,8 +92,15 @@ class AdminCategoryUpdateViewModel @Inject constructor(
         state = state.copy(description = description)
     }
 
-    fun onImageInput(url: String) {
-        state = state.copy(imgSelected = url)
+    fun onImageInput(uri: Uri) {
+        state = state.copy(imgSelected = uri)
+    }
+
+    fun showMsg(show: () -> Unit) {
+        if (errorMessage.isNotBlank()) {
+            show()
+            errorMessage = ""
+        }
     }
 
     fun validateForm(ctx: Context, isValid: (Boolean) -> Unit) {
@@ -80,7 +115,18 @@ class AdminCategoryUpdateViewModel @Inject constructor(
                 isValid(false)
             }
 
+            idCategory.isNullOrBlank() -> {
+                errorMessage = ctx.getString(R.string.id_cannot_be_null)
+                isValid(false)
+            }
+
             else -> isValid(true)
         }
+    }
+
+    fun resetForm() {
+        categoryResponse = null
+        downloadCtgImgResponse = null
+        enabledBtn = true
     }
 }

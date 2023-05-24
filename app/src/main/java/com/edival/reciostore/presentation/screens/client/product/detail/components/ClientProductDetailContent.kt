@@ -2,7 +2,6 @@ package com.edival.reciostore.presentation.screens.client.product.detail.compone
 
 import android.widget.Toast
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -37,7 +36,6 @@ import com.edival.reciostore.presentation.components.DefaultButton
 import com.edival.reciostore.presentation.components.DotsIndicator
 import com.edival.reciostore.presentation.components.SliderView
 import com.edival.reciostore.presentation.screens.client.product.detail.ClientProductDetailViewModel
-import com.edival.reciostore.presentation.ui.theme.backgroundGray
 import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -71,16 +69,14 @@ fun ClientProductDetailContent(
                 }) {
                 val (imageSlider, dotsIndicator) = createRefs()
                 SliderView(
-                    modifier = Modifier
-                        .background(backgroundGray)
-                        .constrainAs(imageSlider) {
-                            start.linkTo(parent.start)
-                            end.linkTo(parent.end)
-                            top.linkTo(parent.top)
-                            bottom.linkTo(dotsIndicator.top)
-                            height = Dimension.fillToConstraints
-                            width = Dimension.fillToConstraints
-                        }, state = state, images = images
+                    modifier = Modifier.constrainAs(imageSlider) {
+                        start.linkTo(parent.start)
+                        end.linkTo(parent.end)
+                        top.linkTo(parent.top)
+                        bottom.linkTo(dotsIndicator.top)
+                        height = Dimension.fillToConstraints
+                        width = Dimension.fillToConstraints
+                    }, state = state, images = images
                 )
                 DotsIndicator(
                     modifier = Modifier
@@ -93,7 +89,7 @@ fun ClientProductDetailContent(
                 )
             }
             LaunchedEffect(key1 = state.currentPage) {
-                delay(10000)
+                delay(5000)
                 var newPos = state.currentPage + 1
                 if (newPos > images.lastIndex) newPos = 0
                 state.animateScrollToPage(newPos)

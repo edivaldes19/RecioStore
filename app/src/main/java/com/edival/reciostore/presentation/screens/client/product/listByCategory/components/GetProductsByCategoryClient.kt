@@ -19,11 +19,9 @@ fun GetProductsByCategoryClient(
 ) {
     when (val response = vm.productResponse) {
         Resource.Loading -> DefaultProgressBar()
-        is Resource.Success -> {
-            ClientProductListByCategoryContent(
-                navHostController = navHostController, padding = padding, products = response.data
-            )
-        }
+        is Resource.Success -> ClientProductListByCategoryContent(
+            navHostController, padding, response.data
+        )
 
         is Resource.Failure -> Toast.makeText(
             LocalContext.current, response.message, Toast.LENGTH_SHORT

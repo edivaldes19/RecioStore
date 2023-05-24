@@ -38,4 +38,8 @@ class AdminCategoryListViewModel @Inject constructor(private val categoriesUseCa
             }
         }
     }
+
+    fun resetForm() {
+        deleteCategoryResponse = null
+    }
 }
